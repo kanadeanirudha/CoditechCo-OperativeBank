@@ -1,0 +1,20 @@
+﻿@using Coditech.Admin.Helpers
+@model DropdownViewModel
+@{
+    if (Model.IsCustomDropdown)
+    {
+        CoditechCustomDropdownHelper.GeneralDropdownList(Model);
+    }
+    else
+    {
+        CoditechDropdownHelper.GeneralDropdownList(Model);
+    }
+}
+@if (Model.IsDisabled)
+{
+    @Html.DropDownList(Model.DropdownName, Model.DropdownList, new { @class = "form-select " + Model.ClassName, @onchange = Model.ChangeEvent, @disabled = "disabled" })
+}
+else
+{
+    @Html.DropDownList(Model.DropdownName, Model.DropdownList, new { @class = "form-select " + Model.ClassName, @onchange = Model.ChangeEvent })
+}
