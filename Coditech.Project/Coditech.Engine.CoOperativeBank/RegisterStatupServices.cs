@@ -252,6 +252,11 @@ namespace Coditech.API.Common
             // Add Dependency 
             builder.Services.AddSingleton<ICoditechLogging, CoditechLogging>();
             builder.Services.AddScoped<ICustomDashboardService, CustomDashboardService>();
+
+            #region
+            builder.Services.AddScoped<IBankSetupMortagePropertyTypeService, BankSetupMortagePropertyTypeService>();
+
+            #endregion
         }
         #endregion
     }

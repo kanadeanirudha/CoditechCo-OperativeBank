@@ -11,9 +11,11 @@ namespace Coditech.API.Data
         public CoditechCustom_Entities(DbContextOptions<CoditechCustom_Entities> options) : base(options)
         {
         }
-        #region 
-        
-        #endregion
+             #region Accounts
+             public DbSet<BankSetupMortagePropertyType> BankSetupMortagePropertyType { get; set; }
 
+            #endregion
     }
+
 }
+
