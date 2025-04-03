@@ -20,11 +20,13 @@ namespace Coditech.Admin.Custom
 
             #region Client
             builder.Services.AddScoped<ICustomDashboardClient, CustomDashboardClient>();
-            #endregion
+            
 
             #region CoOperativeBank
             builder.Services.AddScoped<IBankSetupMortagePropertyTypeClient, BankSetupMortagePropertyTypeClient>();
             #endregion
+
+            #endregion Client
         }
     }
 }

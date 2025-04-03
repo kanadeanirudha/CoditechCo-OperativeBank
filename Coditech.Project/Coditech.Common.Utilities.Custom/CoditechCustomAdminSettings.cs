@@ -20,7 +20,7 @@ namespace Coditech.Admin.Utilities
 #if DEBUG
                 return Convert.ToString(settings["CoditechCustomApiRootUri"]);
 #else
-   return Convert.ToString($"{settings["Scheme"]}{settings["ClientName"]}-{settings["EnvironmentName"]}-api-dbtm.{settings["ApiDomainName"]}");
+   return Convert.ToString($"{settings["Scheme"]}{settings["ClientName"]}-{settings["EnvironmentName"]}-api-cooperativebank.{settings["ApiDomainName"]}");
 #endif
             }
         }

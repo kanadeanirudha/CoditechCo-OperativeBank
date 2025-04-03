@@ -5,7 +5,6 @@ using Coditech.Common.API;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
-
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
@@ -251,10 +250,14 @@ namespace Coditech.API.Common
         {
             // Add Dependency 
             builder.Services.AddSingleton<ICoditechLogging, CoditechLogging>();
-            builder.Services.AddScoped<ICustomDashboardService, CustomDashboardService>();
+            //builder.Services.AddScoped<ICustomDashboardService, CustomDashboardService>();
+
+            #region CoOperativeBank
+            builder.Services.AddScoped<IBankSetupMortagePropertyTypeService, BankSetupMortagePropertyTypeService>();
+            #endregion
 
             #region
-            builder.Services.AddScoped<IBankSetupMortagePropertyTypeService, BankSetupMortagePropertyTypeService>();
+            //builder.Services.AddScoped<IBankSetupMortagePropertyTypeService, BankSetupMortagePropertyTypeService>();
 
             #endregion
         }
