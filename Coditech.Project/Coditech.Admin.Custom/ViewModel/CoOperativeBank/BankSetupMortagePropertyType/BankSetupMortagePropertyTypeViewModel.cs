@@ -6,14 +6,14 @@ namespace Coditech.Admin.ViewModel
     {
         public short BankSetupMortagePropertyTypeId { get; set; }
 
-        [Display(Name = "PropertyCode")]
+        [Display(Name = "Property Code")]
         [Required]
         public string PropertyCode { get; set; }
 
-        [Display(Name = "PropertyName")]
+        [Display(Name = "Property Name")]
         [Required]
         public string PropertyName { get; set; }
-        [Display(Name = "LPropertyName")]
+        [Display(Name = "LProperty Name")]
         [Required]
         public string LPropertyName { get; set; }
 
