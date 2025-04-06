@@ -20,7 +20,7 @@ namespace Coditech.API.Service
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
-            _bankSetupMortagePropertyTypeRepository = new CoditechRepository<BankSetupMortagePropertyType>(_serviceProvider.GetService<Coditech_Entities>());
+            _bankSetupMortagePropertyTypeRepository = new CoditechRepository<BankSetupMortagePropertyType>(_serviceProvider.GetService<CoditechCustom_Entities>());
         }
 
         public virtual BankSetupMortagePropertyTypeListModel GetPropertyTypeList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -80,8 +80,8 @@ namespace Coditech.API.Service
             if (IsNull(bankSetupMortagePropertyTypeModel))
                 throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
 
-            //if (IsBankSetupMortagePropertyTypeExist(bankSetupMortagePropertyTypeModel.PropertyCode, bankSetupMortagePropertyTypeModel.BankSetupMortagePropertyTypeId))
-            //   throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Property Code"));
+            if (IsBankSetupMortagePropertyTypeExist(bankSetupMortagePropertyTypeModel.PropertyCode, bankSetupMortagePropertyTypeModel.BankSetupMortagePropertyTypeId))
+               throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Property Code"));
 
 
             if (bankSetupMortagePropertyTypeModel.BankSetupMortagePropertyTypeId < 1)
@@ -114,6 +114,11 @@ namespace Coditech.API.Service
 
             return status == 1 ? true : false;
         }
+
+
+        protected virtual bool IsBankSetupMortagePropertyTypeExist(string PropertyCode, short bankSetupMortagePropertyType = 0)
+         => _bankSetupMortagePropertyTypeRepository.Table.Any(x => x.PropertyCode == PropertyCode && (x.BankSetupMortagePropertyTypeId != bankSetupMortagePropertyType || bankSetupMortagePropertyType == 0));
+
 
     }
 }

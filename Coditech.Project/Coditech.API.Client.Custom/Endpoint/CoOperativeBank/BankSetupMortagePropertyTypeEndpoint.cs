@@ -7,19 +7,19 @@ namespace Coditech.API.Endpoint
     {
         public string ListAsync(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            string endpoint = $"{CoditechCustomAdminSettings.CoditechCustomApiRootUri}/BankSetupMortagePropertyType/GetPropertyTypeList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
+            string endpoint = $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankSetupMortagePropertyType/GetPropertyTypeList{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
         public string CreatePropertyTypeAsync() =>
-            $"{CoditechCustomAdminSettings.CoditechCustomApiRootUri}/BankSetupMortagePropertyType/CreatePropertyType";
+            $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankSetupMortagePropertyType/CreatePropertyType";
 
         public string GetPropertyTypeAsync(short bankSetupMortagePropertyTypeId) =>
-            $"{CoditechCustomAdminSettings.CoditechCustomApiRootUri}/BankSetupMortagePropertyType/GetPropertyType?bankSetupMortagePropertyTypeId={bankSetupMortagePropertyTypeId}";
+            $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankSetupMortagePropertyType/GetPropertyType?bankSetupMortagePropertyTypeId={bankSetupMortagePropertyTypeId}";
 
         public string UpdatePropertyTypeAsync() =>
-               $"{CoditechCustomAdminSettings.CoditechCustomApiRootUri}/BankSetupMortagePropertyType/UpdatePropertyType";
+               $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankSetupMortagePropertyType/UpdatePropertyType";
 
         public string DeletePropertyTypeAsync() =>
-                  $"{CoditechCustomAdminSettings.CoditechCustomApiRootUri}/BankSetupMortagePropertyType/DeletePropertyType";
+                  $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankSetupMortagePropertyType/DeletePropertyType";
     }
 }

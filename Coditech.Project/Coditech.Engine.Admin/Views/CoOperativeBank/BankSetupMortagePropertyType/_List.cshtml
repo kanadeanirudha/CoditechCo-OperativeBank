@@ -18,8 +18,8 @@
                     foreach (var item in Model?.BankSetupMortagePropertyTypeList)
                     {
                         <tr>
-                            <td>@item.PropertyCode</td>
                             <td>@item.PropertyName</td>
+                            <td>@item.PropertyCode</td>
                             <td>@item.LPropertyName</td>
                             <td class="text-center">
                                 <a href="../@controllerName/Edit?bankSetupMortagePropertyTypeId=@item.BankSetupMortagePropertyTypeId" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2">
