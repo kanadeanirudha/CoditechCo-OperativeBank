@@ -12,10 +12,12 @@ namespace Coditech.Admin.Custom
             builder.Services.AddScoped<CoditechTranslator>();
             #region Agent
             builder.Services.AddScoped<ICustomDashboardAgent, CustomDashboardAgent>();
+            builder.Services.AddScoped<IBankInsurancePoliciesTypeAgent, BankInsurancePoliciesTypeAgent>();
             #endregion Agent
 
             #region Client
             builder.Services.AddScoped<ICustomDashboardClient, CustomDashboardClient>();
+            builder.Services.AddScoped<IBankInsurancePoliciesTypeClient, BankInsurancePoliciesTypeClient>();
             #endregion 
         }
     }

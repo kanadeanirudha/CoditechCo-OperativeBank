@@ -11,8 +11,8 @@ namespace Coditech.API.Data
         public CoditechCustom_Entities(DbContextOptions<CoditechCustom_Entities> options) : base(options)
         {
         }
-        #region 
-        
+        #region CoOperativeBank
+        public DbSet<BankInsurancePoliciesType> BankInsurancePoliciesType { get; set; }
         #endregion
 
     }

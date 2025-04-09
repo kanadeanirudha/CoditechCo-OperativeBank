@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Coditech.Admin.ViewModel;
+using Coditech.Common.API.Model;
 
 namespace Coditech.Admin.Custom
 {
@@ -6,7 +8,10 @@ namespace Coditech.Admin.Custom
     {
         public AutoMapperConfig()
         {
-
+            #region CoOperativeBnak
+            CreateMap<BankInsurancePoliciesTypeModel, BankInsurancePoliciesTypeViewModel>().ReverseMap();
+            CreateMap<BankInsurancePoliciesTypeViewModel, BankInsurancePoliciesTypeListViewModel>().ReverseMap();
+            #endregion
         }
     }
 }

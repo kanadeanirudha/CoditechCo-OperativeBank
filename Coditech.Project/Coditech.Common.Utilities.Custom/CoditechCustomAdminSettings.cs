@@ -12,15 +12,15 @@ namespace Coditech.Admin.Utilities
         /// <returns>The appsettings configuration section.</returns>
         private static IConfigurationSection settings = CoditechDependencyResolver.GetService<IConfiguration>().GetSection("appsettings");
 
-        
-        public static string CoditechCustomApiRootUri
+
+        public static string CoditechCoOperativeBankApiRootUri
         {
             get
             {
 #if DEBUG
-                return Convert.ToString(settings["CoditechCustomApiRootUri"]);
+                return Convert.ToString(settings["CoditechCoOperativeBankApiRootUri"]);
 #else
-   return Convert.ToString($"{settings["Scheme"]}{settings["ClientName"]}-{settings["EnvironmentName"]}-api-dbtm.{settings["ApiDomainName"]}");
+   return Convert.ToString($"{settings["Scheme"]}{settings["ClientName"]}-{settings["EnvironmentName"]}-api-cooperativebank.{settings["ApiDomainName"]}");
 #endif
             }
         }
