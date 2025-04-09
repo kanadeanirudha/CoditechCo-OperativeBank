@@ -13,8 +13,9 @@ namespace Coditech.API.Data
         }
              #region Accounts
              public DbSet<BankSetupMortagePropertyType> BankSetupMortagePropertyType { get; set; }
+            public DbSet<BankVehicleModel> BankVehicleModel { get; set; }
 
-            #endregion
+        #endregion
     }
 
 }

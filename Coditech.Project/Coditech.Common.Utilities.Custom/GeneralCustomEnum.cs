@@ -2,7 +2,9 @@
 {
     public enum DropdownCustomTypeEnum
     {
-       
+        Address,
+        VehicleCompany,
+
     }
     public enum DashboardFormCustomEnum
     {
