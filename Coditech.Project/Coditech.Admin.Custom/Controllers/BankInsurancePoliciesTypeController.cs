@@ -63,8 +63,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(bankInsurancePoliciesTypeViewModel.HasError
                 ? GetErrorNotificationMessage(bankInsurancePoliciesTypeViewModel.ErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { bankInsurancePoliciesTypeIds = bankInsurancePoliciesTypeViewModel.BankInsurancePoliciesTypeId });
-
+                return RedirectToAction<BankInsurancePoliciesTypeController>(x => x.List(null));
             }
             return View(createEdit, bankInsurancePoliciesTypeViewModel);
         }
