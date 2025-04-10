@@ -13,11 +13,13 @@ namespace Coditech.Admin.Custom
             #region Agent
             builder.Services.AddScoped<ICustomDashboardAgent, CustomDashboardAgent>();
             builder.Services.AddScoped<IBankInsurancePoliciesTypeAgent, BankInsurancePoliciesTypeAgent>();
+            builder.Services.AddScoped<IBankSetupDivisionAgent, BankSetupDivisionAgent>();
             #endregion Agent
 
             #region Client
             builder.Services.AddScoped<ICustomDashboardClient, CustomDashboardClient>();
             builder.Services.AddScoped<IBankInsurancePoliciesTypeClient, BankInsurancePoliciesTypeClient>();
+            builder.Services.AddScoped<IBankSetupDivisionClient, BankSetupDivisionClient>();
             #endregion 
         }
     }

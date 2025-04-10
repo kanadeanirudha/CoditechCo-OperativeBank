@@ -23,5 +23,6 @@
     public enum LogComponentCustomEnum
     {
         BankInsurancePolicies,
+        BankSetupDivision,
     }
 }

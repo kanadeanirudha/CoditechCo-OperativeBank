@@ -13,6 +13,7 @@ namespace Coditech.API.Data
         }
         #region CoOperativeBank
         public DbSet<BankInsurancePoliciesType> BankInsurancePoliciesType { get; set; }
+        public DbSet<BankSetupDivision> BankSetupDivision { get; set; }
         #endregion
 
     }

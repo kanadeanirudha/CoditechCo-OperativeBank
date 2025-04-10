@@ -22,8 +22,8 @@ namespace Coditech.API.Client
         /// <summary>
         /// Get BankInsurancePoliciesType by bankInsurancePoliciesTypeId.
         /// </summary>
-        /// <param name="dBTMTraineeDetailId">dBTMTraineeDetailId</param>
-        /// <returns>Returns DBTMTraineeDetailsResponse.</returns>
+        /// <param name="bankInsurancePoliciesTypeId">bankInsurancePoliciesTypeId</param>
+        /// <returns>Returns BankInsurancePoliciesTypeResponse.</returns>
         BankInsurancePoliciesTypeResponse GetBankInsurancePoliciesType(short bankInsurancePoliciesTypeId);
 
         /// <summary>

@@ -23,19 +23,19 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="bankInsurancePoliciesTypeId">bankInsurancePoliciesTypeId</param>
         /// <returns>Returns BankInsurancePoliciesTypeViewModel.</returns>
-        BankInsurancePoliciesTypeViewModel GetBankInsurancePoliciesType(short generalFinancialYearId);
+        BankInsurancePoliciesTypeViewModel GetBankInsurancePoliciesType(short bankInsurancePoliciesTypeId);
 
         /// <summary>
         /// Update BankInsurancePoliciesType.
         /// </summary>
         /// <param name="bankInsurancePoliciesTypeViewModel">bankInsurancePoliciesTypeViewModel.</param>
         /// <returns>Returns updated BankInsurancePoliciesTypeViewModel</returns>
-        BankInsurancePoliciesTypeViewModel UpdateBankInsurancePoliciesType(BankInsurancePoliciesTypeViewModel generalFinancialYearViewModel);
+        BankInsurancePoliciesTypeViewModel UpdateBankInsurancePoliciesType(BankInsurancePoliciesTypeViewModel bankInsurancePoliciesTypeViewModel);
 
         /// <summary>
         /// Delete BankInsurancePoliciesType.
         /// </summary>
-        /// <param name="generalFinancialYearId">generalFinancialYearId.</param>
+        /// <param name="bankInsurancePoliciesTypeId">bankInsurancePoliciesTypeId.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         bool DeleteBankInsurancePoliciesType(string bankInsurancePoliciesTypeId, out string errorMessage);
         BankInsurancePoliciesTypeListResponse GetBankInsurancePoliciesTypeList();

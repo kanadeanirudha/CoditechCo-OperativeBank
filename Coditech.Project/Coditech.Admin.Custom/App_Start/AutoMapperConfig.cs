@@ -11,6 +11,8 @@ namespace Coditech.Admin.Custom
             #region CoOperativeBnak
             CreateMap<BankInsurancePoliciesTypeModel, BankInsurancePoliciesTypeViewModel>().ReverseMap();
             CreateMap<BankInsurancePoliciesTypeViewModel, BankInsurancePoliciesTypeListViewModel>().ReverseMap();
+            CreateMap<BankSetupDivisionModel, BankSetupDivisionViewModel>().ReverseMap();
+            CreateMap<BankSetupDivisionViewModel, BankSetupDivisionListViewModel>().ReverseMap();
             #endregion
         }
     }
