@@ -254,6 +254,7 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<ICustomDashboardService, CustomDashboardService>();
             builder.Services.AddScoped<IBankInsurancePoliciesTypeService, BankInsurancePoliciesTypeService>();
             builder.Services.AddScoped<IBankSetupDivisionService, BankSetupDivisionService>();
+            builder.Services.AddScoped<IBankSetupOfficesService, BankSetupOfficesService>();
 
         }
         #endregion

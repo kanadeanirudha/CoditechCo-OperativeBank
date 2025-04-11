@@ -13,6 +13,8 @@ namespace Coditech.Admin.Custom
             CreateMap<BankInsurancePoliciesTypeViewModel, BankInsurancePoliciesTypeListViewModel>().ReverseMap();
             CreateMap<BankSetupDivisionModel, BankSetupDivisionViewModel>().ReverseMap();
             CreateMap<BankSetupDivisionViewModel, BankSetupDivisionListViewModel>().ReverseMap();
+            CreateMap<BankSetupOfficesModel, BankSetupOfficesViewModel>().ReverseMap();
+            CreateMap<BankSetupOfficesViewModel, BankSetupOfficesListViewModel>().ReverseMap();
             #endregion
         }
     }

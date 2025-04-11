@@ -14,12 +14,14 @@ namespace Coditech.Admin.Custom
             builder.Services.AddScoped<ICustomDashboardAgent, CustomDashboardAgent>();
             builder.Services.AddScoped<IBankInsurancePoliciesTypeAgent, BankInsurancePoliciesTypeAgent>();
             builder.Services.AddScoped<IBankSetupDivisionAgent, BankSetupDivisionAgent>();
+            builder.Services.AddScoped<IBankSetupOfficesAgent, BankSetupOfficesAgent>();
             #endregion Agent
 
             #region Client
             builder.Services.AddScoped<ICustomDashboardClient, CustomDashboardClient>();
             builder.Services.AddScoped<IBankInsurancePoliciesTypeClient, BankInsurancePoliciesTypeClient>();
             builder.Services.AddScoped<IBankSetupDivisionClient, BankSetupDivisionClient>();
+            builder.Services.AddScoped<IBankSetupOfficesClient, BankSetupOfficesClient>();
             #endregion 
         }
     }

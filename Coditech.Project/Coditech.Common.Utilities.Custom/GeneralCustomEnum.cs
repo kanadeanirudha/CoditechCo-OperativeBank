@@ -3,6 +3,7 @@
     public enum DropdownCustomTypeEnum
     {
         InsuranceTypeMajor,
+        BankSetupDivision
     }
     public enum DashboardFormCustomEnum
     {
@@ -24,5 +25,6 @@
     {
         BankInsurancePolicies,
         BankSetupDivision,
+        BankSetupOffices,
     }
 }

@@ -15,6 +15,7 @@ namespace Coditech.API.Mapper
             CreateMap<AdminSanctionPostModel, AdminSanctionPost>().ReverseMap();
             CreateMap<BankInsurancePoliciesTypeModel, BankInsurancePoliciesType>().ReverseMap();
             CreateMap<BankSetupDivisionModel, BankSetupDivision>().ReverseMap();
+            CreateMap<BankSetupOfficesModel, BankSetupOffices>().ReverseMap();
 
         }
     }
