@@ -17,6 +17,7 @@ namespace Coditech.API.Mapper
             #region CoOperativeBank
             CreateMap<BankSetupMortagePropertyType, BankSetupMortagePropertyTypeModel>().ReverseMap();
             CreateMap<BankVehicleModel, BankVehicleModelModel>().ReverseMap();
+            CreateMap<BankSetupPropertyValuers, BankSetupPropertyValuersModel>().ReverseMap();
 
             #endregion
 
