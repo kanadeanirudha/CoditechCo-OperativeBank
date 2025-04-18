@@ -159,18 +159,12 @@ namespace Coditech.Admin.Agents
                 ColumnCode = "VehicleModel",
                 IsSortable = true,
             });
-            //datatableColumnList.Add(new DatatableColumns()
-            //{
-            //    ColumnName = "Property Name",
-            //    ColumnCode = "PropertyName",
-            //    IsSortable = true,
-            //});
-            //datatableColumnList.Add(new DatatableColumns()
-            //{
-            //    ColumnName = "LProperty Name",
-            //    ColumnCode = "LPropertyName",
-            //    IsSortable = true,
-            //});
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Vehicle Company",
+                ColumnCode = "VehicleCompanyEnumId",
+                IsSortable = true,
+            });
             return datatableColumnList;
         }
         #endregion
