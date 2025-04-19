@@ -18,6 +18,7 @@ namespace Coditech.Admin.Custom
             builder.Services.AddScoped<IBankSetupMortagePropertyTypeAgent, BankSetupMortagePropertyTypeAgent>();
             builder.Services.AddScoped<IBankVehicleModelAgent, BankVehicleModelAgent>();
             builder.Services.AddScoped<IBankSetupPropertyValuersAgent, BankSetupPropertyValuersAgent>();
+            builder.Services.AddScoped<IBankSetupPropertyValuersAuthorityAgent, BankSetupPropertyValuersAuthorityAgent>();
 
             #endregion
 
@@ -32,6 +33,8 @@ namespace Coditech.Admin.Custom
             builder.Services.AddScoped<IBankSetupMortagePropertyTypeClient, BankSetupMortagePropertyTypeClient>();
             builder.Services.AddScoped<IBankVehicleModelClient, BankVehicleModelClient>();
             builder.Services.AddScoped<IBankSetupPropertyValuersClient, BankSetupPropertyValuersClient>();
+            builder.Services.AddScoped<IBankSetupPropertyValuersAuthorityClient, BankSetupPropertyValuersAuthorityClient>();
+
 
             #endregion
 

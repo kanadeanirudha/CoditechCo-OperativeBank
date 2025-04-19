@@ -16,6 +16,8 @@ namespace Coditech.Admin.Custom
             CreateMap<BankVehicleModelListModel, BankVehicleModelListViewModel>().ReverseMap();
             CreateMap<BankSetupPropertyValuersModel, BankSetupPropertyValuersViewModel>().ReverseMap();
             CreateMap<BankSetupPropertyValuersListModel, BankSetupPropertyValuersListViewModel>().ReverseMap();
+            CreateMap<BankSetupPropertyValuersAuthorityModel, BankSetupPropertyValuersAuthorityViewModel>().ReverseMap();
+            CreateMap<BankSetupPropertyValuersAuthorityListModel, BankSetupPropertyValuersAuthorityListViewModel>().ReverseMap();
 
             #endregion
         }
