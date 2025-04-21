@@ -24,7 +24,7 @@ namespace Coditech.API.Client
         /// </summary>
         /// <param name="bankSetupPropertyValuersId">BankSetupPropertyValuersId</param>
         /// <returns>Returns BankSetupPropertyValuersResponse.</returns>
-        BankSetupPropertyValuersResponse GetPropertyValuers(short bankSetupPropertyValuersId);
+        BankSetupPropertyValuersResponse GetPropertyValuers(long generalPersonAddressId);
 
         /// <summary>
         /// Update BankSetupPropertyValuers.

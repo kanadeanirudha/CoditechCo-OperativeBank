@@ -4,25 +4,28 @@ using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
+using Coditech.Common.Service;
 using Coditech.Resources;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Specialized;
 using System.Data;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
 {
-    public class BankSetupPropertyValuersService : IBankSetupPropertyValuersService
+    public class BankSetupPropertyValuersService : BaseService, IBankSetupPropertyValuersService
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<BankSetupPropertyValuers> _bankSetupPropertyValuersRepository;
-        public BankSetupPropertyValuersService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
+        private readonly ICoditechRepository<GeneralPersonAddress> _generalPersonAddressRepository;
+        public BankSetupPropertyValuersService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
-            _bankSetupPropertyValuersRepository = new CoditechRepository<BankSetupPropertyValuers>(_serviceProvider.GetService<Coditech_Entities>());
+            _bankSetupPropertyValuersRepository = new CoditechRepository<BankSetupPropertyValuers>(_serviceProvider.GetService<CoditechCustom_Entities>());
+            _generalPersonAddressRepository = new CoditechRepository<GeneralPersonAddress>(_serviceProvider.GetService<Coditech_Entities>());
         }
-
         public virtual BankSetupPropertyValuersListModel GetPropertyValuersList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             //Bind the Filter, sorts & Paging details.
@@ -40,14 +43,35 @@ namespace Coditech.API.Service
             listModel.BindPageListModel(pageListModel);
             return listModel;
         }
+
         //Create BankSetupPropertyValuers.
         public virtual BankSetupPropertyValuersModel CreatePropertyValuers(BankSetupPropertyValuersModel bankSetupPropertyValuersModel)
         {
             if (IsNull(bankSetupPropertyValuersModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
+            if (IsNull(bankSetupPropertyValuersModel.GeneralPersonAddressId) || bankSetupPropertyValuersModel.GeneralPersonAddressId == 0)
+            {
+                GeneralPersonAddress addressData = new GeneralPersonAddress
+                {                  
+                    AddressTypeEnum = AddressTypeEnum.PermanentAddress.ToString(),
+                    FirstName = bankSetupPropertyValuersModel.FirstName,
+                    MiddleName = bankSetupPropertyValuersModel.MiddleName, 
+                    LastName = bankSetupPropertyValuersModel.LastName,
+                    AddressLine1 = bankSetupPropertyValuersModel.AddressLine1,
+                    AddressLine2 = bankSetupPropertyValuersModel.AddressLine2,
+                    GeneralCountryMasterId = bankSetupPropertyValuersModel.GeneralCountryMasterId,
+                    GeneralRegionMasterId = bankSetupPropertyValuersModel.GeneralRegionMasterId,
+                    GeneralCityMasterId = bankSetupPropertyValuersModel.GeneralCityMasterId,
+                    Postalcode = bankSetupPropertyValuersModel.Postalcode,
+                    PhoneNumber = bankSetupPropertyValuersModel.PhoneNumber,
+                    MobileNumber = bankSetupPropertyValuersModel.MobileNumber,
+                    EmailAddress = bankSetupPropertyValuersModel.EmailAddress,
+                };
+                _generalPersonAddressRepository.Insert(addressData);
+                bankSetupPropertyValuersModel.GeneralPersonAddressId = addressData.GeneralPersonAddressId;
+            }
             BankSetupPropertyValuers BankSetupPropertyValuers = bankSetupPropertyValuersModel.FromModelToEntity<BankSetupPropertyValuers>();
-
             //Create new BankSetupPropertyValuers and return it.
             BankSetupPropertyValuers BankSetupPropertyValuersData = _bankSetupPropertyValuersRepository.Insert(BankSetupPropertyValuers);
              if (BankSetupPropertyValuers?.BankSetupPropertyValuersId > 0)
@@ -63,14 +87,32 @@ namespace Coditech.API.Service
         }
 
         //Get BankSetupPropertyValuers by BankSetupPropertyValuers id.
-        public virtual BankSetupPropertyValuersModel GetPropertyValuers(short bankSetupPropertyValuersId)
+        public virtual BankSetupPropertyValuersModel GetPropertyValuers(long generalPersonAddressId)
         {
-            if (bankSetupPropertyValuersId <= 0)
-                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BankSetupPropertyValuers"));
+            if (generalPersonAddressId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "GeneralPersonAddressId"));
 
             //Get the BankSetupPropertyValuers Details based on id.
-            BankSetupPropertyValuers bankSetupPropertyValuers = _bankSetupPropertyValuersRepository.Table.FirstOrDefault(x => x.BankSetupPropertyValuersId == bankSetupPropertyValuersId);
+            BankSetupPropertyValuers bankSetupPropertyValuers = _bankSetupPropertyValuersRepository.Table.Where(x => x.GeneralPersonAddressId == generalPersonAddressId).FirstOrDefault();
             BankSetupPropertyValuersModel bankSetupPropertyValuersModel = bankSetupPropertyValuers?.FromEntityToModel<BankSetupPropertyValuersModel>();
+            GeneralPersonAddress personAddresses = _generalPersonAddressRepository.Table.Where(x => x.GeneralPersonAddressId == generalPersonAddressId)?.FirstOrDefault();
+            if (personAddresses?.GeneralPersonAddressId > 0)
+            {
+                bankSetupPropertyValuersModel.GeneralPersonAddressId = personAddresses.GeneralPersonAddressId;
+                bankSetupPropertyValuersModel.AddressTypeEnum = personAddresses.AddressTypeEnum;
+                bankSetupPropertyValuersModel.FirstName = personAddresses.FirstName;
+                bankSetupPropertyValuersModel.MiddleName = personAddresses.MiddleName;
+                bankSetupPropertyValuersModel.LastName = personAddresses.LastName;
+                bankSetupPropertyValuersModel.AddressLine1 = personAddresses.AddressLine1;
+                bankSetupPropertyValuersModel.AddressLine2 = personAddresses.AddressLine2;
+                bankSetupPropertyValuersModel.GeneralCountryMasterId = personAddresses.GeneralCountryMasterId;
+                bankSetupPropertyValuersModel.GeneralRegionMasterId = personAddresses.GeneralRegionMasterId;
+                bankSetupPropertyValuersModel.GeneralCityMasterId = personAddresses.GeneralCityMasterId;
+                bankSetupPropertyValuersModel.Postalcode = personAddresses.Postalcode;
+                bankSetupPropertyValuersModel.PhoneNumber = personAddresses.PhoneNumber;
+                bankSetupPropertyValuersModel.MobileNumber = personAddresses.MobileNumber;
+                bankSetupPropertyValuersModel.EmailAddress = personAddresses.EmailAddress;
+            }            
             return bankSetupPropertyValuersModel;
         }
 
@@ -80,18 +122,33 @@ namespace Coditech.API.Service
             if (IsNull(bankSetupPropertyValuersModel))
                 throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
 
-            //if (IsBankSetupPropertyValuersExist(bankSetupPropertyValuersModel.PropertyCode, bankSetupPropertyValuersModel.BankSetupPropertyValuersId))
-            //   throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Property Code"));
-
-
             if (bankSetupPropertyValuersModel.BankSetupPropertyValuersId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BankSetupPropertyValuersId"));
 
-
             BankSetupPropertyValuers bankSetupPropertyValuers = bankSetupPropertyValuersModel.FromModelToEntity<BankSetupPropertyValuers>();
-
             //Update BankSetupPropertyValuers
             bool isPropertyValuersUpdated = _bankSetupPropertyValuersRepository.Update(bankSetupPropertyValuers);
+            if (bankSetupPropertyValuersModel.GeneralPersonAddressId > 0)
+            {
+                GeneralPersonAddress personAddresses = new GeneralPersonAddress
+                {
+                    GeneralPersonAddressId = bankSetupPropertyValuersModel.GeneralPersonAddressId,
+                    AddressTypeEnum = bankSetupPropertyValuersModel.AddressTypeEnum,
+                    FirstName = bankSetupPropertyValuersModel.FirstName,
+                    MiddleName = bankSetupPropertyValuersModel.MiddleName,
+                    LastName = bankSetupPropertyValuersModel.LastName,
+                    AddressLine1 = bankSetupPropertyValuersModel.AddressLine1,
+                    AddressLine2 = bankSetupPropertyValuersModel.AddressLine2,
+                    GeneralCountryMasterId = bankSetupPropertyValuersModel.GeneralCountryMasterId,
+                    GeneralRegionMasterId = bankSetupPropertyValuersModel.GeneralRegionMasterId,
+                    GeneralCityMasterId = bankSetupPropertyValuersModel.GeneralCityMasterId,
+                    Postalcode = bankSetupPropertyValuersModel.Postalcode,
+                    PhoneNumber = bankSetupPropertyValuersModel.PhoneNumber,
+                    MobileNumber = bankSetupPropertyValuersModel.MobileNumber,
+                    EmailAddress = bankSetupPropertyValuersModel.EmailAddress
+                };
+                _generalPersonAddressRepository.Update(personAddresses);
+            }
             if (!isPropertyValuersUpdated)
             {
                 bankSetupPropertyValuersModel.HasError = true;
@@ -114,6 +171,5 @@ namespace Coditech.API.Service
 
             return status == 1 ? true : false;
         }
-
     }
 }

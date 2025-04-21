@@ -4,6 +4,7 @@ using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
+using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Microsoft.AspNetCore.Mvc;
@@ -45,7 +46,7 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new BankSetupPropertyValuersListResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
-
+        
         [Route("/BankSetupPropertyValuers/CreatePropertyValuers")]
         [HttpPost, ValidateModel]
         [Produces(typeof(BankSetupPropertyValuersResponse))]
@@ -68,14 +69,15 @@ namespace Coditech.API.Controllers
             }
         }
 
+        //get Person Address Details
         [Route("/BankSetupPropertyValuers/GetPropertyValuers")]
         [HttpGet]
         [Produces(typeof(BankSetupPropertyValuersResponse))]
-        public virtual IActionResult GetPropertyValuers(short bankSetupPropertyValuersId)
+        public virtual IActionResult GetPropertyValuers(long generalPersonAddressId)
         {
             try
             {
-                BankSetupPropertyValuersModel bankSetupPropertyValuersModel = _bankSetupPropertyValuersService.GetPropertyValuers(bankSetupPropertyValuersId);
+                BankSetupPropertyValuersModel bankSetupPropertyValuersModel = _bankSetupPropertyValuersService.GetPropertyValuers(generalPersonAddressId);
                 return IsNotNull(bankSetupPropertyValuersModel) ? CreateOKResponse(new BankSetupPropertyValuersResponse { BankSetupPropertyValuersModel = bankSetupPropertyValuersModel }) : CreateNoContentResponse();
             }
             catch (CoditechException ex)

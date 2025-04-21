@@ -37,13 +37,11 @@ namespace Coditech.Admin.Agents
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
                 filters = new FilterCollection();
-                filters.Add("PropertyCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("PropertyName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("LPropertyName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("FirstName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("LastName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("MobileNumber", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
-
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
-
             BankSetupPropertyValuersListResponse response = _bankSetupPropertyValuersClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             BankSetupPropertyValuersListModel bankSetupPropertyValuersList = new BankSetupPropertyValuersListModel { BankSetupPropertyValuersList = response?.BankSetupPropertyValuersList };
             BankSetupPropertyValuersListViewModel listViewModel = new BankSetupPropertyValuersListViewModel();
@@ -81,9 +79,9 @@ namespace Coditech.Admin.Agents
         }
 
         //Get BankSetupPropertyValuers by Bank Bank Setup Property Valuers id.
-        public virtual BankSetupPropertyValuersViewModel GetPropertyValuers(short bankSetupPropertyValuersId)
+        public virtual BankSetupPropertyValuersViewModel GetPropertyValuers(long generalPersonAddressId)
         {
-            BankSetupPropertyValuersResponse response = _bankSetupPropertyValuersClient.GetPropertyValuers(bankSetupPropertyValuersId);
+            BankSetupPropertyValuersResponse response = _bankSetupPropertyValuersClient.GetPropertyValuers(generalPersonAddressId);
             return response?.BankSetupPropertyValuersModel.ToViewModel<BankSetupPropertyValuersViewModel>();
         }
 
@@ -161,26 +159,26 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
+                ColumnName = "Middle Name ",
+                ColumnCode = "MiddleName",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
                 ColumnName = "Last Name ",
                 ColumnCode = "LastName",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Middle Name ",
-                ColumnCode = "MiddleName",
+                ColumnName = "Mobile Number ",
+                ColumnCode = "MobileNumber",
                 IsSortable = true,
             });
             return datatableColumnList;
         }
         #endregion
-        #region
-        //it will return get all BankSetupPropertyValuers list from database
-        public virtual BankSetupPropertyValuersListResponse GetPropertyTypeList()
-        {
-            BankSetupPropertyValuersListResponse BankSetupPropertyValuersList = _bankSetupPropertyValuersClient.List(null, null, null, 1, int.MaxValue);
-            return BankSetupPropertyValuersList?.BankSetupPropertyValuersList?.Count > 0 ? BankSetupPropertyValuersList : new BankSetupPropertyValuersListResponse();
-        }
+        #region     
         #endregion
     }
 }

@@ -22,7 +22,7 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="bankSetupPropertyValuers">bankSetupPropertyValuers</param>
         /// <returns>Returns BankSetupPropertyValuersViewModel.</returns>
-        BankSetupPropertyValuersViewModel GetPropertyValuers(short bankSetupPropertyValuersId);
+        BankSetupPropertyValuersViewModel GetPropertyValuers(long generalPersonAddressId);
 
         /// <summary>
         /// Update BankSetupPropertyValuers.

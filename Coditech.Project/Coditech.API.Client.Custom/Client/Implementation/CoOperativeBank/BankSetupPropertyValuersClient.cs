@@ -58,7 +58,7 @@ namespace Coditech.API.Client
                 if (disposeResponse)
                     response.Dispose();
             }
-        }
+        }       
 
         public virtual BankSetupPropertyValuersResponse CreatePropertyValuers(BankSetupPropertyValuersModel body)
         {
@@ -116,17 +116,17 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual BankSetupPropertyValuersResponse GetPropertyValuers(short bankSetupPropertyValuersId)
+        public virtual BankSetupPropertyValuersResponse GetPropertyValuers(long generalPersonAddressId)
         {
-            return Task.Run(async () => await GetPropertyValuersAsync(bankSetupPropertyValuersId, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetPropertyValuersAsync(generalPersonAddressId, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<BankSetupPropertyValuersResponse> GetPropertyValuersAsync(short bankSetupPropertyValuersId, CancellationToken cancellationToken)
+        public virtual async Task<BankSetupPropertyValuersResponse> GetPropertyValuersAsync(long generalPersonAddressId, CancellationToken cancellationToken)
         {
-            if (bankSetupPropertyValuersId <= 0)
+            if (generalPersonAddressId <= 0)
                 throw new ArgumentNullException("bankSetupPropertyValuersId");
 
-            string endpoint = bankSetupPropertyValuersEndpoint.GetPropertyValuersAsync(bankSetupPropertyValuersId);
+            string endpoint = bankSetupPropertyValuersEndpoint.GetPropertyValuersAsync(generalPersonAddressId);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try

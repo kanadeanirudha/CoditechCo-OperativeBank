@@ -5,6 +5,7 @@ namespace Coditech.API.Data
     public partial class BankSetupPropertyValuers
     {
         [Key]
+
         public short BankSetupPropertyValuersId { get; set; }
         public long GeneralPersonAddressId { get; set; }
         public string FirstName { get; set; }

@@ -7,6 +7,8 @@
         {
             BankSetupPropertyValuersList = new List<BankSetupPropertyValuersModel>();
         }
-
+        public List<BankSetupPropertyValuersModel> PersonAddressList { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }

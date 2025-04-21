@@ -7,7 +7,7 @@ namespace Coditech.API.Service
     {
         BankSetupPropertyValuersListModel GetPropertyValuersList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
         BankSetupPropertyValuersModel CreatePropertyValuers(BankSetupPropertyValuersModel model);
-        BankSetupPropertyValuersModel GetPropertyValuers(short bankSetupPropertyValuersId);
+        BankSetupPropertyValuersModel GetPropertyValuers(long generalPersonAddressId);
         bool UpdatePropertyValuers(BankSetupPropertyValuersModel model);
         bool DeletePropertyValuers(ParameterModel parameterModel);
     }

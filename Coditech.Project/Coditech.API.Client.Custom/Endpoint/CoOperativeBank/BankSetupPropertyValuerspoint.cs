@@ -13,8 +13,8 @@ namespace Coditech.API.Endpoint
         public string CreatePropertyValuersAsync() =>
             $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankSetupPropertyValuers/CreatePropertyValuers";
 
-        public string GetPropertyValuersAsync(short bankSetupPropertyValuersId) =>
-            $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankSetupPropertyValuers/GetPropertyValuers?bankSetupPropertyValuersId={bankSetupPropertyValuersId}";
+        public string GetPropertyValuersAsync(long generalPersonAddressId) =>
+            $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankSetupPropertyValuers/GetPropertyValuers?generalPersonAddressId={generalPersonAddressId}";
 
         public string UpdatePropertyValuersAsync() =>
                $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankSetupPropertyValuers/UpdatePropertyValuers";

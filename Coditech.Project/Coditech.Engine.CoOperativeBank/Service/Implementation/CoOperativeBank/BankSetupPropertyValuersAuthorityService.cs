@@ -35,11 +35,11 @@ namespace Coditech.API.Service
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
             List<BankSetupPropertyValuersAuthorityModel> BankSetupPropertyValuersAuthorityList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetBankSetupPropertyValuersAuthorityList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
             BankSetupPropertyValuersAuthorityListModel listModel = new BankSetupPropertyValuersAuthorityListModel();
-
             listModel.BankSetupPropertyValuersAuthorityList = BankSetupPropertyValuersAuthorityList?.Count > 0 ? BankSetupPropertyValuersAuthorityList : new List<BankSetupPropertyValuersAuthorityModel>();
             listModel.BindPageListModel(pageListModel);
             return listModel;
         }
+
         //Create BankSetupPropertyValuersAuthority.
         public virtual BankSetupPropertyValuersAuthorityModel CreatePropertyValuersAuthority(BankSetupPropertyValuersAuthorityModel bankSetupPropertyValuersAuthorityModel)
         {
@@ -47,7 +47,6 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
             BankSetupPropertyValuersAuthority BankSetupPropertyValuersAuthority = bankSetupPropertyValuersAuthorityModel.FromModelToEntity<BankSetupPropertyValuersAuthority>();
-
             //Create new BankSetupPropertyValuersAuthority and return it.
             BankSetupPropertyValuersAuthority BankSetupPropertyValuersAuthorityData = _bankSetupPropertyValuersAuthorityRepository.Insert(BankSetupPropertyValuersAuthority);
              if (BankSetupPropertyValuersAuthority?.BankSetupPropertyValuersAuthorityId > 0)
@@ -84,7 +83,6 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BankSetupPropertyValuersAuthorityId"));
 
             BankSetupPropertyValuersAuthority bankSetupPropertyValuersAuthority = bankSetupPropertyValuersAuthorityModel.FromModelToEntity<BankSetupPropertyValuersAuthority>();
-
             //Update BankSetupPropertyValuersAuthority
             bool isPropertyValuersAuthorityUpdated = _bankSetupPropertyValuersAuthorityRepository.Update(bankSetupPropertyValuersAuthority);
             if (!isPropertyValuersAuthorityUpdated)
@@ -109,6 +107,5 @@ namespace Coditech.API.Service
 
             return status == 1 ? true : false;
         }
-
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
+using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 using Microsoft.AspNetCore.Mvc;
 namespace Coditech.Admin.Controllers
@@ -28,7 +29,7 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public virtual ActionResult Create()
         {
-            return View(createEdit, new BankSetupPropertyValuersViewModel());
+            return View("~/Views/CoOperativeBank/BankSetupPropertyValuers/CreateEdit.cshtml", new BankSetupPropertyValuersViewModel());
         }
 
         [HttpPost]
@@ -48,9 +49,9 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult Edit(short bankSetupPropertyValuersId)
+        public virtual ActionResult Edit(long generalPersonAddressId)
         {
-            BankSetupPropertyValuersViewModel bankSetupPropertyValuersViewModel = _bankSetupPropertyValuersAgent.GetPropertyValuers(bankSetupPropertyValuersId);
+            BankSetupPropertyValuersViewModel bankSetupPropertyValuersViewModel = _bankSetupPropertyValuersAgent.GetPropertyValuers(generalPersonAddressId);
             return ActionView(createEdit, bankSetupPropertyValuersViewModel);
         }
 
@@ -62,7 +63,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_bankSetupPropertyValuersAgent.UpdatePropertyValuers(bankSetupPropertyValuersViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("Edit", new { bankSetupPropertyValuersId = bankSetupPropertyValuersViewModel.BankSetupPropertyValuersId });
+                return RedirectToAction("Edit", new { generalPersonAddressId = bankSetupPropertyValuersViewModel.GeneralPersonAddressId });
             }
             return View(createEdit, bankSetupPropertyValuersViewModel);
         }
@@ -89,3 +90,49 @@ namespace Coditech.Admin.Controllers
         #endregion
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//[HttpGet]
+//public virtual ActionResult Create()
+//{
+//    BankSetupPropertyValuersViewModel model = new BankSetupPropertyValuersViewModel();
+//    //{
+//    //    BankSetupPropertyValuersList = new List<BankSetupPropertyValuersViewModel>
+//    //    {
+//    //        new BankSetupPropertyValuersViewModel { AddressTypeEnum = AddressTypeEnum.PermanentAddress.ToString() },
+//    //        new BankSetupPropertyValuersViewModel { AddressTypeEnum = AddressTypeEnum.CorrespondanceAddress.ToString() },
+//    //        new BankSetupPropertyValuersViewModel { AddressTypeEnum = AddressTypeEnum.BusinessAddress.ToString() }
+//    //    },
+//    //    FirstName = "",
+//    //    LastName = "",
+//    //    GeneralPersonAddressId = 0
+//    //};
+//    return ActionView("~/Views/CoOperativeBank/BankSetupPropertyValuers/CreateEdit.cshtml", model);
+//}
