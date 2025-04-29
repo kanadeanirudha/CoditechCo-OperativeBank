@@ -4,7 +4,8 @@
     {
         Address,
         VehicleCompany,
-        PropertyName
+        PropertyName,
+        AccountStatus
 
     }
     public enum DashboardFormCustomEnum
