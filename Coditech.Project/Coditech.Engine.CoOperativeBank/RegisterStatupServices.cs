@@ -5,7 +5,6 @@ using Coditech.Common.API;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
-
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
@@ -256,6 +255,21 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IBankSetupDivisionService, BankSetupDivisionService>();
             builder.Services.AddScoped<IBankSetupOfficesService, BankSetupOfficesService>();
 
+            //builder.Services.AddScoped<ICustomDashboardService, CustomDashboardService>();
+
+            #region CoOperativeBank
+            builder.Services.AddScoped<IBankSetupMortagePropertyTypeService, BankSetupMortagePropertyTypeService>();
+            builder.Services.AddScoped<IBankVehicleModelService, BankVehicleModelService>();
+            builder.Services.AddScoped<IBankSetupPropertyValuersService, BankSetupPropertyValuersService>();
+            builder.Services.AddScoped<IBankSetupPropertyValuersAuthorityService, BankSetupPropertyValuersAuthorityService>();
+            builder.Services.AddScoped<IBankMemberService, BankMemberService>();
+
+            #endregion
+
+            #region
+            //builder.Services.AddScoped<IBankSetupMortagePropertyTypeService, BankSetupMortagePropertyTypeService>();
+
+            #endregion
         }
         #endregion
     }

@@ -15,7 +15,12 @@ namespace Coditech.API.Data
         public DbSet<BankInsurancePoliciesType> BankInsurancePoliciesType { get; set; }
         public DbSet<BankSetupDivision> BankSetupDivision { get; set; }
         public DbSet<BankSetupOffices> BankSetupOffices { get; set; }
+        public DbSet<BankSetupMortagePropertyType> BankSetupMortagePropertyType { get; set; }
+        public DbSet<BankVehicleModel> BankVehicleModel { get; set; }
+        public DbSet<BankSetupPropertyValuers> BankSetupPropertyValuers { get; set; }
+        public DbSet<BankSetupPropertyValuersAuthority> BankSetupPropertyValuersAuthority { get; set; }
+        public DbSet<BankMember> BankMember { get; set; }
         #endregion
-
     }
 }
+

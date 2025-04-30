@@ -9,3 +9,4 @@ namespace Coditech.API.Endpoint
             $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/CustomDashboardController/GetCustomDashboardDetails?selectedAdminRoleMasterId={selectedAdminRoleMasterId}&userMasterId={userMasterId}";
     }
 }
+    

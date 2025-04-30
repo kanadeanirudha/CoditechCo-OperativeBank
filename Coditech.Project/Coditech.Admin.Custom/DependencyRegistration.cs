@@ -17,12 +17,34 @@ namespace Coditech.Admin.Custom
             builder.Services.AddScoped<IBankSetupOfficesAgent, BankSetupOfficesAgent>();
             #endregion Agent
 
+            #region CoOperativeBank
+            builder.Services.AddScoped<IBankSetupMortagePropertyTypeAgent, BankSetupMortagePropertyTypeAgent>();
+            builder.Services.AddScoped<IBankVehicleModelAgent, BankVehicleModelAgent>();
+            builder.Services.AddScoped<IBankSetupPropertyValuersAgent, BankSetupPropertyValuersAgent>();
+            builder.Services.AddScoped<IBankSetupPropertyValuersAuthorityAgent, BankSetupPropertyValuersAuthorityAgent>();
+            builder.Services.AddScoped<IBankMemberAgent, BankMemberAgent>();
+
+            #endregion
+
+
+
+
             #region Client
             builder.Services.AddScoped<ICustomDashboardClient, CustomDashboardClient>();
             builder.Services.AddScoped<IBankInsurancePoliciesTypeClient, BankInsurancePoliciesTypeClient>();
             builder.Services.AddScoped<IBankSetupDivisionClient, BankSetupDivisionClient>();
             builder.Services.AddScoped<IBankSetupOfficesClient, BankSetupOfficesClient>();
-            #endregion 
+
+            #region CoOperativeBank
+            builder.Services.AddScoped<IBankSetupMortagePropertyTypeClient, BankSetupMortagePropertyTypeClient>();
+            builder.Services.AddScoped<IBankVehicleModelClient, BankVehicleModelClient>();
+            builder.Services.AddScoped<IBankSetupPropertyValuersClient, BankSetupPropertyValuersClient>();
+            builder.Services.AddScoped<IBankSetupPropertyValuersAuthorityClient, BankSetupPropertyValuersAuthorityClient>();
+            builder.Services.AddScoped<IBankMemberClient, BankMemberClient>();
+
+            #endregion
+
+            #endregion Client
         }
     }
 }

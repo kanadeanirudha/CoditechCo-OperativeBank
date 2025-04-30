@@ -3,7 +3,12 @@
     public enum DropdownCustomTypeEnum
     {
         InsuranceTypeMajor,
-        BankSetupDivision
+        BankSetupDivision,
+        Address,
+        VehicleCompany,
+        PropertyName,
+        AccountStatus
+
     }
     public enum DashboardFormCustomEnum
     {
