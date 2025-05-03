@@ -5,7 +5,11 @@
         Address,
         VehicleCompany,
         PropertyName,
-        AccountStatus
+        AccountStatus,
+        PaymentMode,
+        BankMember
+
+
 
     }
     public enum DashboardFormCustomEnum

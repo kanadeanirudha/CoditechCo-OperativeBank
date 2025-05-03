@@ -25,6 +25,10 @@ namespace Coditech.Admin.Helpers
             {
                 GetPropertyTypeList(dropdownViewModel, dropdownList);
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.BankMember.ToString()))
+            {
+                GetBankMemberList(dropdownViewModel, dropdownList);
+            }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
@@ -46,7 +50,24 @@ namespace Coditech.Admin.Helpers
                 });
             }
         }
-        
+        private static void GetBankMemberList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            BankMemberListResponse response = new BankMemberClient().List(null, null, null, 1, int.MaxValue);
+            if (response?.BankMemberList?.Count != 1)
+                dropdownList.Add(new SelectListItem() { Text = "-------Select Member-------" });
+
+            BankMemberListModel list = new BankMemberListModel { BankMemberList = response?.BankMemberList };
+            foreach (var item in list.BankMemberList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = item.FirstName,
+                    Value = Convert.ToString(item.BankMemberId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.BankMemberId)
+                });
+            }
+        }
+
         private static string SpiltCentreCode(string centreCode)
         {
             centreCode = !string.IsNullOrEmpty(centreCode) && centreCode.Contains(":") ? centreCode.Split(':')[0] : centreCode;

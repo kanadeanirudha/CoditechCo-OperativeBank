@@ -19,6 +19,7 @@ namespace Coditech.Admin.Custom
             builder.Services.AddScoped<IBankVehicleModelAgent, BankVehicleModelAgent>();
             builder.Services.AddScoped<IBankSetupPropertyValuersAgent, BankSetupPropertyValuersAgent>();
             builder.Services.AddScoped<IBankSetupPropertyValuersAuthorityAgent, BankSetupPropertyValuersAuthorityAgent>();
+            builder.Services.AddScoped<IBankMemberShareCapitalAgent, BankMemberShareCapitalAgent>();
             builder.Services.AddScoped<IBankMemberAgent, BankMemberAgent>();
 
             #endregion
@@ -35,7 +36,10 @@ namespace Coditech.Admin.Custom
             builder.Services.AddScoped<IBankVehicleModelClient, BankVehicleModelClient>();
             builder.Services.AddScoped<IBankSetupPropertyValuersClient, BankSetupPropertyValuersClient>();
             builder.Services.AddScoped<IBankSetupPropertyValuersAuthorityClient, BankSetupPropertyValuersAuthorityClient>();
+            builder.Services.AddScoped<IBankMemberShareCapitalClient, BankMemberShareCapitalClient>();
             builder.Services.AddScoped<IBankMemberClient, BankMemberClient>();
+
+
 
             #endregion
 
