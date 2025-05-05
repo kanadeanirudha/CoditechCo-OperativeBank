@@ -37,9 +37,16 @@ namespace Coditech.Admin.Agents
             dataTableModel = dataTableModel ?? new DataTableViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {           
-                filters.Add("PropertyName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("FromPropertyValueRangeStart", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("FromPropertyValueRangeEnd", ProcedureFilterOperators.Like, dataTableModel.SearchBy); 
+                filters.Add("NumberOfShares", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("AmountInvested", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("PurchaseDate", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("SharePrice", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("PaymentModeEnumId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("TranscationReference", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("Remarks", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("IsActive", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+
+
             }
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
