@@ -19,6 +19,8 @@ namespace Coditech.API.Data
         public DbSet<BankVehicleModel> BankVehicleModel { get; set; }
         public DbSet<BankSetupPropertyValuers> BankSetupPropertyValuers { get; set; }
         public DbSet<BankSetupPropertyValuersAuthority> BankSetupPropertyValuersAuthority { get; set; }
+        public DbSet<BankMemberShareCapital> BankMemberShareCapital { get; set; }
+
         public DbSet<BankMember> BankMember { get; set; }
         #endregion
     }

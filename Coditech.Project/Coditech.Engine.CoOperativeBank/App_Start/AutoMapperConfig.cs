@@ -23,6 +23,8 @@ namespace Coditech.API.Mapper
             CreateMap<BankVehicleModel, BankVehicleModelModel>().ReverseMap();
             CreateMap<BankSetupPropertyValuers, BankSetupPropertyValuersModel>().ReverseMap();
             CreateMap<BankSetupPropertyValuersAuthority, BankSetupPropertyValuersAuthorityModel>().ReverseMap();
+            CreateMap<BankMemberShareCapital, BankMemberShareCapitalModel>().ReverseMap();
+
             CreateMap<BankMember, BankMemberModel>().ReverseMap();
 
             #endregion
