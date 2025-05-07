@@ -7,7 +7,8 @@
         PropertyName,
         AccountStatus,
         PaymentMode,
-        BankMember
+        BankMember,
+        Relation
 
 
 

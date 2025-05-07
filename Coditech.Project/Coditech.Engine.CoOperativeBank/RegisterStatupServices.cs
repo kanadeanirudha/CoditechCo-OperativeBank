@@ -258,6 +258,7 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IBankSetupPropertyValuersService, BankSetupPropertyValuersService>();
             builder.Services.AddScoped<IBankSetupPropertyValuersAuthorityService, BankSetupPropertyValuersAuthorityService>();
             builder.Services.AddScoped<IBankMemberShareCapitalService, BankMemberShareCapitalService>();
+            builder.Services.AddScoped<IBankMemberNomineeService, BankMemberNomineeService>();
 
             #endregion
 

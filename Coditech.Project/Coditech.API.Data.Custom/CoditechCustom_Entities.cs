@@ -19,6 +19,9 @@ namespace Coditech.API.Data
         public DbSet<BankMemberShareCapital> BankMemberShareCapital { get; set; }
 
         public DbSet<BankMember> BankMember { get; set; }
+
+        public DbSet<BankMemberNominee> BankMemberNominee { get; set; }
+
         #endregion
     }
 }

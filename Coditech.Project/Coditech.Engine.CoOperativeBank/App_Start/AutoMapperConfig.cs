@@ -22,6 +22,7 @@ namespace Coditech.API.Mapper
             CreateMap<BankMemberShareCapital, BankMemberShareCapitalModel>().ReverseMap();
 
             CreateMap<BankMember, BankMemberModel>().ReverseMap();
+            CreateMap<BankMemberNominee, BankMemberNomineeModel>().ReverseMap();
 
             #endregion
 
