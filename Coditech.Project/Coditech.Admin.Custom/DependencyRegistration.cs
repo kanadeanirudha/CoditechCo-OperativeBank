@@ -12,10 +12,6 @@ namespace Coditech.Admin.Custom
             builder.Services.AddScoped<CoditechTranslator>();
             #region Agent
             builder.Services.AddScoped<ICustomDashboardAgent, CustomDashboardAgent>();
-            builder.Services.AddScoped<IBankInsurancePoliciesTypeAgent, BankInsurancePoliciesTypeAgent>();
-            builder.Services.AddScoped<IBankSetupDivisionAgent, BankSetupDivisionAgent>();
-            builder.Services.AddScoped<IBankSetupOfficesAgent, BankSetupOfficesAgent>();
-            #endregion Agent
 
             #region CoOperativeBank
             builder.Services.AddScoped<IBankSetupMortagePropertyTypeAgent, BankSetupMortagePropertyTypeAgent>();
@@ -24,17 +20,18 @@ namespace Coditech.Admin.Custom
             builder.Services.AddScoped<IBankSetupPropertyValuersAuthorityAgent, BankSetupPropertyValuersAuthorityAgent>();
             builder.Services.AddScoped<IBankMemberShareCapitalAgent, BankMemberShareCapitalAgent>();
             builder.Services.AddScoped<IBankMemberAgent, BankMemberAgent>();
-
+            builder.Services.AddScoped<IBankInsurancePoliciesTypeAgent, BankInsurancePoliciesTypeAgent>();
+            builder.Services.AddScoped<IBankSetupDivisionAgent, BankSetupDivisionAgent>();
+            builder.Services.AddScoped<IBankSetupOfficesAgent, BankSetupOfficesAgent>();
+            builder.Services.AddScoped<IBankSavingsAccountAgent, BankSavingsAccountAgent>();
             #endregion
+            #endregion Agent
 
 
 
 
             #region Client
             builder.Services.AddScoped<ICustomDashboardClient, CustomDashboardClient>();
-            builder.Services.AddScoped<IBankInsurancePoliciesTypeClient, BankInsurancePoliciesTypeClient>();
-            builder.Services.AddScoped<IBankSetupDivisionClient, BankSetupDivisionClient>();
-            builder.Services.AddScoped<IBankSetupOfficesClient, BankSetupOfficesClient>();
 
             #region CoOperativeBank
             builder.Services.AddScoped<IBankSetupMortagePropertyTypeClient, BankSetupMortagePropertyTypeClient>();
@@ -43,8 +40,10 @@ namespace Coditech.Admin.Custom
             builder.Services.AddScoped<IBankSetupPropertyValuersAuthorityClient, BankSetupPropertyValuersAuthorityClient>();
             builder.Services.AddScoped<IBankMemberShareCapitalClient, BankMemberShareCapitalClient>();
             builder.Services.AddScoped<IBankMemberClient, BankMemberClient>();
-
-
+            builder.Services.AddScoped<IBankInsurancePoliciesTypeClient, BankInsurancePoliciesTypeClient>();
+            builder.Services.AddScoped<IBankSetupDivisionClient, BankSetupDivisionClient>();
+            builder.Services.AddScoped<IBankSetupOfficesClient, BankSetupOfficesClient>();
+            builder.Services.AddScoped<IBankSavingsAccountClient, BankSavingsAccountClient>();
 
             #endregion
 

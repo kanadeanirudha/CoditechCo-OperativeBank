@@ -20,8 +20,8 @@ namespace Coditech.API.Data
         public DbSet<BankSetupPropertyValuers> BankSetupPropertyValuers { get; set; }
         public DbSet<BankSetupPropertyValuersAuthority> BankSetupPropertyValuersAuthority { get; set; }
         public DbSet<BankMemberShareCapital> BankMemberShareCapital { get; set; }
-
         public DbSet<BankMember> BankMember { get; set; }
+        public DbSet<BankSavingsAccount> BankSavingsAccount { get; set; }
         #endregion
     }
 }

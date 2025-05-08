@@ -13,10 +13,6 @@ namespace Coditech.API.Mapper
             CreateMap<GeneralPerson, GeneralPersonModel>().ReverseMap();
             CreateMap<UserMaster, GeneralPersonModel>().ReverseMap();
             CreateMap<AdminSanctionPostModel, AdminSanctionPost>().ReverseMap();
-            CreateMap<BankInsurancePoliciesTypeModel, BankInsurancePoliciesType>().ReverseMap();
-            CreateMap<BankSetupDivisionModel, BankSetupDivision>().ReverseMap();
-            CreateMap<BankSetupOfficesModel, BankSetupOffices>().ReverseMap();
-
 
             #region CoOperativeBank
             CreateMap<BankSetupMortagePropertyType, BankSetupMortagePropertyTypeModel>().ReverseMap();
@@ -24,8 +20,11 @@ namespace Coditech.API.Mapper
             CreateMap<BankSetupPropertyValuers, BankSetupPropertyValuersModel>().ReverseMap();
             CreateMap<BankSetupPropertyValuersAuthority, BankSetupPropertyValuersAuthorityModel>().ReverseMap();
             CreateMap<BankMemberShareCapital, BankMemberShareCapitalModel>().ReverseMap();
-
             CreateMap<BankMember, BankMemberModel>().ReverseMap();
+            CreateMap<BankInsurancePoliciesTypeModel, BankInsurancePoliciesType>().ReverseMap();
+            CreateMap<BankSetupDivisionModel, BankSetupDivision>().ReverseMap();
+            CreateMap<BankSetupOfficesModel, BankSetupOffices>().ReverseMap();
+            CreateMap<BankSavingsAccountModel, BankSavingsAccount>().ReverseMap();
 
             #endregion
 

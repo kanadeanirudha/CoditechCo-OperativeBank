@@ -251,9 +251,7 @@ namespace Coditech.API.Common
             // Add Dependency 
             builder.Services.AddSingleton<ICoditechLogging, CoditechLogging>();
             builder.Services.AddScoped<ICustomDashboardService, CustomDashboardService>();
-            builder.Services.AddScoped<IBankInsurancePoliciesTypeService, BankInsurancePoliciesTypeService>();
-            builder.Services.AddScoped<IBankSetupDivisionService, BankSetupDivisionService>();
-            builder.Services.AddScoped<IBankSetupOfficesService, BankSetupOfficesService>();
+           
 
             //builder.Services.AddScoped<ICustomDashboardService, CustomDashboardService>();
 
@@ -263,6 +261,12 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IBankSetupPropertyValuersService, BankSetupPropertyValuersService>();
             builder.Services.AddScoped<IBankSetupPropertyValuersAuthorityService, BankSetupPropertyValuersAuthorityService>();
             builder.Services.AddScoped<IBankMemberShareCapitalService, BankMemberShareCapitalService>();
+            builder.Services.AddScoped<IBankInsurancePoliciesTypeService, BankInsurancePoliciesTypeService>();
+            builder.Services.AddScoped<IBankSetupDivisionService, BankSetupDivisionService>();
+            builder.Services.AddScoped<IBankSetupOfficesService, BankSetupOfficesService>();
+            builder.Services.AddScoped<IBankSavingsAccountService, BankSavingsAccountService>();
+            builder.Services.AddScoped<IBankMemberService, BankMemberService>();
+            
 
             #endregion
 

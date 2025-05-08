@@ -16,14 +16,13 @@ namespace Coditech.Admin.Helpers
             {
                 GetBankSetupDivisionList(dropdownViewModel, dropdownList);
             }
-            else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.BankMember.ToString()))
+            else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.BankMembers.ToString()))
             {
                 GetBankMemberList(dropdownViewModel, dropdownList);
             }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
-
         private static void GetPropertyTypeList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             BankSetupMortagePropertyTypeListResponse response = new BankSetupMortagePropertyTypeClient().List(null, null, null, 1, int.MaxValue);
@@ -41,30 +40,11 @@ namespace Coditech.Admin.Helpers
                 });
             }
         }
-        private static void GetBankMemberList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
-        {
-            BankMemberListResponse response = new BankMemberClient().List(null, null, null, 1, int.MaxValue);
-            if (response?.BankMemberList?.Count != 1)
-                dropdownList.Add(new SelectListItem() { Text = "-------Select Member-------" });
-
-            BankMemberListModel list = new BankMemberListModel { BankMemberList = response?.BankMemberList };
-            foreach (var item in list.BankMemberList)
-            {
-                dropdownList.Add(new SelectListItem()
-                {
-                    Text = item.FirstName,
-                    Value = Convert.ToString(item.BankMemberId),
-                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.BankMemberId)
-                });
-            }
-        }
-
         private static string SpiltCentreCode(string centreCode)
         {
             centreCode = !string.IsNullOrEmpty(centreCode) && centreCode.Contains(":") ? centreCode.Split(':')[0] : centreCode;
             return centreCode;
         }
-
         private static void GetBankSetupDivisionList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             BankSetupDivisionListResponse response = new BankSetupDivisionClient().List(null, null, null, 1, int.MaxValue);
@@ -82,6 +62,31 @@ namespace Coditech.Admin.Helpers
                     Value = Convert.ToString(item.BankSetupDivisionId),
                     Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.BankSetupDivisionId)
                 });
+            }
+        }
+        private static void GetBankMemberList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Value = "", Text = GeneralResources.SelectLabel });
+            else
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = GeneralResources.SelectLabel });
+            if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
+            {
+                FilterCollection filters = new FilterCollection();
+                filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dropdownViewModel.Parameter);
+
+                BankMemberListResponse response = new BankMemberClient().List(null, filters, null, 1, int.MaxValue);
+
+                BankMemberListModel list = new BankMemberListModel { BankMemberList = response.BankMemberList };
+                foreach (var item in list.BankMemberList)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = item.FirstName,
+                        Value = Convert.ToString(item.BankMemberId),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.BankMemberId)
+                    });
+                }
             }
         }
     }
