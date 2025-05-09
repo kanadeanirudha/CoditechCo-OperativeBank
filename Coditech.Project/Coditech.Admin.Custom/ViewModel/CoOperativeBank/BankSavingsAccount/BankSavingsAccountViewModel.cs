@@ -24,6 +24,7 @@ namespace Coditech.Admin.ViewModel
         public string Remark { get; set; }
         [Display(Name = "Centre")]
         public string SelectedCentreCode { get; set; }
+        [Display(Name = "Account Status")]
         public string AccountStatus { get; set; }
     }
 }

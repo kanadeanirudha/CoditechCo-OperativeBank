@@ -36,7 +36,7 @@ namespace Coditech.Admin.Agents
             {
                 filters = new FilterCollection();
                 filters.Add("SavingAccountNumber", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                //filters.Add("InsurancePoliciesTypeCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("BalanceAmount", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
@@ -153,8 +153,8 @@ namespace Coditech.Admin.Agents
             List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Balance Amount",
-                ColumnCode = "BalanceAmount",
+                ColumnName = "Account Number",
+                ColumnCode = "SavingAccountNumber",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
@@ -165,8 +165,8 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Account Number",
-                ColumnCode = "SavingAccountNumber",
+                ColumnName = "Balance Amount",
+                ColumnCode = "BalanceAmount",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
@@ -179,12 +179,6 @@ namespace Coditech.Admin.Agents
             {
                 ColumnName = "KYC Status",
                 ColumnCode = "KYCStatus",
-                IsSortable = true,
-            });
-            datatableColumnList.Add(new DatatableColumns()
-            {
-                ColumnName = "Remark",
-                ColumnCode = "Remark",
                 IsSortable = true,
             });
             return datatableColumnList;
