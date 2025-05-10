@@ -25,6 +25,7 @@ namespace Coditech.API.Mapper
             CreateMap<BankSetupDivisionModel, BankSetupDivision>().ReverseMap();
             CreateMap<BankSetupOfficesModel, BankSetupOffices>().ReverseMap();
             CreateMap<BankSavingsAccountModel, BankSavingsAccount>().ReverseMap();
+            CreateMap<BankSavingAccountIntrestPostingsModel, BankSavingAccountIntrestPostings>().ReverseMap();
 
             #endregion
 

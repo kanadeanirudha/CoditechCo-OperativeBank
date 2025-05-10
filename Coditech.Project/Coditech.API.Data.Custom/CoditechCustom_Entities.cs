@@ -22,6 +22,7 @@ namespace Coditech.API.Data
         public DbSet<BankMemberShareCapital> BankMemberShareCapital { get; set; }
         public DbSet<BankMember> BankMember { get; set; }
         public DbSet<BankSavingsAccount> BankSavingsAccount { get; set; }
+        public DbSet<BankSavingAccountIntrestPostings> BankSavingAccountIntrestPostings { get; set; }
         #endregion
     }
 }

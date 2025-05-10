@@ -1,0 +1,165 @@
+﻿@model BankSavingAccountIntrestPostingsViewModel
+@{
+    ViewBag.Title = Model.BankSavingAccountIntrestPostingsId > 0 ? "Update Bank Saving Account Intrest Postings" : "Add Bank Saving Account Intrest Postings";
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    string actionName = ViewContext.RouteData.Values["action"].ToString();
+    DropdownViewModel bankSavingsAccountDropdown = new DropdownViewModel()
+            {
+                DropdownType = DropdownCustomTypeEnum.BankSavingsAccount.ToString(),
+                DropdownName = "BankSavingsAccountId",
+                DropdownSelectedValue = Model.BankSavingsAccountId.ToString(),
+                Parameter = Model.BankSavingsAccountId.ToString(),
+                IsCustomDropdown = true
+            };
+}
+<div class="page-content mt-5">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">
+                            @(Model.BankSavingAccountIntrestPostingsId > 0 ? "Update" : "Create") Bank Saving Account Intrest Postings
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
+                        {
+                            @Html.HiddenFor(m => m.BankSavingAccountIntrestPostingsId)
+
+                            <div class="col-lg-8 mb-3">
+                                @Html.LabelFor(x => x.BankSavingsAccountId, new { @class = "form-label required" })
+                                @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", bankSavingsAccountDropdown)
+                                @Html.ValidationMessageFor(x => x.BankSavingsAccountId)
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-4 mb-3">
+                                    @Html.LabelFor(x => x.PeriodStartDate, new { @class = "form-label required" })
+                                    @Html.TextBoxFor(x => x.PeriodStartDate, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control", @id = "PeriodStartDate" })
+                                    @Html.ValidationMessageFor(x => x.PeriodStartDate)
+                                </div>
+                                <div class="col-lg-4 mb-3">
+                                    @Html.LabelFor(x => x.PeriodEndDate, new { @class = "form-label required" })
+                                    @Html.TextBoxFor(x => x.PeriodEndDate, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control", @id = "PeriodEndDate" })
+                                    @Html.ValidationMessageFor(x => x.PeriodEndDate)
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-4 mb-3">
+                                    @Html.LabelFor(x => x.InterestAmount, new { @class = "form-label required" })
+                                    @Html.TextBoxFor(x => x.InterestAmount, new { @class = "form-control", @id = "InterestAmount" })
+                                    @Html.ValidationMessageFor(x => x.InterestAmount)
+                                </div>
+                                <div class="col-lg-4 mb-3">
+                                    @Html.LabelFor(x => x.PostedOn, new { @class = "form-label required" })
+                                    @Html.TextBoxFor(x => x.PostedOn, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control", @id = "PostedOn" })
+                                    @Html.ValidationMessageFor(x => x.PostedOn)
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
+                            <a href="../@controllerName/List" class="btn btn-secondary">@AdminResources.LabelCancel</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- jQuery (already included) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- jQuery UI CSS -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+<!-- jQuery UI JS -->
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+
+@section scripts {
+    <script type="text/javascript">
+        $(function () {
+            function restrictDateRange(datepicker, minDate, maxDate) {
+                datepicker.datepicker("option", "minDate", minDate);
+                datepicker.datepicker("option", "maxDate", maxDate);
+            }
+
+            function updateConstraintsFromStartDate() {
+                const startDate = $("#PeriodStartDate").datepicker("getDate");
+                if (startDate) {
+                    const maxEndDate = new Date(startDate.getFullYear() + 2, 11, 31);
+                    restrictDateRange($("#PeriodEndDate"), startDate, maxEndDate);
+                } else {
+                    resetDatepickers();
+                }
+            }
+
+            function updateConstraintsFromEndDate() {
+                const endDate = $("#PeriodEndDate").datepicker("getDate");
+                if (endDate) {
+                    const minStartDate = new Date(endDate.getFullYear() - 2, 0, 1);
+                    restrictDateRange($("#PeriodStartDate"), minStartDate, endDate);
+                } else {
+                    resetDatepickers();
+                }
+            }
+
+            function resetDatepickers() {
+                const today = new Date();
+                const minDate = new Date(today.getFullYear() - 2, 0, 1);
+                const maxDate = new Date(today.getFullYear() + 2, 11, 31);
+
+                $(".datepicker").datepicker("option", {
+                    minDate: minDate,
+                    maxDate: maxDate,
+                    yearRange: "-2:+2"
+                });
+            }
+
+            function initDatePicker(id, onSelectFn) {
+                $(id).datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    showMonthAfterYear: false,
+                    dateFormat: "@AdminGeneralHelper.DateFormatForCalendar()",
+                    autoSize: true,
+                    showButtonPanel: true,
+                    closeText: "Clear",
+                    currentText: "Today",
+                    yearRange: "-2:+2",
+                    onSelect: onSelectFn,
+                    beforeShow: function (input, inst) {
+                        setTimeout(function () {
+                            var buttonPane = $(inst.dpDiv).find(".ui-datepicker-buttonpane");
+                            buttonPane.find(".ui-datepicker-current").off("click").on("click", function () {
+                                var today = new Date();
+                                $(id).datepicker("setDate", today);
+                                $(id).change(); // trigger change event if needed
+                            });
+                        }, 1);
+                    },
+                    onClose: function () {
+                        if ($(window.event?.srcElement).hasClass("ui-datepicker-close")) {
+                            $(this).val("");
+                            resetDatepickers();
+                        }
+                    }
+                }).addClass("datepicker");
+            }
+
+            initDatePicker("#PeriodStartDate", updateConstraintsFromStartDate);
+            initDatePicker("#PeriodEndDate", updateConstraintsFromEndDate);
+            initDatePicker("#PostedOn", null);
+
+            $("#PeriodStartDate, #PeriodEndDate, #PostedOn").on("change", function () {
+                if (!$("#PeriodStartDate").val() && !$("#PeriodEndDate").val() && !$("#PostedOn").val()) {
+                    resetDatepickers();
+                }
+            });
+
+            resetDatepickers();
+        });
+    </script>
+}

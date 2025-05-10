@@ -20,6 +20,10 @@ namespace Coditech.Admin.Helpers
             {
                 GetBankMemberList(dropdownViewModel, dropdownList);
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.BankSavingsAccount.ToString()))
+            {
+                GetBankSavingsAccountList(dropdownViewModel, dropdownList);
+            }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
@@ -87,6 +91,25 @@ namespace Coditech.Admin.Helpers
                         Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.BankMemberId)
                     });
                 }
+            }
+        }
+        private static void GetBankSavingsAccountList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            BankSavingsAccountListResponse response = new BankSavingsAccountClient().List(null, null, null, 1, int.MaxValue);
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Value = "", Text = GeneralResources.SelectLabel });
+            else
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = GeneralResources.SelectLabel });
+
+            BankSavingsAccountListModel list = new BankSavingsAccountListModel { BankSavingsAccountList = response.BankSavingsAccountList };
+            foreach (var item in list.BankSavingsAccountList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = item.SavingAccountNumber,
+                    Value = Convert.ToString(item.BankSavingsAccountId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.BankSavingsAccountId)
+                });
             }
         }
     }
