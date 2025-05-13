@@ -261,6 +261,7 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IBankSetupPropertyValuersService, BankSetupPropertyValuersService>();
             builder.Services.AddScoped<IBankSetupPropertyValuersAuthorityService, BankSetupPropertyValuersAuthorityService>();
             builder.Services.AddScoped<IBankMemberShareCapitalService, BankMemberShareCapitalService>();
+            builder.Services.AddScoped<IBankMemberNomineeService, BankMemberNomineeService>();
             builder.Services.AddScoped<IBankInsurancePoliciesTypeService, BankInsurancePoliciesTypeService>();
             builder.Services.AddScoped<IBankSetupDivisionService, BankSetupDivisionService>();
             builder.Services.AddScoped<IBankSetupOfficesService, BankSetupOfficesService>();

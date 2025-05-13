@@ -9,8 +9,9 @@
         PropertyName,
         AccountStatus,
         PaymentMode,
-        BankMembers,
         BankMember,
+        Relation,
+        BankMembers,
         BankSavingsAccount,
     }
     public enum DashboardFormCustomEnum

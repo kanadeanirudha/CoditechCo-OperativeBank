@@ -1,0 +1,52 @@
+﻿@using Coditech.Admin.Utilities;
+@model MemberNomineeCreateEditViewModel
+@{
+    ViewBag.Title = Model.BankMemberNomineeId > 0 ? "Update Member Nominee" : "Create Member Nominee";
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    string actionName = ViewContext.RouteData.Values["action"].ToString();
+    string css = Model.PersonId > 0 ? "col-lg-10" : "col-lg-12";
+    Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+    keyValuePairs.Add("BankMemberNomineeId", Model.BankMemberNomineeId.ToString());
+    keyValuePairs.Add("PersonId", Model.PersonId.ToString());
+    // DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "CoditechCommon.GetDepartmentByCentreCode()", IsDisabled = Model.BankMemberId > 0 };
+}
+<!-- Page Content-->
+<div class="page-content mt-5">
+    <div class="container-fluid">
+        <div class="row">
+            @if (Model.BankMemberNomineeId > 0)
+            {
+                <div class="col-lg-2">
+                    @Html.Partial("~/Views/BankMemberNominee/_MemberDetailsSidePannel.cshtml", keyValuePairs)
+                </div>
+            }
+            <div class="@css">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                @if (Model.BankMemberNomineeId > 0)
+                                {
+                                    <h4 class="card-title"><span>Update Member Nominee : @Model.FirstName @Model.LastName</span></h4>
+                                }
+                                else
+                                {
+                                    <h4 class="card-title">Create Member Nominee</h4>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
+                        {
+                            @Html.HiddenFor(m => m.BankMemberNomineeId)
+                                    
+                            @Html.Partial("~/Views/Shared/GeneralPerson/_CreateEditGeneralPerson.cshtml", Model)
+                            }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

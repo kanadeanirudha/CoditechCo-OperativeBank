@@ -20,6 +20,7 @@ namespace Coditech.Admin.Custom
             builder.Services.AddScoped<IBankSetupPropertyValuersAuthorityAgent, BankSetupPropertyValuersAuthorityAgent>();
             builder.Services.AddScoped<IBankMemberShareCapitalAgent, BankMemberShareCapitalAgent>();
             builder.Services.AddScoped<IBankMemberAgent, BankMemberAgent>();
+            builder.Services.AddScoped<IBankMemberNomineeAgent, BankMemberNomineeAgent>();
             builder.Services.AddScoped<IBankInsurancePoliciesTypeAgent, BankInsurancePoliciesTypeAgent>();
             builder.Services.AddScoped<IBankSetupDivisionAgent, BankSetupDivisionAgent>();
             builder.Services.AddScoped<IBankSetupOfficesAgent, BankSetupOfficesAgent>();
@@ -41,6 +42,7 @@ namespace Coditech.Admin.Custom
             builder.Services.AddScoped<IBankSetupPropertyValuersAuthorityClient, BankSetupPropertyValuersAuthorityClient>();
             builder.Services.AddScoped<IBankMemberShareCapitalClient, BankMemberShareCapitalClient>();
             builder.Services.AddScoped<IBankMemberClient, BankMemberClient>();
+            builder.Services.AddScoped<IBankMemberNomineeClient, BankMemberNomineeClient>();
             builder.Services.AddScoped<IBankInsurancePoliciesTypeClient, BankInsurancePoliciesTypeClient>();
             builder.Services.AddScoped<IBankSetupDivisionClient, BankSetupDivisionClient>();
             builder.Services.AddScoped<IBankSetupOfficesClient, BankSetupOfficesClient>();
