@@ -17,7 +17,7 @@ namespace Coditech.Admin.Controllers
         [HttpGet]
         public IActionResult Index(short numberOfDaysRecord)
         {
-            DashboardViewModel dashboardViewModel = _dashboardAgent.GetDashboardDetails(numberOfDaysRecord);
+            DashboardViewModel dashboardViewModel = _dashboardAgent.GetDashboardDetails();
             //if (IsNotNull(dashboardViewModel) && !string.IsNullOrEmpty(dashboardViewModel.DashboardFormEnumCode))
             //{
             //    if (dashboardViewModel.DashboardFormEnumCode.Equals(DashboardFormCustomEnum.CustomDashboard.ToString(), StringComparison.InvariantCultureIgnoreCase))
