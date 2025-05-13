@@ -55,10 +55,4 @@
 		<ProjectReference Include="..\Coditech.API.Data.Custom\Coditech.API.Data.Custom.csproj" />
 		<ProjectReference Include="..\Coditech.Common.Utilities.Custom\Coditech.Common.Utilities.Custom.csproj" />
 	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Service\" />
-	  <Folder Include="Service\Implementation\" />
-	</ItemGroup>
-
 </Project>
