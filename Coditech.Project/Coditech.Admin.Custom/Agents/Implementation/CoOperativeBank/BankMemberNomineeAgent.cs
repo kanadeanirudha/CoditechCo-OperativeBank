@@ -9,9 +9,7 @@ using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Resources;
 using System.Diagnostics;
-using System.Resources;
 using static Coditech.Common.Helper.HelperUtility;
-
 namespace Coditech.Admin.Agents
 {
     public class BankMemberNomineeAgent : BaseAgent, IBankMemberNomineeAgent
@@ -46,9 +44,9 @@ namespace Coditech.Admin.Agents
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             BankMemberNomineeListResponse response = _bankMemberNomineeClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
-            BankMemberNomineeListModel bankMemberNomineeList = new BankMemberNomineeListModel { BankMemberNomineeList = response?.BankMemberNomineeList };
+            BankMemberNomineeListModel BankMemberNomineeList = new BankMemberNomineeListModel { BankMemberNomineeList = response?.BankMemberNomineeList };
             BankMemberNomineeListViewModel listViewModel = new BankMemberNomineeListViewModel();
-            listViewModel.BankMemberNomineeList = bankMemberNomineeList?.BankMemberNomineeList?.ToViewModel<BankMemberNomineeViewModel>().ToList();
+            listViewModel.BankMemberNomineeList = BankMemberNomineeList?.BankMemberNomineeList?.ToViewModel<BankMemberNomineeViewModel>().ToList();
 
             SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.BankMemberNomineeList.Count, BindColumns());
             return listViewModel;
@@ -156,18 +154,24 @@ namespace Coditech.Admin.Agents
             List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Relation Type",
-                ColumnCode = "RelationTypeEnum",
+                ColumnName = "First Name",
+                ColumnCode = "FirstName",
                 IsSortable = true,
             });
             datatableColumnList.Add(new DatatableColumns()
            
             {
-                ColumnName = "Percentage Of Shares",
+                ColumnName = "Last Name",
+                ColumnCode = "LastName",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+
+            {
+                ColumnName = "Percentage Share",
                 ColumnCode = "PercentageShare",
                 IsSortable = true,
             });
-            
             return datatableColumnList;
         }
         #endregion
