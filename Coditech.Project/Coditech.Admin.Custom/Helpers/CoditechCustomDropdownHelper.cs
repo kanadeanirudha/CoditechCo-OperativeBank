@@ -24,6 +24,10 @@ namespace Coditech.Admin.Helpers
             {
                 GetBankSavingsAccountList(dropdownViewModel, dropdownList);
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.BankMemberNominee.ToString()))
+            {
+                GetBankMemberNomineeList(dropdownViewModel, dropdownList);
+            }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
@@ -86,7 +90,7 @@ namespace Coditech.Admin.Helpers
                 {
                     dropdownList.Add(new SelectListItem()
                     {
-                        Text = item.FirstName,
+                        Text = $"{item.FirstName} {item.LastName}",
                         Value = Convert.ToString(item.BankMemberId),
                         Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.BankMemberId)
                     });
@@ -109,6 +113,25 @@ namespace Coditech.Admin.Helpers
                     Text = item.SavingAccountNumber,
                     Value = Convert.ToString(item.BankSavingsAccountId),
                     Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.BankSavingsAccountId)
+                });
+            }
+        }
+        private static void GetBankMemberNomineeList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            BankMemberNomineeListResponse response = new BankMemberNomineeClient().List(null, null, null, 1, int.MaxValue);
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Value = "", Text = GeneralResources.SelectLabel });
+            else
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = GeneralResources.SelectLabel });
+
+            BankMemberNomineeListModel list = new BankMemberNomineeListModel { BankMemberNomineeList = response.BankMemberNomineeList };
+            foreach (var item in list.BankMemberNomineeList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = $"{item.FirstName} {item.LastName}",
+                    Value = Convert.ToString(item.BankMemberNomineeId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.BankMemberNomineeId)
                 });
             }
         }

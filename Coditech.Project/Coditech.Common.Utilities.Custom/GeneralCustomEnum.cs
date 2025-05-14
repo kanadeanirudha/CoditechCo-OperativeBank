@@ -13,6 +13,9 @@
         Relation,
         BankMembers,
         BankSavingsAccount,
+        InterestType,
+        InterestPayout,
+        BankMemberNominee,
     }
     public enum DashboardFormCustomEnum
     {
@@ -37,5 +40,6 @@
         BankSetupOffices,
         BankSavingsAccount,
         BankSavingAccountIntrestPostings,
+        BankFixedDepositAccount,
     }
 }
