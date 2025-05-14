@@ -19,11 +19,11 @@
                     {
                         <tr>
                             <td>@item.FixedDepositAccountNumber</td>
-                            <td>@item.StartDate</td>
+                            <td>@item.StartDate.ToCoditechDateFormat()</td>
                             <td>@item.TenureMonths</td>
-                            <td>@item.MaturityDate</td>
+                            <td>@item.MaturityDate.ToCoditechDateFormat()</td>
                             <td>@item.MaturityAmount</td>
-                            <td>@item.ClosureDate</td>
+                            <td>@item.ClosureDate.ToCoditechDateFormat()</td>
                             <td class="text-center">
                                 <a href="../@controllerName/Edit?bankFixedDepositAccountId=@item.BankFixedDepositAccountId" title="Update" class="btn btn-sm btn-soft-success btn-circle me-2"><i class="fas fa-edit"></i></a>@* <span class="m-2">|</span> *@
                                 @* <a href="../@controllerName/Delete?FinancialYearIds=@item.AccSetupMasterId" title="Delete" class="btn btn-sm btn-soft-danger btn-circle"><i class="fas fa-trash-alt"></i></a> *@
