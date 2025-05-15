@@ -24,12 +24,12 @@ namespace Coditech.Admin.ViewModel
         [Required]
 
         public decimal SharePrice { get; set; }
-       
 
-        public int PaymentModeEnumId { get; set; }
         [Display(Name = "Payment Mode ")]
-        [Required]
-        public string PaymentMode { get; set; }
+        public int PaymentModeEnumId { get; set; }
+      
+        //[Required]
+        //public string PaymentMode { get; set; }
         [Display(Name = "Transcation Reference ")]
         
 

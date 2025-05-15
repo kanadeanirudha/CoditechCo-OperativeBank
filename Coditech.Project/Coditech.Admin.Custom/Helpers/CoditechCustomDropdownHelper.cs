@@ -16,7 +16,7 @@ namespace Coditech.Admin.Helpers
             {
                 GetBankSetupDivisionList(dropdownViewModel, dropdownList);
             }
-            else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.BankMembers.ToString()))
+            else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.BankMember.ToString()))
             {
                 GetBankMemberList(dropdownViewModel, dropdownList);
             }
@@ -70,28 +70,28 @@ namespace Coditech.Admin.Helpers
         }
         private static void GetBankMemberList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
-            if (dropdownViewModel.IsRequired)
-                dropdownList.Add(new SelectListItem() { Value = "", Text = GeneralResources.SelectLabel });
-            else
-                dropdownList.Add(new SelectListItem() { Value = "0", Text = GeneralResources.SelectLabel });
-            if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
-            {
-                FilterCollection filters = new FilterCollection();
-                filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dropdownViewModel.Parameter);
+            //if (dropdownViewModel.IsRequired)
+            //    dropdownList.Add(new SelectListItem() { Value = "", Text = GeneralResources.SelectLabel });
+            //else
+            //    dropdownList.Add(new SelectListItem() { Value = "0", Text = GeneralResources.SelectLabel });
+            //if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
+            //{
+            //    FilterCollection filters = new FilterCollection();
+            //    filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dropdownViewModel.Parameter);
 
-                BankMemberListResponse response = new BankMemberClient().List(null, filters, null, 1, int.MaxValue);
+                BankMemberListResponse response = new BankMemberClient().List(null, null, null, 1, int.MaxValue);
 
-                BankMemberListModel list = new BankMemberListModel { BankMemberList = response.BankMemberList };
-                foreach (var item in list.BankMemberList)
+                BankMemberListModel list = new BankMemberListModel { BankMemberList = response?.BankMemberList };
+                foreach (var item in list?.BankMemberList)
                 {
                     dropdownList.Add(new SelectListItem()
                     {
-                        Text = item.FirstName,
-                        Value = Convert.ToString(item.BankMemberId),
+                        Text = $"{item.FirstName} {item.LastName}",
+                        Value = item.BankMemberId.ToString(),
                         Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.BankMemberId)
                     });
                 }
-            }
+            //}
         }
         private static void GetBankSavingsAccountList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {

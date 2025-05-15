@@ -3,7 +3,7 @@
     ViewBag.Title = Model.BankMemberShareCapitalId > 0 ? "Update Bank Member Capital" : "Add Bank Member Capital";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
-      // DropdownViewModel bankMemberIdDropdown = new DropdownViewModel() { DropdownType = DropdownCustomTypeEnum.BankMember.ToString(), DropdownName = "BankMemberId", DropdownSelectedValue = Model.BankMemberId.ToString(), IsCustomDropdown = true };
+    DropdownViewModel bankMemberIdDropdown = new DropdownViewModel() { DropdownType = DropdownCustomTypeEnum.BankMember.ToString(), DropdownName = "BankMemberId", DropdownSelectedValue = Convert.ToString(Model.BankMemberId), IsCustomDropdown = true };
 
     //keyValuePairs.Add("PersonId", Model.PersonId.ToString());
 }
@@ -31,17 +31,18 @@
                         @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
                         {
                             @Html.HiddenFor(m => m.BankMemberShareCapitalId)
+                            @Html.HiddenFor(m => m.BankMemberId)
 
-                            <div class="row">
+                            @* <div class="row">
                                 <div class="row">
-                                   @*  <div class="col-lg-6">
+                                    <div class="col-lg-6">
                                         <div class="mb-3">
                                             @Html.LabelFor(x => x.BankMemberId, new { @class = "form-label required" })
                                             @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", bankMemberIdDropdown)
                                             @Html.ValidationMessageFor(x => x.BankMemberId)
                                         </div>
-                                    </div> *@
                                     </div>
+                                    </div> *@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.NumberOfShares, new { @class = "form-label required" })
@@ -72,11 +73,11 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="mb-3">
-                                        @Html.LabelFor(x => x.PaymentMode, new { @class = "form-label required" })
+                                        @Html.LabelFor(x => x.PaymentModeEnumId, new { @class = "form-label required" })
                                         @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
                                {
                                    DropdownSelectedValue = Model.PaymentModeEnumId.ToString(),
-                                   DropdownName = "PaymentMode",
+                                   DropdownName = "PaymentModeEnumId",
                                    GroupCode = DropdownCustomTypeEnum.PaymentMode.ToString(),
                                    IsDisabled = Model.PaymentModeEnumId > 0,
                                    IsRequired = true,
@@ -107,7 +108,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                           
                             
                             <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
                             <a href="../@controllerName/List" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
