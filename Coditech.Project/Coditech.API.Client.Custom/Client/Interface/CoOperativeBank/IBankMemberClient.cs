@@ -13,25 +13,18 @@ namespace Coditech.API.Client
         BankMemberListResponse List(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
 
         /// <summary>
-        /// Create BankMember.
-        /// </summary>
-        /// <param name="BankMemberModel">BankMemberModel.</param>
-        /// <returns>Returns BankMemberResponse.</returns>
-        BankMemberResponse CreateBankMember(BankMemberModel body);
-
-        /// <summary>
-        /// Get BankMember by bankMemberId.
+        /// Get Member Other Detail by bankMemberId.
         /// </summary>
         /// <param name="bankMemberId">BankMemberId</param>
         /// <returns>Returns BankMemberResponse.</returns>
-        BankMemberResponse GetBankMember(int bankMemberId);
+        BankMemberResponse GetMemberOtherDetail(int bankMemberId);
 
         /// <summary>
-        /// Update BankMember.
+        /// Update Member Other Detail.
         /// </summary>
         /// <param name="BankMemberModel">BankMemberModel.</param>
         /// <returns>Returns updated BankMemberResponse</returns>
-        BankMemberResponse UpdateBankMember(BankMemberModel body);
+        BankMemberResponse UpdateMemberOtherDetail(BankMemberModel body);
 
         /// <summary>
         /// Delete BankMember.

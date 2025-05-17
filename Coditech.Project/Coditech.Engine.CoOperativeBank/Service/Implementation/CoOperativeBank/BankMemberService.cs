@@ -6,8 +6,6 @@ using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Common.Service;
 using Coditech.Resources;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Specialized;
 using System.Data;
 using static Coditech.Common.Helper.HelperUtility;
@@ -41,35 +39,13 @@ namespace Coditech.API.Service
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
             List<BankMemberModel> BankMemberList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetBankMemberList @CentreCode,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 5, out pageListModel.TotalRowCount)?.ToList();
             BankMemberListModel listModel = new BankMemberListModel();
-
             listModel.BankMemberList = BankMemberList?.Count > 0 ? BankMemberList : new List<BankMemberModel>();
             listModel.BindPageListModel(pageListModel);
             return listModel;
         }
 
-        //Create BankMember.
-        public virtual BankMemberModel CreateBankMember(BankMemberModel bankMemberModel)
-        {
-            if (IsNull(bankMemberModel))
-                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
-
-            BankMember BankMember = bankMemberModel.FromModelToEntity<BankMember>();
-            //Create new BankMember and return it.
-            BankMember BankMemberData = _bankMemberRepository.Insert(BankMember);
-             if (BankMember?.BankMemberId > 0)
-             {
-                bankMemberModel.BankMemberId = BankMemberData.BankMemberId;
-             }
-             else
-             {
-                bankMemberModel.HasError = true;
-                bankMemberModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
-             }
-             return bankMemberModel;
-        }
-
         //Get BankMember by BankMember id.
-        public virtual BankMemberModel GetBankMember(int bankMemberId)
+        public virtual BankMemberModel GetMemberOtherDetail(int bankMemberId)
         {
             if (bankMemberId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BankMemberId"));
@@ -77,12 +53,20 @@ namespace Coditech.API.Service
             //Get the BankMember Details based on id.
             BankMember bankMember = _bankMemberRepository.Table.Where(x => x.BankMemberId == bankMemberId).FirstOrDefault();
             BankMemberModel bankMemberModel = bankMember?.FromEntityToModel<BankMemberModel>();
-            
+            if (IsNotNull(bankMemberModel))
+            {
+                GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(bankMemberModel.PersonId);
+                if (IsNotNull(bankMemberModel))
+                {
+                    bankMemberModel.FirstName = generalPersonModel.FirstName;
+                    bankMemberModel.LastName = generalPersonModel.LastName;
+                }
+            }
             return bankMemberModel;
         }
 
         //Update BankMember.
-        public virtual bool UpdateBankMember(BankMemberModel bankMemberModel)
+        public virtual bool UpdateMemberOtherDetail(BankMemberModel bankMemberModel)
         {
             if (IsNull(bankMemberModel))
                 throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
@@ -90,16 +74,29 @@ namespace Coditech.API.Service
             if (bankMemberModel.BankMemberId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BankMemberId"));
 
-            BankMember bankMember = bankMemberModel.FromModelToEntity<BankMember>();
-            //Update BankMember
-            bool isPropertyValuersUpdated = _bankMemberRepository.Update(bankMember);
-           
-            if (!isPropertyValuersUpdated)
+            BankMember bankMember = _bankMemberRepository.Table.FirstOrDefault(x => x.BankMemberId == bankMemberModel.BankMemberId);
+            //Update Bank Member
+            bool isUpdated = false;
+            if (IsNull(bankMember))
+            {
+                return isUpdated;
+            }
+            bankMember.AadharCardNumber = bankMemberModel.AadharCardNumber;
+            bankMember.PANCardNumber = bankMemberModel.PANCardNumber;
+            bankMember.AccountStatusEnumId = bankMemberModel.AccountStatusEnumId;
+            bankMember.IsActive = bankMemberModel.IsActive;
+
+            isUpdated = _bankMemberRepository.Update(bankMember);
+            if (isUpdated)
+            {
+                ActiveInActiveUserLogin(bankMember.IsActive, Convert.ToInt64(bankMember.BankMemberId), UserTypeCustomEnum.BankMember.ToString());
+            }
+            else
             {
                 bankMemberModel.HasError = true;
                 bankMemberModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
             }
-            return isPropertyValuersUpdated;
+            return isUpdated;
         }
 
         //Delete BankMember.

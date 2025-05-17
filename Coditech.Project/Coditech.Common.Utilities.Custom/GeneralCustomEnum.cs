@@ -20,6 +20,7 @@
     }
     public enum GeneralRunningNumberForCustomEnum
     {
+        BankMemberRegistration,
     }
 
     public enum GeneralSystemGlobleSettingCustomEnum
@@ -28,7 +29,7 @@
     }
     public enum EmailTemplateCodeCustomEnum
     {
-
+        BankMemberRegistration
     }
     public enum LogComponentCustomEnum
     {
@@ -37,5 +38,9 @@
         BankSetupOffices,
         BankSavingsAccount,
         BankSavingAccountIntrestPostings,
+    }
+    public enum UserTypeCustomEnum
+    {
+        BankMember
     }
 }

@@ -37,14 +37,14 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="bankMemberId">bankMemberId</param>
         /// <returns>Returns BankMemberViewModel.</returns>
-        BankMemberViewModel GetBankMember(int bankMemberId);
+        BankMemberViewModel GetMemberOtherDetail(int bankMemberId);
 
         /// <summary>
         /// Update BankMember.
         /// </summary>
         /// <param name="bankMemberViewModel">BankMemberViewModel.</param>
         /// <returns>Returns updated BankMemberViewModel</returns>
-        BankMemberViewModel UpdateBankMember(BankMemberViewModel bankMemberViewModel);
+        BankMemberViewModel UpdateMemberOtherDetail(BankMemberViewModel bankMemberViewModel);
 
         /// <summary>
         /// Delete BankMember.

@@ -10,14 +10,11 @@ namespace Coditech.API.Endpoint
             string endpoint = $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankMember/GetBankMemberList{BuildEndpointQueryString( expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
-        public string CreateBankMemberAsync() =>
-            $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankMember/CreateBankMember";
+        public string GetMemberOtherDetailAsync(int bankMemberId) =>
+            $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankMember/GetMemberOtherDetail?bankMemberId={bankMemberId}";
 
-        public string GetBankMemberAsync(int bankMemberId) =>
-            $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankMember/GetBankMember?bankMemberId={bankMemberId}";
-
-        public string UpdateBankMemberAsync() =>
-               $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankMember/UpdateBankMember";
+        public string UpdateMemberOtherDetailAsync() =>
+               $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankMember/UpdateMemberOtherDetail";
 
         public string DeleteBankMemberAsync() =>
                   $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankMember/DeleteBankMember";

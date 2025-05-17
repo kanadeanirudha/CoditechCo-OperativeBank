@@ -60,8 +60,7 @@ namespace Coditech.Admin.Agents
         {
             try
             {
-                memberCreateEditViewModel.UserType = "Member";
-               // memberCreateEditViewModel.UserType = UserTypeEnum.Member.ToString();
+                memberCreateEditViewModel.UserType = UserTypeCustomEnum.BankMember.ToString(); 
                 GeneralPersonModel generalPersonModel = memberCreateEditViewModel.ToModel<GeneralPersonModel>();
                 generalPersonModel.SelectedCentreCode = memberCreateEditViewModel.SelectedCentreCode;
                 GeneralPersonResponse response = _userClient.InsertPersonInformation(generalPersonModel);
@@ -93,7 +92,7 @@ namespace Coditech.Admin.Agents
             MemberCreateEditViewModel memberCreateEditViewModel = response?.GeneralPersonModel.ToViewModel<MemberCreateEditViewModel>();
             if (IsNotNull(memberCreateEditViewModel))
             {
-                BankMemberResponse bankMemberResponse = _bankMemberClient.GetBankMember(bankMemberId);
+                BankMemberResponse bankMemberResponse = _bankMemberClient.GetMemberOtherDetail(bankMemberId);
                 if (IsNotNull(bankMemberResponse))
                 {
                     memberCreateEditViewModel.SelectedCentreCode = bankMemberResponse.BankMemberModel.CentreCode;
@@ -126,19 +125,19 @@ namespace Coditech.Admin.Agents
         }
 
         //Get BankMember by Bank Bank Setup Property Valuers id.
-        public virtual BankMemberViewModel GetBankMember(int bankMemberId)
+        public virtual BankMemberViewModel GetMemberOtherDetail(int bankMemberId)
         {
-            BankMemberResponse response = _bankMemberClient.GetBankMember(bankMemberId);
+            BankMemberResponse response = _bankMemberClient.GetMemberOtherDetail(bankMemberId);
             return response?.BankMemberModel.ToViewModel<BankMemberViewModel>();
         }
 
         //Update BankMember.
-        public virtual BankMemberViewModel UpdateBankMember(BankMemberViewModel bankMemberViewModel)
+        public virtual BankMemberViewModel UpdateMemberOtherDetail(BankMemberViewModel bankMemberViewModel)
         {
             try
             {
                 _coditechLogging.LogMessage("Agent method execution started.", "BankMember", TraceLevel.Info);
-                BankMemberResponse response = _bankMemberClient.UpdateBankMember(bankMemberViewModel.ToModel<BankMemberModel>());
+                BankMemberResponse response = _bankMemberClient.UpdateMemberOtherDetail(bankMemberViewModel.ToModel<BankMemberModel>());
                 BankMemberModel bankMemberModel = response?.BankMemberModel;
                 _coditechLogging.LogMessage("Agent method execution done.", "BankMember", TraceLevel.Info);
                 return IsNotNull(bankMemberModel) ? bankMemberModel.ToViewModel<BankMemberViewModel>() : (BankMemberViewModel)GetViewModelWithErrorMessage(new BankMemberViewModel(), GeneralResources.UpdateErrorMessage);
@@ -200,6 +199,11 @@ namespace Coditech.Admin.Agents
             List<DatatableColumns> datatableColumnList = new List<DatatableColumns>();
             datatableColumnList.Add(new DatatableColumns()
             {
+                ColumnName = "Image",
+                ColumnCode = "Image",
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
                 ColumnName = "First Name ",
                 ColumnCode = "FirstName",
                 IsSortable = true,
@@ -218,14 +222,30 @@ namespace Coditech.Admin.Agents
             });
             datatableColumnList.Add(new DatatableColumns()
             {
-                ColumnName = "Mobile Number ",
+                ColumnName = "Gender",
+                ColumnCode = "GenderEnumId",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Contact",
                 ColumnCode = "MobileNumber",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Email Id",
+                ColumnCode = "EmailId",
+                IsSortable = true,
+            });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Is Active",
+                ColumnCode = "IsActive",
                 IsSortable = true,
             });
             return datatableColumnList;
         }
-        #endregion
-        #region     
         #endregion
     }
 }

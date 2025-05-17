@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Coditech.Common.API.Model
+﻿namespace Coditech.Common.API.Model
 {
     public partial class BankMemberModel : BaseModel
     {
@@ -14,5 +12,9 @@ namespace Coditech.Common.API.Model
         public string LastName { get; set; }
         public string MemberCode { get; set; }
         public string CentreCode { get; set; }
+        public string EmailId { get; set; }
+        public string MobileNumber { get; set; }
+        public string Gender { get; set; }
+        public bool IsActive { get; set; }
     }
 }

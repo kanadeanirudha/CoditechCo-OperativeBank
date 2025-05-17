@@ -1,11 +1,9 @@
-﻿using Coditech.API.Data;
-using Coditech.API.Service;
+﻿using Coditech.API.Service;
 using Coditech.Common.API;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
 using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Exceptions;
-using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Microsoft.AspNetCore.Mvc;
@@ -48,36 +46,14 @@ namespace Coditech.API.Controllers
             }
         }
         
-        [Route("/BankMember/CreateBankMember")]
-        [HttpPost, ValidateModel]
-        [Produces(typeof(BankMemberResponse))]
-        public virtual IActionResult CreateBankMember([FromBody] BankMemberModel model)
-        {
-            try
-            {
-                BankMemberModel BankMember = _bankMemberService.CreateBankMember(model);
-                return IsNotNull(BankMember) ? CreateCreatedResponse(new BankMemberResponse { BankMemberModel = BankMember }) : CreateInternalServerErrorResponse();
-            }
-            catch (CoditechException ex)
-            {
-                _coditechLogging.LogMessage(ex, "BankMember", TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new BankMemberResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
-            }
-            catch (Exception ex)
-            {
-                _coditechLogging.LogMessage(ex, "BankMember", TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new BankMemberResponse { HasError = true, ErrorMessage = ex.Message });
-            }
-        }
-
-        [Route("/BankMember/GetBankMember")]
+        [Route("/BankMember/GetMemberOtherDetail")]
         [HttpGet]
         [Produces(typeof(BankMemberResponse))]
-        public virtual IActionResult GetBankMember(int bankMemberId)
+        public virtual IActionResult GetMemberOtherDetail(int bankMemberId)
         {
             try
             {
-                BankMemberModel bankMemberModel = _bankMemberService.GetBankMember(bankMemberId);
+                BankMemberModel bankMemberModel = _bankMemberService.GetMemberOtherDetail(bankMemberId);
                 return IsNotNull(bankMemberModel) ? CreateOKResponse(new BankMemberResponse { BankMemberModel = bankMemberModel }) : CreateNoContentResponse();
             }
             catch (CoditechException ex)
@@ -92,14 +68,14 @@ namespace Coditech.API.Controllers
             }
         }
 
-        [Route("/BankMember/UpdateBankMember")]
+        [Route("/BankMember/UpdateMemberOtherDetail")]
         [HttpPut, ValidateModel]
         [Produces(typeof(BankMemberResponse))]
-        public virtual IActionResult UpdateBankMember([FromBody] BankMemberModel model)
+        public virtual IActionResult UpdateMemberOtherDetail([FromBody] BankMemberModel model)
         {
             try
             {
-                bool isUpdated = _bankMemberService.UpdateBankMember(model);
+                bool isUpdated = _bankMemberService.UpdateMemberOtherDetail(model);
                 return isUpdated ? CreateOKResponse(new BankMemberResponse { BankMemberModel = model }) : CreateInternalServerErrorResponse();
             }
             catch (CoditechException ex)

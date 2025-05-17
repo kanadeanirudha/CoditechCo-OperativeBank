@@ -1,7 +1,7 @@
 ﻿@using Coditech.Admin.Utilities;
 @model MemberCreateEditViewModel
 @{
-    ViewBag.Title = Model.BankMemberId > 0 ? "Update Employee" : "Create Employee";
+    ViewBag.Title = Model.BankMemberId > 0 ? "Update Member" : "Create Member";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
     string css = Model.PersonId > 0 ? "col-lg-10" : "col-lg-12";
@@ -9,7 +9,6 @@
     keyValuePairs.Add("BankMemberId", Model.BankMemberId.ToString());
     keyValuePairs.Add("PersonId", Model.PersonId.ToString());
     DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, IsDisabled = Model.BankMemberId > 0 };
-    // DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "CoditechCommon.GetDepartmentByCentreCode()", IsDisabled = Model.BankMemberId > 0 };
 }
 <!-- Page Content-->
 <div class="page-content mt-5">
@@ -18,7 +17,7 @@
             @if (Model.BankMemberId > 0)
             {
                 <div class="col-lg-2">
-                    @Html.Partial("~/Views/BankMember/_MemberDetailsSidePannel.cshtml", keyValuePairs)
+                    @Html.Partial("~/Views/CoOperativeBank/BankMember/_MemberDetailsSidePannel.cshtml", keyValuePairs)
                 </div>
             }
             <div class="@css">

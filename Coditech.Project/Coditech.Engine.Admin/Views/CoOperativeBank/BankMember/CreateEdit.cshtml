@@ -1,6 +1,6 @@
 ﻿@model BankMemberViewModel
 @{
-    ViewBag.Title = Model.BankMemberId > 0 ? "Update Bank Member" : "Add Bank Member";
+    ViewBag.Title = "Update Other Details";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
     Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
@@ -11,14 +11,17 @@
 <div class="page-content mt-5">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-2">
+                @Html.Partial("~/Views/CoOperativeBank/BankMember/_MemberDetailsSidePannel.cshtml", keyValuePairs)
+            </div>
+            <div class="col-lg-10">
                 <div class="card">
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
                                 @if (Model.BankMemberId > 0)
                                 {
-                                    <h4 class="card-title">Update Member Other Details : @Model.FirstName @Model.LastName</h4>
+                                    <h4 class="card-title">Update Member Other Details: @Model.FirstName @Model.LastName</h4>
                                 }
                                 else
                                 {
@@ -28,16 +31,22 @@
                         </div>  <!--end row-->
                     </div>
                     <div class="card-body">
-                        @using (Html.BeginForm("UpdateMemberOtherDetail", controllerName, FormMethod.Post))
+                        @using (Html.BeginForm("UpdatMemberOtherDetail", controllerName, FormMethod.Post))
                         {
                             @Html.HiddenFor(m => m.BankMemberId)
                             @Html.HiddenFor(m => m.PersonId)
+                            @Html.HiddenFor(m => m.FirstName)
+                            @Html.HiddenFor(m => m.LastName)
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.MemberCode, new { @class = "form-label required" })
                                         @Html.TextBoxFor(x => x.MemberCode, new { @class = "form-control", @readonly = "true" })
                                         @Html.ValidationMessageFor(x => x.MemberCode)
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -69,15 +78,22 @@
                                    DropdownSelectedValue = Model.AccountStatusEnumId.ToString(),
                                    DropdownName = "AccountStatusEnumId",
                                    GroupCode = DropdownCustomTypeEnum.AccountStatus.ToString(),
-                                   IsDisabled = Model.AccountStatusEnumId > 0,
                                    IsRequired = true,
                                })
                                         @Html.ValidationMessageFor(x => x.AccountStatusEnumId)
                                     </div>
-                                </div>                               
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.IsActive, new { @class = "form-label" })
+                                        <div class="form-check">
+                                            @Html.CheckBoxFor(x => x.IsActive, new { @class = "form-check-input" })
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
-                            <a href="../@controllerName/List" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
+                            <a href="../@controllerName/List?SelectedCentreCode=@Model.CentreCode" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
                         }
                     </div>
                 </div>
@@ -101,10 +117,8 @@
                     console.log("Joining Date selected:", joiningDate);
                 }
             });
-        });        
+        });
     </script>
 }
-//
 
 
- 

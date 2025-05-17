@@ -16,7 +16,6 @@ namespace Coditech.Admin.Controllers
         {
             _bankMemberAgent = bankMemberAgent;
         }
-
         public virtual ActionResult List(DataTableViewModel dataTableViewModel)
         {
             BankMemberListViewModel list = new BankMemberListViewModel();
@@ -39,6 +38,7 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public virtual ActionResult CreateBankMember(MemberCreateEditViewModel memberCreateEditViewModel)
         {
             if (ModelState.IsValid)
@@ -47,8 +47,8 @@ namespace Coditech.Admin.Controllers
                 if (!memberCreateEditViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    // Redirect to the List action with selectedCentreCode and selectedDepartmentId
-                    return RedirectToAction("UpdateMemberPersonalDetails", new { bankMemberId = memberCreateEditViewModel.EntityId, personId = memberCreateEditViewModel.PersonId });
+                    // Redirect to the List action with selectedCentreCode 
+                    return RedirectToAction("List", new { selectedCentreCode = memberCreateEditViewModel.SelectedCentreCode });
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(memberCreateEditViewModel.ErrorMessage));
@@ -87,16 +87,15 @@ namespace Coditech.Admin.Controllers
                 : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
                 return RedirectToAction<BankMemberController>(x => x.List(null));
             }
-
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
             return RedirectToAction<BankMemberController>(x => x.List(null));
         }
 
         #region Member Other Detail
         [HttpGet]
-        public virtual ActionResult GetMemberOtherDetail(int bankMemberId, long personId)
+        public virtual ActionResult UpdatMemberOtherDetail(int bankMemberId)
         {
-            BankMemberViewModel bankMemberViewModel = _bankMemberAgent.GetBankMember(bankMemberId);
+            BankMemberViewModel bankMemberViewModel = _bankMemberAgent.GetMemberOtherDetail(bankMemberId);
             return ActionView(createEdit, bankMemberViewModel);
         }
 
@@ -105,17 +104,18 @@ namespace Coditech.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                SetNotificationMessage(_bankMemberAgent.UpdateBankMember(bankMemberViewModel).HasError
+                SetNotificationMessage(_bankMemberAgent.UpdateMemberOtherDetail(bankMemberViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("GetMemberOtherDetail", new { generalPersonAddressId = bankMemberViewModel.BankMemberId, personId = bankMemberViewModel.PersonId });
+                return RedirectToAction("UpdatMemberOtherDetail", new { bankMemberId = bankMemberViewModel.BankMemberId });
             }
             return View(createEdit, bankMemberViewModel);
         }
-        #endregion
-
-        #region Protected
-
+        public virtual ActionResult Cancel(string SelectedCentreCode)
+        {
+            DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode};
+            return RedirectToAction("List", dataTableViewModel);
+        }
         #endregion
     }
 }
