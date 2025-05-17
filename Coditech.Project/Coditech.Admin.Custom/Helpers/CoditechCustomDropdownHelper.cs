@@ -27,6 +27,18 @@ namespace Coditech.Admin.Helpers
             else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.BankMemberNominee.ToString()))
             {
                 GetBankMemberNomineeList(dropdownViewModel, dropdownList);
+            } 
+            else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.GetAccSetupGL.ToString()))
+            {
+                GetAccsetupList(dropdownViewModel, dropdownList);
+            } 
+            else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.InteresetPayableGLAccount.ToString()))
+            {
+                GetAccInteresetPayableGLAccountList(dropdownViewModel, dropdownList);
+            } 
+            else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.InteresetReceivableGLAccount.ToString()))
+            {
+                GetAccInteresetReceivableGLAccountList(dropdownViewModel, dropdownList);
             }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
@@ -132,6 +144,66 @@ namespace Coditech.Admin.Helpers
                     Text = $"{item.FirstName} {item.LastName}",
                     Value = Convert.ToString(item.BankMemberNomineeId),
                     Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.BankMemberNomineeId)
+                });
+            }
+        }
+        private static void GetAccsetupGLList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            AccSetupGLListResponse response = new BankProductClient().GetAccSetupGLList(dropdownViewModel.DropdownType);
+            dropdownList.Add(new SelectListItem() { Text = "-------Select City-------" });
+            AccSetupGLListModel list = new AccSetupGLListModel { AccSetupGLList = response?.AccSetupGLList };
+            foreach (var item in list.AccSetupGLList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = item.GLName,
+                    Value = Convert.ToString(item.AccSetupGLId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.AccSetupGLId)
+                });
+            }
+        }
+        private static void GetAccsetupList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            AccSetupGLListResponse response = new BankProductClient().GetAccSetupGLList(dropdownViewModel.DropdownType);
+            dropdownList.Add(new SelectListItem() { Text = "-------Select GL Mapper Account-------" });
+            AccSetupGLListModel list = new AccSetupGLListModel { AccSetupGLList = response?.AccSetupGLList };
+            foreach (var item in list.AccSetupGLList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = item.GLName,
+                    Value = Convert.ToString(item.AccSetupGLId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.AccSetupGLId)
+                });
+            }
+        }
+        private static void GetAccInteresetPayableGLAccountList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            AccSetupGLListResponse response = new BankProductClient().GetAccSetupGLList(dropdownViewModel.DropdownType);
+            dropdownList.Add(new SelectListItem() { Text = "-------Select Payable GL Account-------" });
+            AccSetupGLListModel list = new AccSetupGLListModel { AccSetupGLList = response?.AccSetupGLList };
+            foreach (var item in list.AccSetupGLList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = item.GLName,
+                    Value = Convert.ToString(item.AccSetupGLId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.AccSetupGLId)
+                });
+            }
+        }
+        private static void GetAccInteresetReceivableGLAccountList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            AccSetupGLListResponse response = new BankProductClient().GetAccSetupGLList(dropdownViewModel.DropdownType);
+            dropdownList.Add(new SelectListItem() { Text = "-------Select Receivable GL Account-------" });
+            AccSetupGLListModel list = new AccSetupGLListModel { AccSetupGLList = response?.AccSetupGLList };
+            foreach (var item in list.AccSetupGLList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = item.GLName,
+                    Value = Convert.ToString(item.AccSetupGLId),
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.AccSetupGLId)
                 });
             }
         }
