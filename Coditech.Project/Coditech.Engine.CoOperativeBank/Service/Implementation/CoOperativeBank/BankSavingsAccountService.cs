@@ -15,11 +15,13 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<BankSavingsAccount> _bankSavingsAccountRepository;
+        private readonly ICoditechRepository<BankMember> _bankMemberRepository;
         public BankSavingsAccountService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _bankSavingsAccountRepository = new CoditechRepository<BankSavingsAccount>(_serviceProvider.GetService<CoditechCustom_Entities>());
+            _bankMemberRepository = new CoditechRepository<BankMember>(_serviceProvider.GetService<CoditechCustom_Entities>());
         }
         public virtual BankSavingsAccountListModel GetBankSavingsAccountList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
@@ -72,6 +74,8 @@ namespace Coditech.API.Service
             //Get the Country Details based on id.
             BankSavingsAccount bankSavingsAccount = _bankSavingsAccountRepository.Table.FirstOrDefault(x => x.BankSavingsAccountId == bankSavingsAccountId);
             BankSavingsAccountModel bankSavingsAccountModel = bankSavingsAccount?.FromEntityToModel<BankSavingsAccountModel>();
+            string centreCode = _bankMemberRepository.Table.Where(x => x.BankMemberId == bankSavingsAccount.BankMemberId).Select(x => x.CentreCode).FirstOrDefault();
+            bankSavingsAccountModel.CentreCode = centreCode;
             return bankSavingsAccountModel;
         }
 

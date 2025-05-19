@@ -22,6 +22,7 @@
         GetAccSetupGL,
         InteresetPayableGLAccount,
         InteresetReceivableGLAccount,
+        BankProduct,
     }
     public enum DashboardFormCustomEnum
     {
