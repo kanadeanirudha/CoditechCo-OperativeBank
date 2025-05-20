@@ -5,7 +5,7 @@
     constructor: function () {
     },
     GetBankMemberByCentreCode: function () {
-        var selectedCentreCode = $("#SelectedCentreCode").val();
+        var selectedCentreCode = $("#CentreCode").val();
         $('#DataTablesDivId tbody').html('');
         if (selectedCentreCode != "") {
             CoditechCommon.ShowLodder();
@@ -35,7 +35,7 @@
         }
     },
     GetBankProductByCentreCode: function () {
-        var selectedCentreCode = $("#SelectedCentreCode").val();
+        var selectedCentreCode = $("#CentreCode").val();
         $('#DataTablesDivId tbody').html('');
         if (selectedCentreCode != "") {
             CoditechCommon.ShowLodder();
