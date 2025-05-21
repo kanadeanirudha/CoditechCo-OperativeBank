@@ -13,6 +13,16 @@
         Relation,
         BankMembers,
         BankSavingsAccount,
+        InterestType,
+        InterestPayout,
+        BankMemberNominee,
+        AccountType,
+        MethodOfCalculatingInterest,
+        InterestCalculationsPeriodicity,
+        GetAccSetupGL,
+        InteresetPayableGLAccount,
+        InteresetReceivableGLAccount,
+        BankProduct,
     }
     public enum DashboardFormCustomEnum
     {
@@ -37,5 +47,8 @@
         BankSetupOffices,
         BankSavingsAccount,
         BankSavingAccountIntrestPostings,
+        BankFixedDepositAccount,
+        BankProduct,
+        AccSetupGL,
     }
 }

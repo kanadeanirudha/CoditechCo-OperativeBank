@@ -8,5 +8,6 @@ namespace Coditech.Admin.ViewModel
         {
             BankSavingsAccountList = new List<BankSavingsAccountViewModel>();
         }
+        public string SelectedCentreCode { get; set; }
     }
 }
