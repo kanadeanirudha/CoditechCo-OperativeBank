@@ -72,7 +72,7 @@ namespace Coditech.API.Controllers
         [Route("/BankMemberShareCapital/GetMemberShareCapital")]
         [HttpGet]
         [Produces(typeof(BankMemberShareCapitalResponse))]
-        public virtual IActionResult GetMemberShareCapital(short bankMemberShareCapitalId)
+        public virtual IActionResult GetMemberShareCapital(int bankMemberShareCapitalId)
         {
             try
             {

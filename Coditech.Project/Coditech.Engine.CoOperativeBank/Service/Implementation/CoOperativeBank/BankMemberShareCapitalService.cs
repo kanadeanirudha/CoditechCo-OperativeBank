@@ -42,6 +42,7 @@ namespace Coditech.API.Service
 
         //Create BankMemberShareCapital.
         public virtual BankMemberShareCapitalModel CreateMemberShareCapital(BankMemberShareCapitalModel bankMemberShareCapitalModel)
+        
         {
             if (IsNull(bankMemberShareCapitalModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);

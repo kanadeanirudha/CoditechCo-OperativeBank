@@ -13,5 +13,6 @@
         public DateTime LastBalanceUpdate { get; set; }
         public string Remark { get; set; }
         public string AccountStatus { get; set; }
+        public string CentreCode { get; set; }
     }
 }

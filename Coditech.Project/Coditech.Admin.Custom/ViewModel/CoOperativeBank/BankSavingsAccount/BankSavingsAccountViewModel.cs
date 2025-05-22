@@ -5,6 +5,7 @@ namespace Coditech.Admin.ViewModel
     public class BankSavingsAccountViewModel : BaseViewModel
     {
         public long BankSavingsAccountId { get; set; }
+        [Display(Name = "Bank Product")]
         public short BankProductId { get; set; }
         [Display(Name = "Bank Member")]
         public int BankMemberId { get; set; }
@@ -23,7 +24,7 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Remark")]
         public string Remark { get; set; }
         [Display(Name = "Centre")]
-        public string SelectedCentreCode { get; set; }
+        public string CentreCode { get; set; }
         [Display(Name = "Account Status")]
         public string AccountStatus { get; set; }
     }

@@ -8,6 +8,7 @@ namespace Coditech.Admin.ViewModel
         public int BankMemberNomineeId { get; set; }
 
         public long PersonId { get; set; }
+        [Display(Name = "Bank Member")]
         public int BankMemberId { get; set; }
         [Display(Name = "First Name   ")]
         [Required]
@@ -38,6 +39,7 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Percentage Of Shares ")]
         [Required]
         public decimal PercentageShare { get; set; }
+        public string CentreCode { get; set; }
         
 
     }

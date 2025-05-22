@@ -97,5 +97,17 @@ namespace Coditech.Admin.Controllers
             };
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", bankMemberByCentreCodeDropdown);
         }
+        public ActionResult GetBankProductByCentreCode(string selectedCentreCode)
+        {
+            DropdownViewModel bankProductByCentreCodeDropdown = new DropdownViewModel()
+            {
+                DropdownType = DropdownCustomTypeEnum.BankProduct.ToString(),
+                DropdownName = "BankProductId",
+                Parameter = selectedCentreCode,
+                IsCustomDropdown = true,
+
+            };
+            return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", bankProductByCentreCodeDropdown);
+        }
     }
 }

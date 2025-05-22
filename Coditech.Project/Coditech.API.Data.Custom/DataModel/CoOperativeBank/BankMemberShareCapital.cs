@@ -5,7 +5,7 @@ namespace Coditech.API.Data
     public partial class BankMemberShareCapital
     {
         [Key]
-        public short BankMemberShareCapitalId { get; set; }
+        public int BankMemberShareCapitalId { get; set; }
         public int BankMemberId { get; set; }
         public int NumberOfShares { get; set; }
         public decimal AmountInvested { get; set; }
