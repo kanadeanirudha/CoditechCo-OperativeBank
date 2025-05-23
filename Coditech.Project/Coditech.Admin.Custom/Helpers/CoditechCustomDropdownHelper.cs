@@ -16,7 +16,7 @@ namespace Coditech.Admin.Helpers
             {
                 GetBankSetupDivisionList(dropdownViewModel, dropdownList);
             }
-            else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.BankMember.ToString()))
+            else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.BankMembers.ToString()))
             {
                 GetBankMemberList(dropdownViewModel, dropdownList);
             }
@@ -27,19 +27,19 @@ namespace Coditech.Admin.Helpers
             else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.BankMemberNominee.ToString()))
             {
                 GetBankMemberNomineeList(dropdownViewModel, dropdownList);
-            } 
+            }
             else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.GetAccSetupGL.ToString()))
             {
                 GetAccsetupList(dropdownViewModel, dropdownList);
-            } 
+            }
             else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.InteresetPayableGLAccount.ToString()))
             {
                 GetAccInteresetPayableGLAccountList(dropdownViewModel, dropdownList);
-            } 
+            }
             else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.InteresetReceivableGLAccount.ToString()))
             {
                 GetAccInteresetReceivableGLAccountList(dropdownViewModel, dropdownList);
-            } 
+            }
             else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.BankProduct.ToString()))
             {
                 GetBankProductList(dropdownViewModel, dropdownList);
@@ -90,16 +90,16 @@ namespace Coditech.Admin.Helpers
         }
         private static void GetBankMemberList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
-            //if (dropdownViewModel.IsRequired)
-            //    dropdownList.Add(new SelectListItem() { Value = "", Text = GeneralResources.SelectLabel });
-            //else
-            //    dropdownList.Add(new SelectListItem() { Value = "0", Text = GeneralResources.SelectLabel });
-            //if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
-            //{
-            //    FilterCollection filters = new FilterCollection();
-            //    filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dropdownViewModel.Parameter);
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Value = "", Text = GeneralResources.SelectLabel });
+            else
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = GeneralResources.SelectLabel });
+            if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
+            {
+                FilterCollection filters = new FilterCollection();
+                filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dropdownViewModel.Parameter);
 
-                BankMemberListResponse response = new BankMemberClient().List(null, null, null, 1, int.MaxValue);
+                BankMemberListResponse response = new BankMemberClient().List(null, filters, null, 1, int.MaxValue);
 
                 BankMemberListModel list = new BankMemberListModel { BankMemberList = response?.BankMemberList };
                 foreach (var item in list?.BankMemberList)
@@ -111,7 +111,7 @@ namespace Coditech.Admin.Helpers
                         Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.BankMemberId)
                     });
                 }
-            //}
+            }
         }
         private static void GetBankSavingsAccountList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
@@ -148,21 +148,6 @@ namespace Coditech.Admin.Helpers
                     Text = $"{item.FirstName} {item.LastName}",
                     Value = Convert.ToString(item.BankMemberNomineeId),
                     Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.BankMemberNomineeId)
-                });
-            }
-        }
-        private static void GetAccsetupGLList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
-        {
-            AccSetupGLListResponse response = new BankProductClient().GetAccSetupGLList(dropdownViewModel.DropdownType);
-            dropdownList.Add(new SelectListItem() { Text = "-------Select City-------" });
-            AccSetupGLListModel list = new AccSetupGLListModel { AccSetupGLList = response?.AccSetupGLList };
-            foreach (var item in list.AccSetupGLList)
-            {
-                dropdownList.Add(new SelectListItem()
-                {
-                    Text = item.GLName,
-                    Value = Convert.ToString(item.AccSetupGLId),
-                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.AccSetupGLId)
                 });
             }
         }

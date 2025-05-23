@@ -13,6 +13,7 @@ namespace Coditech.Admin.ViewModel
         public decimal? BalanceAmount { get; set; }
         [Display(Name = "Status")]
         public int AccountStatusEnumId { get; set; }
+        [MaxLength(20)]
         [Display(Name = "Saving Account Number")]
         [Required]
         public string SavingAccountNumber { get; set; }
