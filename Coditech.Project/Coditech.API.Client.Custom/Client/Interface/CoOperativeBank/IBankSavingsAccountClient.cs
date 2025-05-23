@@ -39,5 +39,20 @@ namespace Coditech.API.Client
         /// <param name="ParameterModel">ParameterModel.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         TrueFalseResponse DeleteBankSavingsAccount(ParameterModel body);
+
+        /// <summary>
+        /// Get BankSavingsAccountClosures by bankSavingsAccountId.
+        /// </summary>
+        /// <param name="bankSavingsAccountId">bankSavingsAccountId</param>
+        /// <returns>Returns BankSavingsAccountClosuresResponse.</returns>
+        BankSavingsAccountClosuresResponse GetBankSavingsAccountClosures(long bankSavingsAccountId);
+
+        /// <summary>
+        /// Update BankSavingsAccountClosures.
+        /// </summary>
+        /// <param name="BankSavingsAccountClosuresModel">BankSavingsAccountClosuresModel.</param>
+        /// <returns>Returns updated BankSavingsAccountClosuresResponse</returns>
+        BankSavingsAccountClosuresResponse UpdateBankSavingsAccountClosures(BankSavingsAccountClosuresModel body);
+        BankSavingsAccountClosuresResponse CreateBankSavingsAccountClosures(BankSavingsAccountClosuresModel body);
     }
 }

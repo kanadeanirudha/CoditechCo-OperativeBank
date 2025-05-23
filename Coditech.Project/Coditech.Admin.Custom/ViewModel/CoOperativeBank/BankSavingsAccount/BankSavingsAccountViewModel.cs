@@ -14,9 +14,12 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Status")]
         public int AccountStatusEnumId { get; set; }
         [Display(Name = "Saving Account Number")]
+        [Required]
         public string SavingAccountNumber { get; set; }
+        [Required]
         [Display(Name = "Opening Date")]
         public DateTime OpeningDate { get; set; } = DateTime.Now;
+        [Required]
         [Display(Name = "KYC Status")]
         public bool KYCStatus { get; set; }
         [Display(Name = "Last Balance Update")]

@@ -145,6 +145,68 @@ namespace Coditech.Admin.Agents
                 return false;
             }
         }
+        //Create Create BankSavingsAccountClosures
+        public virtual BankSavingsAccountClosuresViewModel CreateBankSavingsAccountClosures(BankSavingsAccountClosuresViewModel bankSavingsAccountClosuresViewModel)
+        {
+            try
+            {
+                BankSavingsAccountClosuresResponse response = _bankSavingsAccountClient.CreateBankSavingsAccountClosures(bankSavingsAccountClosuresViewModel.ToModel<BankSavingsAccountClosuresModel>());
+                BankSavingsAccountClosuresModel bankSavingsAccountClosuresModel = response?.BankSavingsAccountClosuresModel;
+                return IsNotNull(bankSavingsAccountClosuresModel) ? bankSavingsAccountClosuresModel.ToViewModel<BankSavingsAccountClosuresViewModel>() : new BankSavingsAccountClosuresViewModel();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankSavingsAccountClosures.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (BankSavingsAccountClosuresViewModel)GetViewModelWithErrorMessage(bankSavingsAccountClosuresViewModel, ex.ErrorMessage);
+                    default:
+                        return (BankSavingsAccountClosuresViewModel)GetViewModelWithErrorMessage(bankSavingsAccountClosuresViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankSavingsAccountClosures.ToString(), TraceLevel.Error);
+                return (BankSavingsAccountClosuresViewModel)GetViewModelWithErrorMessage(bankSavingsAccountClosuresViewModel, GeneralResources.ErrorFailedToCreate);
+            }
+        }
+
+        //Get BankSavingsAccountClosures by bankSavingsAccountId.
+        public virtual BankSavingsAccountClosuresViewModel GetBankSavingsAccountClosures(long bankSavingsAccountId)
+        {
+            BankSavingsAccountClosuresResponse response = _bankSavingsAccountClient.GetBankSavingsAccountClosures(bankSavingsAccountId);
+            return response?.BankSavingsAccountClosuresModel.ToViewModel<BankSavingsAccountClosuresViewModel>();
+        }
+
+        //Update BankSavingsAccountClosures.
+        public virtual BankSavingsAccountClosuresViewModel UpdateBankSavingsAccountClosures(BankSavingsAccountClosuresViewModel bankSavingsAccountClosuresViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", LogComponentCustomEnum.BankSavingsAccountClosures.ToString(), TraceLevel.Info);
+                BankSavingsAccountClosuresResponse response = _bankSavingsAccountClient.UpdateBankSavingsAccountClosures(bankSavingsAccountClosuresViewModel.ToModel<BankSavingsAccountClosuresModel>());
+                BankSavingsAccountClosuresModel bankSavingsAccountClosuresModel = response?.BankSavingsAccountClosuresModel;
+                _coditechLogging.LogMessage("Agent method execution done.", LogComponentCustomEnum.BankSavingsAccountClosures.ToString(), TraceLevel.Info);
+                return IsNotNull(bankSavingsAccountClosuresModel) ? bankSavingsAccountClosuresModel.ToViewModel<BankSavingsAccountClosuresViewModel>() : (BankSavingsAccountClosuresViewModel)GetViewModelWithErrorMessage(new BankSavingsAccountClosuresViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankSavingsAccountClosures.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (BankSavingsAccountClosuresViewModel)GetViewModelWithErrorMessage(bankSavingsAccountClosuresViewModel, ex.ErrorMessage);
+                    default:
+                        return (BankSavingsAccountClosuresViewModel)GetViewModelWithErrorMessage(bankSavingsAccountClosuresViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankSavingsAccountClosures.ToString(), TraceLevel.Error);
+                return (BankSavingsAccountClosuresViewModel)GetViewModelWithErrorMessage(bankSavingsAccountClosuresViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
         #endregion
 
         #region protected

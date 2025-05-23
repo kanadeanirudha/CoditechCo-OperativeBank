@@ -42,6 +42,9 @@ namespace Coditech.Admin.Custom
             CreateMap<BankFixedDepositAccountListModel, BankFixedDepositAccountListViewModel>().ReverseMap();
             CreateMap<BankProductModel, BankProductViewModel>().ReverseMap();
             CreateMap<BankProductListModel, BankProductListViewModel>().ReverseMap();
+            CreateMap<BankSavingsAccountClosuresModel, BankSavingsAccountClosuresViewModel>().ReverseMap();
+            CreateMap<BankSavingsAccountClosuresListModel, BankSavingsAccountClosuresListViewModel>().ReverseMap();
+
 
             #endregion
         }

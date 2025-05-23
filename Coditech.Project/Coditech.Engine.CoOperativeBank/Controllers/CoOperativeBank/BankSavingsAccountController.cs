@@ -131,5 +131,71 @@ namespace Coditech.Engine.DBTM.Controllers
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+
+        [Route("/BankSavingsAccount/CreateBankSavingsAccountClosures")]
+        [HttpPost, ValidateModel]
+        [Produces(typeof(BankSavingsAccountClosuresResponse))]
+        public virtual IActionResult CreateBankSavingsAccountClosures([FromBody] BankSavingsAccountClosuresModel model)
+        {
+            try
+            {
+                BankSavingsAccountClosuresModel bankSavingsAccountClosures = _bankSavingsAccountService.CreateBankSavingsAccountClosures(model);
+                return IsNotNull(bankSavingsAccountClosures) ? CreateCreatedResponse(new BankSavingsAccountClosuresResponse { BankSavingsAccountClosuresModel = bankSavingsAccountClosures }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankSavingsAccountClosures.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new BankSavingsAccountClosuresResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankSavingsAccountClosures.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new BankSavingsAccountClosuresResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+        [Route("/BankSavingsAccount/GetBankSavingsAccountClosures")]
+        [HttpGet]
+        [Produces(typeof(BankSavingsAccountClosuresResponse))]
+        public virtual IActionResult GetBankSavingsAccountClosures(long bankSavingsAccountId)
+        {
+            try
+            {
+                BankSavingsAccountClosuresModel bankSavingsAccountClosuresModel = _bankSavingsAccountService.GetBankSavingsAccountClosures(bankSavingsAccountId);
+                return IsNotNull(bankSavingsAccountClosuresModel) ? CreateOKResponse(new BankSavingsAccountClosuresResponse() { BankSavingsAccountClosuresModel = bankSavingsAccountClosuresModel }) : NotFound();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankSavingsAccountClosures.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new BankSavingsAccountClosuresResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankSavingsAccountClosures.ToString(), TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new BankSavingsAccountClosuresResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/BankSavingsAccount/UpdateBankSavingsAccountClosures")]
+        [HttpPut, ValidateModel]
+        [Produces(typeof(BankSavingsAccountClosuresResponse))]
+        public virtual IActionResult UpdateBankSavingsAccountClosures([FromBody] BankSavingsAccountClosuresModel model)
+        {
+            try
+            {
+                bool isUpdated = _bankSavingsAccountService.UpdateBankSavingsAccountClosures(model);
+                return isUpdated ? CreateOKResponse(new BankSavingsAccountClosuresResponse { BankSavingsAccountClosuresModel = model }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankSavingsAccountClosures.ToString(), TraceLevel.Warning); ;
+                return CreateInternalServerErrorResponse(new BankSavingsAccountClosuresResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankSavingsAccountClosures.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new BankSavingsAccountClosuresResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
     }
 }

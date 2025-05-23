@@ -1,8 +1,12 @@
-﻿@model BankSavingsAccountViewModel
+﻿@using Coditech.Admin.Utilities;
+@model BankSavingsAccountViewModel
 @{
     ViewBag.Title = Model.BankSavingsAccountId > 0 ? "Update Bank Savings Account" : "Add Bank Savings Account";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
+    string css = Model.BankSavingsAccountId > 0 ? "col-lg-10" : "col-lg-12";
+    Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+    keyValuePairs.Add("BankSavingsAccountId", Model.BankSavingsAccountId.ToString());
     DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "CentreCode", DropdownSelectedValue = Model.CentreCode, ChangeEvent = "BankSavingsAccount.GetBankMemberByCentreCode(); BankSavingsAccount.GetBankProductByCentreCode();" };
     DropdownViewModel bankMemberDropdown = new DropdownViewModel() { DropdownType = DropdownCustomTypeEnum.BankMembers.ToString(), DropdownName = "BankMemberId", DropdownSelectedValue = Model.BankMemberId.ToString(), Parameter = Model.CentreCode, IsCustomDropdown = true };
     DropdownViewModel bankProductDropdown = new DropdownViewModel() { DropdownType = DropdownCustomTypeEnum.BankProduct.ToString(), DropdownName = "BankProductId", DropdownSelectedValue = Model.BankProductId.ToString(), Parameter = Model.CentreCode, IsCustomDropdown = true };
@@ -11,7 +15,13 @@
 <div class="page-content mt-5">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-12">
+            @if (Model.BankSavingsAccountId > 0)
+            {
+                <div class="col-lg-2">
+                    @Html.Partial("~/Views/CoOperativeBank/BankSavingsAccount/_BankSavingAccountSidePannel.cshtml", keyValuePairs)
+                </div>
+            }
+            <div class="@css">
                 <div class="card">
                     <div class="card-header">
                         <div class="row align-items-center">

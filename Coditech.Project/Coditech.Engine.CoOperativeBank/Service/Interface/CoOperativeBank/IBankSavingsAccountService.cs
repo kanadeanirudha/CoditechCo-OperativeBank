@@ -9,6 +9,9 @@ namespace Coditech.API.Service
         BankSavingsAccountModel CreateBankSavingsAccount(BankSavingsAccountModel model);
         BankSavingsAccountModel GetBankSavingsAccount(long bankSavingsAccountId);
         bool UpdateBankSavingsAccount(BankSavingsAccountModel model);
+        BankSavingsAccountClosuresModel CreateBankSavingsAccountClosures(BankSavingsAccountClosuresModel model);
+        BankSavingsAccountClosuresModel GetBankSavingsAccountClosures(long bankSavingsAccountId);
+        bool UpdateBankSavingsAccountClosures(BankSavingsAccountClosuresModel model);
         bool DeleteBankSavingsAccount(ParameterModel parameterModel);
     }
 }

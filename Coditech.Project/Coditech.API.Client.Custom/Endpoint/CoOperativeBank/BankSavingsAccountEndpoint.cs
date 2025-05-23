@@ -21,5 +21,16 @@ namespace Coditech.API.Endpoint
 
         public string DeleteBankSavingsAccountAsync() =>
                   $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankSavingsAccount/DeleteBankSavingsAccount";
+
+        public string CreateBankSavingsAccountClosuresAsync() =>
+           $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankSavingsAccount/CreateBankSavingsAccountClosures";
+
+
+        public string GetBankSavingsAccountClosuresAsync(long bankSavingsAccountId) =>
+          $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankSavingsAccount/GetBankSavingsAccountClosures?bankSavingsAccountId={bankSavingsAccountId}";
+
+        public string UpdateBankSavingsAccountClosuresAsync() =>
+              $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankSavingsAccount/UpdateBankSavingsAccountClosures";
+
     }
 }

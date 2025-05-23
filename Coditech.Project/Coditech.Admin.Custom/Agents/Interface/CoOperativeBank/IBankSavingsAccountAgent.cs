@@ -38,6 +38,20 @@ namespace Coditech.Admin.Agents
         /// <param name="bankSavingsAccountId">bankSavingsAccountId.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         bool DeleteBankSavingsAccount(string bankSavingsAccountId, out string errorMessage);
+        /// <summary>
+        /// Get BankSavingsAccountClosures by bankSavingsAccountId.
+        /// </summary>
+        /// <param name="bankSavingsAccountId">bankSavingsAccountId</param>
+        /// <returns>Returns BankSavingsAccountClosuresViewModel.</returns>
+        BankSavingsAccountClosuresViewModel GetBankSavingsAccountClosures(long bankSavingsAccountId);
+
+        /// <summary>
+        /// Update BankSavingsAccountClosures.
+        /// </summary>
+        /// <param name="bankSavingsAccountClosuresViewModel">bankSavingsAccountClosuresViewModel.</param>
+        /// <returns>Returns updated BankSavingsAccountClosuresViewModel</returns>
+        BankSavingsAccountClosuresViewModel UpdateBankSavingsAccountClosures(BankSavingsAccountClosuresViewModel bankSavingsAccountClosuresViewModel);
         BankSavingsAccountListResponse GetBankSavingsAccountList();
+        BankSavingsAccountClosuresViewModel CreateBankSavingsAccountClosures(BankSavingsAccountClosuresViewModel bankSavingsAccountClosuresViewModel);
     }
 }

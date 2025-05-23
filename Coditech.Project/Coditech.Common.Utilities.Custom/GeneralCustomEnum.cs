@@ -51,6 +51,7 @@
         BankFixedDepositAccount,
         BankProduct,
         AccSetupGL,
+        BankSavingsAccountClosures,
     }
     public enum UserTypeCustomEnum
     {

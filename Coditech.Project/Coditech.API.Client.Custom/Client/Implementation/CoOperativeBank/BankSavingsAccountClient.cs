@@ -250,5 +250,159 @@ namespace Coditech.API.Client
                     response.Dispose();
             }
         }
+        #region BankSavingsAccountClosures
+        public virtual BankSavingsAccountClosuresResponse CreateBankSavingsAccountClosures(BankSavingsAccountClosuresModel body)
+        {
+            return Task.Run(async () => await CreateBankSavingsAccountClosuresAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+        }
+        public virtual async Task<BankSavingsAccountClosuresResponse> CreateBankSavingsAccountClosuresAsync(BankSavingsAccountClosuresModel body, CancellationToken cancellationToken)
+        {
+            string endpoint = bankSavingsAccountEndpoint.CreateBankSavingsAccountClosuresAsync();
+            HttpResponseMessage response = null;
+            bool disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+                response = await PostResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                Dictionary<string, IEnumerable<string>> dictionary = BindHeaders(response);
+
+                switch (response.StatusCode)
+                {
+                    case HttpStatusCode.OK:
+                        {
+                            ObjectResponseResult<BankSavingsAccountClosuresResponse> objectResponseResult2 = await ReadObjectResponseAsync<BankSavingsAccountClosuresResponse>(response, BindHeaders(response), cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                            if (objectResponseResult2.Object == null)
+                            {
+                                throw new CoditechException(objectResponseResult2.Object.ErrorCode, objectResponseResult2.Object.ErrorMessage);
+                            }
+
+                            return objectResponseResult2.Object;
+                        }
+                    case HttpStatusCode.Created:
+                        {
+                            ObjectResponseResult<BankSavingsAccountClosuresResponse> objectResponseResult = await ReadObjectResponseAsync<BankSavingsAccountClosuresResponse>(response, dictionary, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                            if (objectResponseResult.Object == null)
+                            {
+                                throw new CoditechException(objectResponseResult.Object.ErrorCode, objectResponseResult.Object.ErrorMessage);
+                            }
+
+                            return objectResponseResult.Object;
+                        }
+                    default:
+                        {
+                            string value = ((response.Content != null) ? (await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false)) : null);
+                            BankSavingsAccountClosuresResponse result = JsonConvert.DeserializeObject<BankSavingsAccountClosuresResponse>(value);
+                            UpdateApiStatus(result, status, response);
+                            throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                        }
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                {
+                    response.Dispose();
+                }
+            }
+        }
+        public virtual BankSavingsAccountClosuresResponse GetBankSavingsAccountClosures(long bankSavingsAccountId)
+        {
+            return Task.Run(async () => await GetBankSavingsAccountClosuresAsync(bankSavingsAccountId, CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<BankSavingsAccountClosuresResponse> GetBankSavingsAccountClosuresAsync(long bankSavingsAccountId, CancellationToken cancellationToken)
+        {
+            if (bankSavingsAccountId <= 0)
+                throw new System.ArgumentNullException("bankSavingsAccountId");
+
+            string endpoint = bankSavingsAccountEndpoint.GetBankSavingsAccountClosuresAsync(bankSavingsAccountId);
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<BankSavingsAccountClosuresResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 204)
+                {
+                    return new BankSavingsAccountClosuresResponse();
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    BankSavingsAccountClosuresResponse typedBody = JsonConvert.DeserializeObject<BankSavingsAccountClosuresResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+        public virtual BankSavingsAccountClosuresResponse UpdateBankSavingsAccountClosures(BankSavingsAccountClosuresModel body)
+        {
+            return Task.Run(async () => await UpdateBankSavingsAccountClosuresAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+        }
+        public virtual async Task<BankSavingsAccountClosuresResponse> UpdateBankSavingsAccountClosuresAsync(BankSavingsAccountClosuresModel body, CancellationToken cancellationToken)
+        {
+            string endpoint = bankSavingsAccountEndpoint.UpdateBankSavingsAccountClosuresAsync();
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await PutResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(false);
+
+                var headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<BankSavingsAccountClosuresResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 201)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<BankSavingsAccountClosuresResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    BankSavingsAccountClosuresResponse typedBody = JsonConvert.DeserializeObject<BankSavingsAccountClosuresResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+        #endregion
     }
 }

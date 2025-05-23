@@ -4,24 +4,27 @@ using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
+using Coditech.Common.Service;
 using Coditech.Resources;
 using System.Collections.Specialized;
 using System.Data;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
 {
-    public class BankSavingsAccountService : IBankSavingsAccountService
+    public class BankSavingsAccountService : BaseService, IBankSavingsAccountService
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<BankSavingsAccount> _bankSavingsAccountRepository;
         private readonly ICoditechRepository<BankMember> _bankMemberRepository;
-        public BankSavingsAccountService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
+        private readonly ICoditechRepository<BankSavingsAccountClosures> _bankSavingsAccountClosuresRepository;
+        public BankSavingsAccountService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _bankSavingsAccountRepository = new CoditechRepository<BankSavingsAccount>(_serviceProvider.GetService<CoditechCustom_Entities>());
             _bankMemberRepository = new CoditechRepository<BankMember>(_serviceProvider.GetService<CoditechCustom_Entities>());
+            _bankSavingsAccountClosuresRepository = new CoditechRepository<BankSavingsAccountClosures>(_serviceProvider.GetService<CoditechCustom_Entities>());
         }
         public virtual BankSavingsAccountListModel GetBankSavingsAccountList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
@@ -101,6 +104,110 @@ namespace Coditech.API.Service
                 bankSavingsAccountModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
             }
             return isBankSavingsAccountUpdated;
+        }
+        //Create BankSavingsAccountClosures.
+        public virtual BankSavingsAccountClosuresModel CreateBankSavingsAccountClosures(BankSavingsAccountClosuresModel bankSavingsAccountClosuresModel)
+        {
+            if (IsNull(bankSavingsAccountClosuresModel))
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+
+            //if (IsBankInsurancePoliciesTypeAlreadyExist(bankInsurancePoliciesTypeModel.InsurancePoliciesTypeCode, bankInsurancePoliciesTypeModel.BankInsurancePoliciesTypeId))
+            //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Insurance Policies Code"));
+
+            BankSavingsAccountClosures bankSavingsAccountClosures = bankSavingsAccountClosuresModel.FromModelToEntity<BankSavingsAccountClosures>();
+
+            //Create new BankSavingsAccount and return it.
+            BankSavingsAccountClosures bankSavingsAccountClosuresData = _bankSavingsAccountClosuresRepository.Insert(bankSavingsAccountClosures);
+            if (bankSavingsAccountClosuresData?.BankSavingsAccountClosuresId > 0)
+            {
+                bankSavingsAccountClosuresModel.BankSavingsAccountClosuresId = bankSavingsAccountClosuresData.BankSavingsAccountClosuresId;
+            }
+            else
+            {
+                bankSavingsAccountClosuresModel.HasError = true;
+                bankSavingsAccountClosuresModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+            }
+            return bankSavingsAccountClosuresModel;
+        }
+        // Get BankSavingsAccountClosures by bankSavingsAccountId.
+        public virtual BankSavingsAccountClosuresModel GetBankSavingsAccountClosures(long bankSavingsAccountId)
+        {
+            if (bankSavingsAccountId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BankSavingsAccountId"));
+
+            // Step 1: Check if BankSavingsAccountClosures already exists for this account
+            var existingClosure = _bankSavingsAccountClosuresRepository.Table
+                .FirstOrDefault(x => x.BankSavingsAccountId == bankSavingsAccountId);
+
+            // Step 2: Get BankMemberId from BankSavingsAccount
+            int bankMemberId = _bankSavingsAccountRepository.Table
+                .Where(x => x.BankSavingsAccountId == bankSavingsAccountId)
+                .Select(x => x.BankMemberId)
+                .FirstOrDefault();
+
+            if (bankMemberId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, "BankSavingsAccount not found or invalid BankMemberId.");
+
+            // Step 3: Get the BankMember entity and map to model
+            BankMember bankMember = _bankMemberRepository.Table.FirstOrDefault(x => x.BankMemberId == bankMemberId);
+            BankMemberModel bankMemberModel = bankMember?.FromEntityToModel<BankMemberModel>();
+
+            GeneralPersonModel generalPersonModel = null;
+            if (IsNotNull(bankMemberModel))
+            {
+                generalPersonModel = GetGeneralPersonDetails(bankMemberModel.PersonId);
+            }
+
+            // Step 4: Map all data if closure exists, else create new model
+            if (existingClosure != null)
+            {
+                return new BankSavingsAccountClosuresModel
+                {
+                    BankSavingsAccountId = existingClosure.BankSavingsAccountId,
+                    BankSavingsAccountClosuresId = existingClosure.BankSavingsAccountClosuresId,
+                    ClosureDate = existingClosure.ClosureDate,
+                    Reason = existingClosure.Reason,
+                    ApprovedBy = existingClosure.ApprovedBy,
+                    ClosingBalance = existingClosure.ClosingBalance,
+                    // Person info
+                    FirstName = generalPersonModel?.FirstName ?? string.Empty,
+                    LastName = generalPersonModel?.LastName ?? string.Empty
+                };
+            }
+
+            // If no closure exists, return a new model with default values
+            return new BankSavingsAccountClosuresModel
+            {
+                BankSavingsAccountId = bankSavingsAccountId,
+                BankSavingsAccountClosuresId = 0,
+                FirstName = generalPersonModel?.FirstName ?? string.Empty,
+                LastName = generalPersonModel?.LastName ?? string.Empty
+            };
+        }
+
+
+        //Update BankSavingsAccountClosures.
+        public virtual bool UpdateBankSavingsAccountClosures(BankSavingsAccountClosuresModel bankSavingsAccountClosuresModel)
+        {
+            if (IsNull(bankSavingsAccountClosuresModel))
+                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
+
+            if (bankSavingsAccountClosuresModel.BankSavingsAccountClosuresId < 1)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BankSavingsAccountClosuresID"));
+
+            //if (IsBankInsurancePoliciesTypeAlreadyExist(bankInsurancePoliciesTypeModel.InsurancePoliciesTypeCode, bankInsurancePoliciesTypeModel.BankInsurancePoliciesTypeId))
+            //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Insurance Policies Code"));
+
+            BankSavingsAccountClosures bankSavingsAccountClosures = bankSavingsAccountClosuresModel.FromModelToEntity<BankSavingsAccountClosures>();
+
+            //Update BankSavingsAccountClosures
+            bool isBankSavingsAccountClosuresUpdated = _bankSavingsAccountClosuresRepository.Update(bankSavingsAccountClosures);
+            if (!isBankSavingsAccountClosuresUpdated)
+            {
+                bankSavingsAccountClosuresModel.HasError = true;
+                bankSavingsAccountClosuresModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+            }
+            return isBankSavingsAccountClosuresUpdated;
         }
 
         //Delete BankSavingsAccount.

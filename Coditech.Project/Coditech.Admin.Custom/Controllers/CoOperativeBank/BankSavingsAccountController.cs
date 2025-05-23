@@ -10,12 +10,14 @@ namespace Coditech.Admin.Controllers
     {
         private readonly IBankSavingsAccountAgent _bankSavingsAccountAgent;
         private const string createEdit = "~/Views/CoOperativeBank/BankSavingsAccount/CreateEdit.cshtml";
+        private const string BankSavingsAccountClosures = "~/Views/CoOperativeBank/BankSavingsAccount/BankSavingsAccountClosures.cshtml";
+
 
         public BankSavingsAccountController(IBankSavingsAccountAgent bankSavingsAccountAgent)
         {
             _bankSavingsAccountAgent = bankSavingsAccountAgent;
         }
-
+        #region BankSavingAccount
         public virtual ActionResult List(DataTableViewModel dataTableModel)
         {
             BankSavingsAccountListViewModel list = _bankSavingsAccountAgent.GetBankSavingsAccountList(dataTableModel);
@@ -49,7 +51,7 @@ namespace Coditech.Admin.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult Edit(short bankSavingsAccountId)
+        public virtual ActionResult Edit(long bankSavingsAccountId)
         {
             BankSavingsAccountViewModel bankSavingsAccountViewModel = _bankSavingsAccountAgent.GetBankSavingsAccount(bankSavingsAccountId);
             return ActionView(createEdit, bankSavingsAccountViewModel);
@@ -109,5 +111,44 @@ namespace Coditech.Admin.Controllers
             };
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", bankProductByCentreCodeDropdown);
         }
+        #endregion
+        #region BankAccountSavingClosures
+
+        [HttpPost]
+        public virtual ActionResult CreateBankSavingsAccountClosures(BankSavingsAccountClosuresViewModel bankSavingsAccountClosuresViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                bankSavingsAccountClosuresViewModel = _bankSavingsAccountAgent.CreateBankSavingsAccountClosures(bankSavingsAccountClosuresViewModel);
+                if (!bankSavingsAccountClosuresViewModel.HasError)
+                {
+                    SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
+                    return RedirectToAction("UpdateSavingsAccountClosures", new { bankSavingsAccountId = bankSavingsAccountClosuresViewModel.BankSavingsAccountId });
+                }
+            }
+            SetNotificationMessage(GetErrorNotificationMessage(bankSavingsAccountClosuresViewModel.ErrorMessage));
+            return View(createEdit, bankSavingsAccountClosuresViewModel);
+        }
+
+        [HttpGet]
+        public virtual ActionResult UpdateSavingsAccountClosures(long bankSavingsAccountId)
+        {
+            BankSavingsAccountClosuresViewModel bankSavingsAccountClosuresViewModel = _bankSavingsAccountAgent.GetBankSavingsAccountClosures(bankSavingsAccountId);
+            return ActionView(BankSavingsAccountClosures, bankSavingsAccountClosuresViewModel);
+        }
+
+        [HttpPost]
+        public virtual ActionResult UpdateSavingsAccountClosures(BankSavingsAccountClosuresViewModel bankSavingsAccountClosuresViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                SetNotificationMessage(_bankSavingsAccountAgent.UpdateBankSavingsAccountClosures(bankSavingsAccountClosuresViewModel).HasError
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("UpdateSavingsAccountClosures", new { bankSavingsAccountId = bankSavingsAccountClosuresViewModel.BankSavingsAccountId });
+            }
+            return View(BankSavingsAccountClosures, bankSavingsAccountClosuresViewModel);
+        }
+        #endregion
     }
 }
