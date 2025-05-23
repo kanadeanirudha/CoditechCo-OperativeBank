@@ -136,14 +136,10 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BankSavingsAccountId"));
 
             // Step 1: Check if BankSavingsAccountClosures already exists for this account
-            var existingClosure = _bankSavingsAccountClosuresRepository.Table
-                .FirstOrDefault(x => x.BankSavingsAccountId == bankSavingsAccountId);
+            BankSavingsAccountClosures existingBankSavingsAccountClosure = _bankSavingsAccountClosuresRepository.Table.FirstOrDefault(x => x.BankSavingsAccountId == bankSavingsAccountId);
 
             // Step 2: Get BankMemberId from BankSavingsAccount
-            int bankMemberId = _bankSavingsAccountRepository.Table
-                .Where(x => x.BankSavingsAccountId == bankSavingsAccountId)
-                .Select(x => x.BankMemberId)
-                .FirstOrDefault();
+            int bankMemberId = _bankSavingsAccountRepository.Table.Where(x => x.BankSavingsAccountId == bankSavingsAccountId).Select(x => x.BankMemberId).FirstOrDefault();
 
             if (bankMemberId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, "BankSavingsAccount not found or invalid BankMemberId.");
@@ -159,27 +155,25 @@ namespace Coditech.API.Service
             }
 
             // Step 4: Map all data if closure exists, else create new model
-            if (existingClosure != null)
+            if (existingBankSavingsAccountClosure != null)
             {
                 return new BankSavingsAccountClosuresModel
                 {
-                    BankSavingsAccountId = existingClosure.BankSavingsAccountId,
-                    BankSavingsAccountClosuresId = existingClosure.BankSavingsAccountClosuresId,
-                    ClosureDate = existingClosure.ClosureDate,
-                    Reason = existingClosure.Reason,
-                    ApprovedBy = existingClosure.ApprovedBy,
-                    ClosingBalance = existingClosure.ClosingBalance,
-                    // Person info
+                    BankSavingsAccountId = existingBankSavingsAccountClosure.BankSavingsAccountId,
+                    BankSavingsAccountClosuresId = existingBankSavingsAccountClosure.BankSavingsAccountClosuresId,
+                    ClosureDate = existingBankSavingsAccountClosure.ClosureDate,
+                    Reason = existingBankSavingsAccountClosure.Reason,
+                    ApprovedBy = existingBankSavingsAccountClosure.ApprovedBy,
+                    ClosingBalance = existingBankSavingsAccountClosure.ClosingBalance,
                     FirstName = generalPersonModel?.FirstName ?? string.Empty,
                     LastName = generalPersonModel?.LastName ?? string.Empty
                 };
             }
 
-            // If no closure exists, return a new model with default values
+            // If no existingBankSavingsAccountClosure , return a new model with default values
             return new BankSavingsAccountClosuresModel
             {
                 BankSavingsAccountId = bankSavingsAccountId,
-                BankSavingsAccountClosuresId = 0,
                 FirstName = generalPersonModel?.FirstName ?? string.Empty,
                 LastName = generalPersonModel?.LastName ?? string.Empty
             };
