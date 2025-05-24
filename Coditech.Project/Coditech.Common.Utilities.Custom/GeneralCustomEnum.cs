@@ -22,7 +22,11 @@
         GetAccSetupGL,
         InteresetPayableGLAccount,
         InteresetReceivableGLAccount,
-        BankProduct,
+        LoanType,
+        TenureMonths,
+        TenureYears,
+        RepaymentMode,
+        BankProduct
     }
     public enum DashboardFormCustomEnum
     {

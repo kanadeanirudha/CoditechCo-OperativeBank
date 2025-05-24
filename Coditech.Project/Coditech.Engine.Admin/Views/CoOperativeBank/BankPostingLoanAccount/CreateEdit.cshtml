@@ -1,0 +1,221 @@
+﻿@model BankPostingLoanAccountViewModel
+@{
+    ViewBag.Title = Model.BankPostingLoanAccountId > 0 ? "Update Bank Posting Loan Account" : "Add Bank Posting Loan Account";
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    string actionName = ViewContext.RouteData.Values["action"].ToString();
+    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "CentreCode", DropdownSelectedValue = Model.CentreCode, ChangeEvent = "BankPostingLoanAccount.GetBankMemberByCentreCode(); BankPostingLoanAccount.GetBankProductByCentreCode();", IsDisabled = Model.BankPostingLoanAccountId > 0, IsRequired = true };
+    DropdownViewModel memberDropdown = new DropdownViewModel() { DropdownType = DropdownCustomTypeEnum.BankMembers.ToString(), DropdownName = "BankMemberId", DropdownSelectedValue = Convert.ToString(Model.BankMemberId), Parameter = Model.CentreCode, IsDisabled = Model.BankPostingLoanAccountId > 0, IsCustomDropdown = true };
+    DropdownViewModel productDropdown = new DropdownViewModel() { DropdownType = DropdownCustomTypeEnum.BankProduct.ToString(), DropdownName = "BankProductId", DropdownSelectedValue = Convert.ToString(Model.BankProductId), Parameter = Model.CentreCode, IsDisabled = Model.BankPostingLoanAccountId > 0, IsCustomDropdown = true };
+    DropdownViewModel tenureMonthsDropdown = new DropdownViewModel() { DropdownType = DropdownCustomTypeEnum.TenureMonths.ToString(), DropdownName = "TenureMonthsEnumId", DropdownSelectedValue = Convert.ToString(Model.TenureMonthsEnumId), IsDisabled = Model.BankPostingLoanAccountId > 0, IsCustomDropdown = true };
+    DropdownViewModel tenureYearsDropdown = new DropdownViewModel() { DropdownType = DropdownCustomTypeEnum.TenureYears.ToString(), DropdownName = "TenureYears", DropdownSelectedValue = Convert.ToString(Model.TenureYears), IsDisabled = Model.BankPostingLoanAccountId > 0, IsCustomDropdown = true };
+}
+<!-- Page Content-->
+<div class="page-content mt-5">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                @if (Model.BankPostingLoanAccountId > 0)
+                                {
+                                    <h4 class="card-title">Update Bank Posting Loan Account</h4>
+                                }
+                                else
+                                {
+                                    <h4 class="card-title">Create Bank Posting Loan Account</h4>
+                                }
+                            </div><!--end col-->
+                        </div>  <!--end row-->
+                    </div>
+                    <div class="card-body">
+                        @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
+                        {
+                            @Html.HiddenFor(m => m.BankPostingLoanAccountId)
+                            @if (Model.BankPostingLoanAccountId > 0)
+                            {
+                                @Html.HiddenFor(m => m.CentreCode)
+                                @Html.HiddenFor(m => m.TenureMonthsEnumId)
+                                @Html.HiddenFor(m => m.TenureYears)
+                                @Html.HiddenFor(m => m.BankMemberId)
+                                @Html.HiddenFor(m => m.BankProductId)
+                            }
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.CentreCode, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", centreDropdown)
+                                        @Html.ValidationMessageFor(x => x.CentreCode)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.BankMemberId, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", memberDropdown)
+                                        @Html.ValidationMessageFor(x => x.BankMemberId)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.BankProductId, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", productDropdown)
+                                        @Html.ValidationMessageFor(x => x.BankProductId)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.LoanAccountNumber, new { @class = "form-label required" })
+                                        @Html.TextBoxFor(x => x.LoanAccountNumber, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
+                                        @Html.ValidationMessageFor(x => x.LoanAccountNumber)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.LoanTypeEnumId, new { @class = "form-label" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                               {
+                                   DropdownSelectedValue = Model.LoanTypeEnumId.ToString(),
+                                   DropdownName = "LoanTypeEnumId",
+                                   GroupCode = DropdownCustomTypeEnum.LoanType.ToString(),
+                                   IsDisabled = Model.BankPostingLoanAccountId > 0
+                               })
+                                        @Html.ValidationMessageFor(x => x.LoanTypeEnumId)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.LoanAmount, new { @class = "form-label required" })
+                                        @if (Model.IsEditable || Model.BankPostingLoanAccountId == 0)
+                                        {
+                                            @Html.TextBoxFor(x => x.LoanAmount, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBoxFor(x => x.LoanAmount, new { @class = "form-control", @readonly = "true" })
+                                        }
+                                        @Html.ValidationMessageFor(x => x.LoanAmount)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.SanctionedDate, new { @class = "form-label required" })
+                                        @Html.TextBoxFor(x => x.SanctionedDate, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control datepicker", @readonly = "true" })
+                                        @Html.ValidationMessageFor(x => x.SanctionedDate)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.TenureYears, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", tenureYearsDropdown)
+                                        @Html.ValidationMessageFor(x => x.TenureYears)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.TenureMonthsEnumId, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", tenureMonthsDropdown)
+                                        @Html.ValidationMessageFor(x => x.TenureMonthsEnumId)
+                                    </div>
+                                </div>             
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.InterestDate, new { @class = "form-label required" })
+                                        @Html.TextBoxFor(x => x.InterestDate, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control datepicker", @readonly = "true" })
+                                        @Html.ValidationMessageFor(x => x.InterestDate)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.RepaymentModeEnumId, new { @class = "form-label" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                               {
+                                   DropdownSelectedValue = Model.RepaymentModeEnumId.ToString(),
+                                   DropdownName = "RepaymentModeEnumId",
+                                   GroupCode = DropdownCustomTypeEnum.RepaymentMode.ToString()
+                               })
+                                        @Html.ValidationMessageFor(x => x.RepaymentModeEnumId)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.EMIAmount, new { @class = "form-label required" })
+                                        @if (Model.IsEditable || Model.BankPostingLoanAccountId == 0)
+                                        {
+                                            @Html.TextBoxFor(x => x.EMIAmount, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBoxFor(x => x.EMIAmount, new { @class = "form-control", @readonly = "true" })
+                                        }
+                                        @Html.ValidationMessageFor(x => x.EMIAmount)
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.AccountStatusEnumId, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                               {
+                                   DropdownSelectedValue = Model.AccountStatusEnumId.ToString(),
+                                   DropdownName = "AccountStatusEnumId",
+                                   GroupCode = DropdownCustomTypeEnum.AccountStatus.ToString(),
+                                   IsRequired = true,
+                               })
+                                        @Html.ValidationMessageFor(x => x.AccountStatusEnumId)
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.SecurityDetail, new { @class = "form-label required" })
+                                        @Html.TextBoxFor(x => x.SecurityDetail, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.SecurityDetail)
+                                    </div>
+                                </div>
+                                @if (Model.BankPostingLoanAccountId > 0)
+                                {
+                                    <div class="col-lg-3">
+                                        <div class="mb-3">
+                                            @Html.LabelFor(x => x.MaturityDate, new { @class = "form-label required" })
+                                            @Html.TextBoxFor(x => x.MaturityDate, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control datepicker", @readonly = "true" })
+                                            @Html.ValidationMessageFor(x => x.MaturityDate)
+                                        </div>
+                                    </div>
+                                }
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <div class="mb-3">
+                                            @Html.LabelFor(x => x.Remark, new { @class = "form-label" })
+                                            @Html.TextAreaFor(x => x.Remark, new { @class = "form-control", @maxlength = "500" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
+                            <a href="../@controllerName/Cancel?SelectedCentreCode=@Model.CentreCode" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/js/coditech/CoOperativeBank/BankPostingLoanAccount.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".datepicker").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: "@AdminGeneralHelper.DateFormatForCalendar()",
+                minDate: 0,
+                yearRange: "2022:2028",
+                language: "en",
+                autoSize: true,
+                onSelect: function () {
+                    var dateDate = $(this).datepicker('getDate');
+                    console.log("Date selected:", dateDate);
+                }
+            });
+        });
+    </script>
+}

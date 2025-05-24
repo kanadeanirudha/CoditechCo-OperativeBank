@@ -28,6 +28,7 @@ namespace Coditech.Admin.Custom
             builder.Services.AddScoped<IBankSavingAccountIntrestPostingsAgent, BankSavingAccountIntrestPostingsAgent>();
             builder.Services.AddScoped<IBankFixedDepositAccountAgent, BankFixedDepositAccountAgent>();
             builder.Services.AddScoped<IBankProductAgent, BankProductAgent>();
+            builder.Services.AddScoped<IBankPostingLoanAccountAgent, BankPostingLoanAccountAgent>();
             #endregion
             #endregion Agent
 
@@ -52,6 +53,7 @@ namespace Coditech.Admin.Custom
             builder.Services.AddScoped<IBankSavingAccountIntrestPostingsClient, BankSavingAccountIntrestPostingsClient>();
             builder.Services.AddScoped<IBankFixedDepositAccountClient, BankFixedDepositAccountClient>();
             builder.Services.AddScoped<IBankProductClient, BankProductClient>();
+            builder.Services.AddScoped<IBankPostingLoanAccountClient, BankPostingLoanAccountClient>();
 
             #endregion
 

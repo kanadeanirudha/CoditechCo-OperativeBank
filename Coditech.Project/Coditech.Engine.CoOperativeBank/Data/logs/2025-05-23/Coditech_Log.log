@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-16"?>
+<BankPostingLoanAccount xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <BankPostingLoanAccountId>0</BankPostingLoanAccountId>
+  <BankMemberId>9</BankMemberId>
+  <BankProductId>12</BankProductId>
+  <LoanAccountNumber>123456789112</LoanAccountNumber>
+  <LoanTypeEnumId>277</LoanTypeEnumId>
+  <LoanAmount>100000.0</LoanAmount>
+  <SanctionedDate>2025-09-05T00:00:00</SanctionedDate>
+  <InterestDate>2025-11-17T00:00:00</InterestDate>
+  <TenureMonthsEnumId>28</TenureMonthsEnumId>
+  <RepaymentModeEnumId>289</RepaymentModeEnumId>
+  <MaturityDate>2026-02-19T00:00:00</MaturityDate>
+  <EMIAmount>1000.0</EMIAmount>
+  <SecurityDetail>testan teasan testAN testAN testAN testAN</SecurityDetail>
+  <AccountStatusEnumId>195</AccountStatusEnumId>
+  <Remark>test test test test test test test test </Remark>
+  <CreatedBy>2</CreatedBy>
+  <CreatedDate>2025-05-23T15:17:46.4259513+05:30</CreatedDate>
+  <ModifiedBy>2</ModifiedBy>
+  <ModifiedDate>2025-05-23T15:17:46.4259513+05:30</ModifiedDate>
+</BankPostingLoanAccount><?xml version="1.0" encoding="utf-16"?>
+<BankPostingLoanAccount xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <BankPostingLoanAccountId>0</BankPostingLoanAccountId>
+  <BankMemberId>0</BankMemberId>
+  <BankProductId>12</BankProductId>
+  <LoanAccountNumber>123456789112</LoanAccountNumber>
+  <LoanTypeEnumId>277</LoanTypeEnumId>
+  <LoanAmount>100000.0</LoanAmount>
+  <SanctionedDate>2025-09-05T00:00:00</SanctionedDate>
+  <InterestDate>2025-11-17T00:00:00</InterestDate>
+  <TenureMonthsEnumId>28</TenureMonthsEnumId>
+  <RepaymentModeEnumId>289</RepaymentModeEnumId>
+  <MaturityDate>2026-02-19T00:00:00</MaturityDate>
+  <EMIAmount>1000.0</EMIAmount>
+  <SecurityDetail>testan teasan testAN testAN testAN testAN</SecurityDetail>
+  <AccountStatusEnumId>195</AccountStatusEnumId>
+  <Remark>test test test test test test test test </Remark>
+  <CreatedBy>2</CreatedBy>
+  <CreatedDate>2025-05-23T15:22:00.9982572+05:30</CreatedDate>
+  <ModifiedBy>2</ModifiedBy>
+  <ModifiedDate>2025-05-23T15:22:00.9982572+05:30</ModifiedDate>
+</BankPostingLoanAccount>

@@ -18,7 +18,7 @@ namespace Coditech.Admin.Helpers
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.BankMember.ToString()))
             {
-                GetBankMemberList(dropdownViewModel, dropdownList);
+                GetBankMemberListByCentreCode(dropdownViewModel, dropdownList);
             }
             else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.BankSavingsAccount.ToString()))
             {
@@ -27,22 +27,30 @@ namespace Coditech.Admin.Helpers
             else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.BankMemberNominee.ToString()))
             {
                 GetBankMemberNomineeList(dropdownViewModel, dropdownList);
-            } 
+            }
             else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.GetAccSetupGL.ToString()))
             {
                 GetAccsetupList(dropdownViewModel, dropdownList);
-            } 
+            }
             else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.InteresetPayableGLAccount.ToString()))
             {
                 GetAccInteresetPayableGLAccountList(dropdownViewModel, dropdownList);
-            } 
+            }
             else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.InteresetReceivableGLAccount.ToString()))
             {
                 GetAccInteresetReceivableGLAccountList(dropdownViewModel, dropdownList);
-            } 
+            }
             else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.BankProduct.ToString()))
             {
                 GetBankProductList(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.TenureMonths.ToString()))
+            {
+                GetTenureMonthsDropdown(dropdownViewModel, dropdownList);
+            }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.TenureYears.ToString()))
+            {
+                GetTenureYearsDropdown(dropdownViewModel, dropdownList);
             }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
@@ -88,21 +96,19 @@ namespace Coditech.Admin.Helpers
                 });
             }
         }
-        private static void GetBankMemberList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        private static void GetBankMemberListByCentreCode(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
-            //if (dropdownViewModel.IsRequired)
-            //    dropdownList.Add(new SelectListItem() { Value = "", Text = GeneralResources.SelectLabel });
-            //else
-            //    dropdownList.Add(new SelectListItem() { Value = "0", Text = GeneralResources.SelectLabel });
-            //if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
-            //{
-            //    FilterCollection filters = new FilterCollection();
-            //    filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dropdownViewModel.Parameter);
-
-                BankMemberListResponse response = new BankMemberClient().List(null, null, null, 1, int.MaxValue);
-
-                BankMemberListModel list = new BankMemberListModel { BankMemberList = response?.BankMemberList };
-                foreach (var item in list?.BankMemberList)
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Value = "", Text = GeneralResources.SelectLabel });
+            else
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = GeneralResources.SelectLabel });
+            if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
+            {
+                FilterCollection filters = new FilterCollection();
+                filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dropdownViewModel.Parameter);
+                BankMemberListResponse response = new BankMemberClient().List(null, filters, null, 1, int.MaxValue);
+                BankMemberListModel list = new BankMemberListModel { BankMemberList = response.BankMemberList };
+                foreach (var item in list.BankMemberList)
                 {
                     dropdownList.Add(new SelectListItem()
                     {
@@ -112,6 +118,30 @@ namespace Coditech.Admin.Helpers
                     });
                 }
             //}
+        }
+        private static void GetBankProductList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Value = "", Text = GeneralResources.SelectLabel });
+            else
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = GeneralResources.SelectLabel });
+            if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
+            {
+                FilterCollection filters = new FilterCollection();
+                filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dropdownViewModel.Parameter);
+                filters.Add("AccountTypeEnumId", ProcedureFilterOperators.Equals, "263");
+                BankProductListResponse response = new BankProductClient().List(null, filters, null, 1, int.MaxValue);
+                BankProductListModel list = new BankProductListModel { BankProductList = response.BankProductList };
+                foreach (var item in list.BankProductList)
+                {
+                    dropdownList.Add(new SelectListItem()
+                    {
+                        Text = item.ProductName,
+                        Value = Convert.ToString(item.BankProductId),
+                        Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.BankProductId)
+                    });
+                }
+            }
         }
         private static void GetBankSavingsAccountList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
@@ -148,21 +178,6 @@ namespace Coditech.Admin.Helpers
                     Text = $"{item.FirstName} {item.LastName}",
                     Value = Convert.ToString(item.BankMemberNomineeId),
                     Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.BankMemberNomineeId)
-                });
-            }
-        }
-        private static void GetAccsetupGLList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
-        {
-            AccSetupGLListResponse response = new BankProductClient().GetAccSetupGLList(dropdownViewModel.DropdownType);
-            dropdownList.Add(new SelectListItem() { Text = "-------Select City-------" });
-            AccSetupGLListModel list = new AccSetupGLListModel { AccSetupGLList = response?.AccSetupGLList };
-            foreach (var item in list.AccSetupGLList)
-            {
-                dropdownList.Add(new SelectListItem()
-                {
-                    Text = item.GLName,
-                    Value = Convert.ToString(item.AccSetupGLId),
-                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.AccSetupGLId)
                 });
             }
         }
@@ -208,6 +223,42 @@ namespace Coditech.Admin.Helpers
                     Text = item.GLName,
                     Value = Convert.ToString(item.AccSetupGLId),
                     Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.AccSetupGLId)
+                });
+            }
+        }
+        public static void GetTenureMonthsDropdown(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            bool isRequired = true;
+            if (isRequired)
+                dropdownList.Add(new SelectListItem { Value = "", Text = GeneralResources.SelectLabel });
+            else
+                dropdownList.Add(new SelectListItem { Value = "0", Text = GeneralResources.SelectLabel });
+
+            for (int i = 0; i <= 11; i++)
+            {
+                dropdownList.Add(new SelectListItem
+                {
+                    Value = i.ToString(),
+                    Text = i + " Month" + (i != 1 ? "s" : ""),
+                    Selected = dropdownViewModel.DropdownSelectedValue == i.ToString()  
+                });
+            }
+        }
+        public static void GetTenureYearsDropdown(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            bool isRequired = true;
+            if (isRequired)
+                dropdownList.Add(new SelectListItem { Value = "", Text = GeneralResources.SelectLabel });
+            else
+                dropdownList.Add(new SelectListItem { Value = "0", Text = GeneralResources.SelectLabel });
+
+            for (int i = 1; i <= 40; i++)
+            {
+                dropdownList.Add(new SelectListItem
+                {
+                    Value = i.ToString(),
+                    Text = i + " Year" + (i != 1 ? "s" : ""),
+                    Selected = dropdownViewModel.DropdownSelectedValue == i.ToString() // Fix: Convert int to string for comparison  
                 });
             }
         }
