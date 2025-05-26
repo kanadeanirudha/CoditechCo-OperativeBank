@@ -52,6 +52,10 @@ namespace Coditech.Admin.Helpers
             {
                 GetTenureYearsDropdown(dropdownViewModel, dropdownList);
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.BankProduct.ToString()))
+            {
+                GetBankproductList(dropdownViewModel, dropdownList);
+            }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
@@ -262,7 +266,7 @@ namespace Coditech.Admin.Helpers
                 });
             }
         }
-        private static void GetBankProductList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        private static void GetBankproductList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             if (dropdownViewModel.IsRequired)
                 dropdownList.Add(new SelectListItem() { Value = "", Text = GeneralResources.SelectLabel });
