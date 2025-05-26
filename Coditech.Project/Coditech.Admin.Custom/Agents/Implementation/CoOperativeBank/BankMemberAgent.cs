@@ -115,7 +115,7 @@ namespace Coditech.Admin.Agents
                 _coditechLogging.LogMessage("Agent method execution started.", "BankMember", TraceLevel.Info);
                 GeneralPersonModel generalPersonModel = memberCreateEditViewModel.ToModel<GeneralPersonModel>();
                 generalPersonModel.EntityId = memberCreateEditViewModel.BankMemberId;
-                generalPersonModel.UserType = "Member";
+                generalPersonModel.UserType = UserTypeCustomEnum.BankMember.ToString();
                 GeneralPersonResponse response = _userClient.UpdatePersonInformation(generalPersonModel);
                 generalPersonModel = response?.GeneralPersonModel;
                 _coditechLogging.LogMessage("Agent method execution done.", "BankMember", TraceLevel.Info);

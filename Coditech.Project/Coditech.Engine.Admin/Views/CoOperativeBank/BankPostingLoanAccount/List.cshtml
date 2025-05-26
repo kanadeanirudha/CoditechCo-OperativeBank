@@ -1,0 +1,48 @@
+﻿@model BankPostingLoanAccountListViewModel
+@{
+    ViewBag.Title = "Bank Posting Loan Account List";
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    string actionName = ViewContext.RouteData.Values["action"].ToString();
+    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "BankPostingLoanAccount.GetBankMemberByCentreCode()" };
+    DropdownViewModel memberDropdown = new DropdownViewModel() { DropdownType = DropdownCustomTypeEnum.BankMember.ToString(), DropdownName = "BankMemberId", DropdownSelectedValue = Model.BankMemberId.ToString(), Parameter = Model.SelectedCentreCode, IsCustomDropdown = true };
+}
+<!-- Page Content-->
+<div class="page-content mt-5">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Bank Posting Loan Account List</span>
+                        <a class=" btn btn-sm btn-soft-primary float-end" href="/@controllerName/CreatePostingLoanAccount" role="button"><i class="fas fa-plus me-2"></i>Add Bank Posting Loan Account</a>
+                    </div>
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-1">
+                                <label>@AdminResources.LabelCentre</label>
+                            </div>
+                            <div class="col-md-4">
+                                @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", centreDropdown)
+                            </div>
+                            <div class="col-md-1">
+                                <label>Bank Member</label>
+                            </div>
+                            <div class="col-md-3">
+                                @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", memberDropdown)
+                            </div>
+                            <div class="col-md-1">
+                                <input type="button" class="btn btn-success" value="Show" id="ShowDataId" onclick="BankPostingLoanAccount.GetBankMemberByCentreCode()" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="DataTablesDivId" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                            @Html.Partial("~/Views/CoOperativeBank/BankPostingLoanAccount/_List.cshtml", Model)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end page content -->
