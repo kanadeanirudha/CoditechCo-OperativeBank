@@ -8,7 +8,9 @@ namespace Coditech.Admin.ViewModel
         public MemberNomineeCreateEditViewModel()
         {
         }
-        
+        [Required]
+        [Display(Name = "LabelCentre", ResourceType = typeof(AdminResources))]
+        public string SelectedCentreCode { get; set; }
         public int BankMemberNomineeId { get; set; }
     }
 }

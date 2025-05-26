@@ -24,7 +24,7 @@ namespace Coditech.API.Client
         /// </summary>
         /// <param name="bankMemberNomineeId">BankMemberNomineeId</param>
         /// <returns>Returns BankMemberNomineeResponse.</returns>
-        BankMemberNomineeResponse GetMemberNominee(int bankMemberNomineeId);
+        BankMemberNomineeResponse GetMemberNominee(int bankMemberId);
 
         /// <summary>
         /// Update BankMemberNominee.

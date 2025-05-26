@@ -30,7 +30,7 @@ namespace Coditech.Admin.Custom
             CreateMap<MemberCreateEditViewModel, GeneralPersonViewModel>().ReverseMap();
             CreateMap<MemberCreateEditViewModel, GeneralPersonModel>().ReverseMap();
             CreateMap<MemberCreateEditViewModel, BankMemberModel>().ReverseMap();
-            CreateMap<BankMemberNomineeModel, BankMemberNomineeModel>().ReverseMap();
+            CreateMap<BankMemberNomineeModel, BankMemberNomineeViewModel>().ReverseMap();
             CreateMap<BankMemberNomineeListModel, BankMemberNomineeListViewModel>().ReverseMap();
             CreateMap<MemberNomineeCreateEditViewModel, GeneralPersonViewModel>().ReverseMap();
             CreateMap<MemberNomineeCreateEditViewModel, GeneralPersonModel>().ReverseMap();

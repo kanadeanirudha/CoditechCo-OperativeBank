@@ -116,17 +116,17 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual BankMemberNomineeResponse GetMemberNominee(int bankMemberNomineeId)
+        public virtual BankMemberNomineeResponse GetMemberNominee(int bankMemberId)
         {
-            return Task.Run(async () => await GetMemberNomineeAsync(bankMemberNomineeId, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetMemberNomineeAsync(bankMemberId, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<BankMemberNomineeResponse> GetMemberNomineeAsync(int bankMemberNomineeId, CancellationToken cancellationToken)
+        public virtual async Task<BankMemberNomineeResponse> GetMemberNomineeAsync(int bankMemberId, CancellationToken cancellationToken)
         {
-            if (bankMemberNomineeId <= 0)
-                throw new ArgumentNullException("bankMemberNominee");
+            if (bankMemberId <= 0)
+                throw new ArgumentNullException("bankMemberId");
 
-            string endpoint = bankMemberNomineeEndpoint.GetMemberNomineeAsync(bankMemberNomineeId);
+            string endpoint = bankMemberNomineeEndpoint.GetMemberNomineeAsync(bankMemberId);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try

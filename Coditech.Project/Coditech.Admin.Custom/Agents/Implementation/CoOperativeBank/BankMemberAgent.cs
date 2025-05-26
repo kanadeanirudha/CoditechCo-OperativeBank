@@ -19,14 +19,18 @@ namespace Coditech.Admin.Agents
         #region Private Variable
         protected readonly ICoditechLogging _coditechLogging;
         private readonly IBankMemberClient _bankMemberClient;
+        private readonly IBankMemberNomineeClient _bankMemberNomineeClient;
+
         private readonly IUserClient _userClient;
         #endregion
 
         #region Public Constructor
-        public BankMemberAgent(ICoditechLogging coditechLogging, IBankMemberClient bankMemberClient, IUserClient userClient)
+        public BankMemberAgent(ICoditechLogging coditechLogging, IBankMemberClient bankMemberClient, IBankMemberNomineeClient bankMemberNomineeClient,IUserClient userClient)
         {
             _coditechLogging = coditechLogging;
             _bankMemberClient = GetClient(bankMemberClient);
+            _bankMemberNomineeClient = GetClient(bankMemberNomineeClient);
+
             _userClient = GetClient<IUserClient>(userClient);
         }
         #endregion

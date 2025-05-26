@@ -17,6 +17,7 @@ namespace Coditech.Admin.Agents
         #region Private Variable
         protected readonly ICoditechLogging _coditechLogging;
         private readonly IBankMemberNomineeClient _bankMemberNomineeClient;
+        private readonly IUserClient _userClient;
         #endregion
 
         #region Public Constructor
@@ -41,6 +42,8 @@ namespace Coditech.Admin.Agents
                 filters.Add("RelationTypeEnum", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
                 filters.Add("PercentageShare", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
+            filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dataTableModel.SelectedCentreCode);
+
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
             BankMemberNomineeListResponse response = _bankMemberNomineeClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
@@ -80,9 +83,9 @@ namespace Coditech.Admin.Agents
         }
 
         //Get BankMemberNominee by Bank Member Nominee id.
-        public virtual BankMemberNomineeViewModel GetMemberNominee(int bankMemberNomineeId)
+        public virtual BankMemberNomineeViewModel GetMemberNominee(int bankMemberId)
         {
-            BankMemberNomineeResponse response = _bankMemberNomineeClient.GetMemberNominee(bankMemberNomineeId);
+            BankMemberNomineeResponse response = _bankMemberNomineeClient.GetMemberNominee(bankMemberId);
             return response?.BankMemberNomineeModel.ToViewModel<BankMemberNomineeViewModel>();
         }
 
@@ -95,7 +98,7 @@ namespace Coditech.Admin.Agents
                 BankMemberNomineeResponse response = _bankMemberNomineeClient.UpdateMemberNominee(bankMemberNomineeViewModel.ToModel<BankMemberNomineeModel>());
                 BankMemberNomineeModel bankMemberNomineeModel = response?.BankMemberNomineeModel;
                 _coditechLogging.LogMessage("Agent method execution done.", "BankMemberNominee", TraceLevel.Info);
-                return IsNotNull(bankMemberNomineeModel) ? bankMemberNomineeModel.ToViewModel<BankMemberNomineeViewModel>() : (BankMemberNomineeViewModel)GetViewModelWithErrorMessage(new BankMemberNomineeViewModel(), GeneralResources.UpdateErrorMessage);
+                return IsNotNull(bankMemberNomineeModel) ? bankMemberNomineeModel.ToViewModel<BankMemberNomineeViewModel>() : (BankMemberNomineeViewModel)GetViewModelWithErrorMessage(new MemberNomineeCreateEditViewModel(), GeneralResources.UpdateErrorMessage);
             }
             catch (CoditechException ex)
             {

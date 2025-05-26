@@ -90,14 +90,14 @@ namespace Coditech.Admin.Helpers
         }
         private static void GetBankMemberList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
-            //if (dropdownViewModel.IsRequired)
-            //    dropdownList.Add(new SelectListItem() { Value = "", Text = GeneralResources.SelectLabel });
-            //else
-            //    dropdownList.Add(new SelectListItem() { Value = "0", Text = GeneralResources.SelectLabel });
-            //if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
-            //{
-            //    FilterCollection filters = new FilterCollection();
-            //    filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dropdownViewModel.Parameter);
+            if (dropdownViewModel.IsRequired)
+                dropdownList.Add(new SelectListItem() { Value = "", Text = GeneralResources.SelectLabel });
+            else
+                dropdownList.Add(new SelectListItem() { Value = "0", Text = GeneralResources.SelectLabel });
+            if (!string.IsNullOrEmpty(dropdownViewModel.Parameter))
+            {
+                FilterCollection filters = new FilterCollection();
+                filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dropdownViewModel.Parameter);
 
                 BankMemberListResponse response = new BankMemberClient().List(null, null, null, 1, int.MaxValue);
 
@@ -111,7 +111,7 @@ namespace Coditech.Admin.Helpers
                         Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.BankMemberId)
                     });
                 }
-            //}
+            }
         }
         private static void GetBankSavingsAccountList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {

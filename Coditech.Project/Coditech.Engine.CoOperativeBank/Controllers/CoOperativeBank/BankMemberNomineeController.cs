@@ -37,12 +37,12 @@ namespace Coditech.API.Controllers
             }
             catch (CoditechException ex)
             {
-                _coditechLogging.LogMessage(ex, "BankMemberNominee", TraceLevel.Error);
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankMemberNominee.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new BankMemberNomineeListResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage(ex, "BankMemberNominee", TraceLevel.Error);
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankMemberNominee.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new BankMemberNomineeListResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
@@ -59,37 +59,37 @@ namespace Coditech.API.Controllers
             }
             catch (CoditechException ex)
             {
-                _coditechLogging.LogMessage(ex, "BankMemberNominee", TraceLevel.Warning);
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankMemberNominee.ToString(), TraceLevel.Warning);
                 return CreateInternalServerErrorResponse(new BankMemberNomineeResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage(ex, "BankMemberNominee", TraceLevel.Error);
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankMemberNominee.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new BankMemberNomineeResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
 
-        [Route("/BankMemberNominee/GetMemberNominee")]
-        [HttpGet]
-        [Produces(typeof(BankMemberNomineeResponse))]
-        public virtual IActionResult GetMemberNominee(int bankMemberNomineeId)
-        {
-            try
-            {
-                BankMemberNomineeModel bankMemberNomineeModel = _bankMemberNomineeService.GetMemberNominee(bankMemberNomineeId);
-                return IsNotNull(bankMemberNomineeModel) ? CreateOKResponse(new BankMemberNomineeResponse { BankMemberNomineeModel = bankMemberNomineeModel }) : CreateNoContentResponse();
-            }
-            catch (CoditechException ex)
-            {
-                _coditechLogging.LogMessage(ex, "BankMemberNominee", TraceLevel.Warning);
-                return CreateInternalServerErrorResponse(new BankMemberNomineeResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
-            }
-            catch (Exception ex)
-            {
-                _coditechLogging.LogMessage(ex, "BankMemberNominee", TraceLevel.Error);
-                return CreateInternalServerErrorResponse(new BankMemberNomineeResponse { HasError = true, ErrorMessage = ex.Message });
-            }
-        }
+        //[Route("/BankMemberNominee/GetMemberNominee")]
+        //[HttpGet]
+        //[Produces(typeof(BankMemberNomineeResponse))]
+        //public virtual IActionResult GetBankMemberNominee(int bankMemberNomineeId)
+        //{
+        //    try
+        //    {
+        //        BankMemberNomineeModel bankMemberNomineeModel = _bankMemberNomineeService.GetMemberNominee(bankMemberNomineeId);
+        //        return IsNotNull(bankMemberNomineeModel) ? CreateOKResponse(new BankMemberNomineeResponse { BankMemberNomineeModel = bankMemberNomineeModel }) : CreateNoContentResponse();
+        //    }
+        //    catch (CoditechException ex)
+        //    {
+        //        _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankMemberNominee.ToString(), TraceLevel.Warning);
+        //        return CreateInternalServerErrorResponse(new BankMemberNomineeResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankMemberNominee.ToString(), TraceLevel.Error);
+        //        return CreateInternalServerErrorResponse(new BankMemberNomineeResponse { HasError = true, ErrorMessage = ex.Message });
+        //    }
+        //}
 
         [Route("/BankMemberNominee/UpdateMemberNominee")]
         [HttpPut, ValidateModel]
@@ -103,12 +103,12 @@ namespace Coditech.API.Controllers
             }
             catch (CoditechException ex)
             {
-                _coditechLogging.LogMessage(ex, "BankMemberNominee", TraceLevel.Warning);
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankMemberNominee.ToString(), TraceLevel.Warning);
                 return CreateInternalServerErrorResponse(new BankMemberNomineeResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage(ex, "BankMemberNominee", TraceLevel.Error);
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankMemberNominee.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new BankMemberNomineeResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
@@ -125,13 +125,34 @@ namespace Coditech.API.Controllers
             }
             catch (CoditechException ex)
             {
-                _coditechLogging.LogMessage(ex, "BankMemberNominee", TraceLevel.Warning);
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankMemberNominee.ToString(), TraceLevel.Warning);
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
             }
             catch (Exception ex)
             {
-                _coditechLogging.LogMessage(ex, "BankMemberNominee", TraceLevel.Error);
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankMemberNominee.ToString(), TraceLevel.Error);
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+        [Route("/BankMemberNominee/GetMemberNominee")]
+        [HttpGet]
+        [Produces(typeof(BankMemberNomineeResponse))]
+        public virtual IActionResult GetMemberNominee(int bankMemberId)
+        {
+            try
+            {
+                BankMemberNomineeModel bankMemberNomineeModel = _bankMemberNomineeService.GetMemberNominee(bankMemberId);
+                return IsNotNull(bankMemberNomineeModel) ? CreateOKResponse(new BankMemberNomineeResponse { BankMemberNomineeModel = bankMemberNomineeModel }) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, "BankMemberNomineeModel", TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new BankMemberNomineeResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, "BankMemberNomineeModel", TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new BankMemberNomineeResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
     }

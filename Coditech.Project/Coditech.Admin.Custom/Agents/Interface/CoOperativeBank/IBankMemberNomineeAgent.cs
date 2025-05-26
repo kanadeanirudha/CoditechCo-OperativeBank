@@ -1,4 +1,5 @@
 ﻿using Coditech.Admin.ViewModel;
+using Coditech.Common.API.Model.Response;
 namespace Coditech.Admin.Agents
 {
     public interface IBankMemberNomineeAgent
@@ -22,7 +23,7 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="bankMemberNominee">bankMemberNominee</param>
         /// <returns>Returns BankMemberNomineeViewModel.</returns>
-        BankMemberNomineeViewModel GetMemberNominee(int bankMemberNomineeId);
+        BankMemberNomineeViewModel GetMemberNominee(int bankMemberId);
 
         /// <summary>
         /// Update BankMemberNominee.
@@ -37,6 +38,8 @@ namespace Coditech.Admin.Agents
         /// <param name="bankMemberNomineeId">BankMemberNomineeId.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         bool DeleteMemberNominee(string bankMemberNomineeId, out string errorMessage);
+
+        BankMemberNomineeListResponse GetMemberNomineeList();
 
     }
 }

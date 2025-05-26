@@ -14,7 +14,6 @@ namespace Coditech.API.Data
         public string AadharCardNumber { get; set; }
         public int RelationTypeEnumId { get; set; }
         public decimal PercentageShare { get; set; }
-
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<long> ModifiedBy { get; set; }
