@@ -133,5 +133,73 @@ namespace Coditech.API.Controllers
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+        #region BankLoanForeClosures
+
+        [Route("/BankPostingLoanAccount/CreateBankLoanForeClosures")]
+        [HttpPost, ValidateModel]
+        [Produces(typeof(BankLoanForeClosuresResponse))]
+        public virtual IActionResult CreateBankLoanForeClosures([FromBody] BankLoanForeClosuresModel model)
+        {
+            try
+            {
+                BankLoanForeClosuresModel bankLoanForeClosuresModel = _bankPostingLoanAccountService.CreateBankLoanForeClosures(model);
+                return IsNotNull(bankLoanForeClosuresModel) ? CreateCreatedResponse(new BankLoanForeClosuresResponse { BankLoanForeClosuresModel = bankLoanForeClosuresModel }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, "BankLoanForeClosures", TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new BankLoanForeClosuresResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, "BankLoanForeClosures", TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new BankLoanForeClosuresResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/BankPostingLoanAccount/GetBankLoanForeClosures")]
+        [HttpGet]
+        [Produces(typeof(BankLoanForeClosuresResponse))]
+        public virtual IActionResult GetBankLoanForeClosures(int bankPostingLoanAccountId)
+        {
+            try
+            {
+                BankLoanForeClosuresModel bankLoanForeClosuresModel = _bankPostingLoanAccountService.GetBankLoanForeClosures(bankPostingLoanAccountId);
+                return IsNotNull(bankLoanForeClosuresModel) ? CreateOKResponse(new BankLoanForeClosuresResponse { BankLoanForeClosuresModel = bankLoanForeClosuresModel }) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, "BankLoanForeClosures", TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new BankLoanForeClosuresResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, "BankLoanForeClosures", TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new BankLoanForeClosuresResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/BankPostingLoanAccount/UpdateBankLoanForeClosures")]
+        [HttpPut, ValidateModel]
+        [Produces(typeof(BankLoanForeClosuresResponse))]
+        public virtual IActionResult UpdateBankLoanForeClosures([FromBody] BankLoanForeClosuresModel model)
+        {
+            try
+            {
+                bool isUpdated = _bankPostingLoanAccountService.UpdateBankLoanForeClosures(model);
+                return isUpdated ? CreateOKResponse(new BankLoanForeClosuresResponse { BankLoanForeClosuresModel = model }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, "BankLoanForeClosures", TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new BankLoanForeClosuresResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, "BankLoanForeClosures", TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new BankLoanForeClosuresResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+        #endregion
     }
 }

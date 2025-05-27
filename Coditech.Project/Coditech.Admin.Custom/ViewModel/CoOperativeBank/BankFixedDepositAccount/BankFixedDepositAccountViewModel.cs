@@ -42,6 +42,6 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Interest Payout")]
         public string InterestPayout { get; set; }
         [Display(Name = "Centre")]
-        public string SelectedCentreCode { get; set; }
+        public string CentreCode { get; set; }
     }
 }

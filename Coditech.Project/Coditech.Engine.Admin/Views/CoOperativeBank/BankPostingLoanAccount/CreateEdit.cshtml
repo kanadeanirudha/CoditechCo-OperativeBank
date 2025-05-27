@@ -3,6 +3,9 @@
     ViewBag.Title = Model.BankPostingLoanAccountId > 0 ? "Update Bank Posting Loan Account" : "Add Bank Posting Loan Account";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
+    string css = Model.BankPostingLoanAccountId > 0 ? "col-lg-10" : "col-lg-12";
+    Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+    keyValuePairs.Add("BankPostingLoanAccountId", Model.BankPostingLoanAccountId.ToString());
     DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "CentreCode", DropdownSelectedValue = Model.CentreCode, ChangeEvent = "BankPostingLoanAccount.GetBankMemberByCentreCode(); BankPostingLoanAccount.GetBankProductByCentreCode();", IsDisabled = Model.BankPostingLoanAccountId > 0, IsRequired = true };
     DropdownViewModel memberDropdown = new DropdownViewModel() { DropdownType = DropdownCustomTypeEnum.BankMembers.ToString(), DropdownName = "BankMemberId", DropdownSelectedValue = Convert.ToString(Model.BankMemberId), Parameter = Model.CentreCode, IsDisabled = Model.BankPostingLoanAccountId > 0, IsCustomDropdown = true };
     DropdownViewModel productDropdown = new DropdownViewModel() { DropdownType = DropdownCustomTypeEnum.BankProduct.ToString(), DropdownName = "BankProductId", DropdownSelectedValue = Convert.ToString(Model.BankProductId), Parameter = Model.CentreCode, IsDisabled = Model.BankPostingLoanAccountId > 0, IsCustomDropdown = true };
@@ -13,7 +16,13 @@
 <div class="page-content mt-5">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-12">
+            @if (Model.BankPostingLoanAccountId > 0)
+            {
+                <div class="col-lg-2">
+                    @Html.Partial("~/Views/CoOperativeBank/BankPostingLoanAccount/_BankPostingLoanAccountSidePannel.cshtml", keyValuePairs)
+                </div>
+            }
+            <div class="@css">
                 <div class="card">
                     <div class="card-header">
                         <div class="row align-items-center">

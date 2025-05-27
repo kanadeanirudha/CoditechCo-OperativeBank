@@ -6,10 +6,8 @@ using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Common.Service;
 using Coditech.Resources;
-using Org.BouncyCastle.Crypto.Agreement.Kdf;
 using System.Collections.Specialized;
 using System.Data;
-using System.Threading.Tasks;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
 {
@@ -18,11 +16,13 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<BankPostingLoanAccount> _bankPostingLoanAccountRepository;
+        private readonly ICoditechRepository<BankLoanForeClosures> _bankLoanForeClosuresRepository;
         public BankPostingLoanAccountService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _bankPostingLoanAccountRepository = new CoditechRepository<BankPostingLoanAccount>(_serviceProvider.GetService<CoditechCustom_Entities>());
+            _bankLoanForeClosuresRepository = new CoditechRepository<BankLoanForeClosures>(_serviceProvider.GetService<CoditechCustom_Entities>());
         }
         public virtual BankPostingLoanAccountListModel GetBankPostingLoanAccountList(int bankMemberId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
@@ -121,5 +121,77 @@ namespace Coditech.API.Service
 
             return status == 1 ? true : false;
         }
+        #region BankLoanForeClosures
+
+        //Create BankLoanForeClosures.
+        public virtual BankLoanForeClosuresModel CreateBankLoanForeClosures(BankLoanForeClosuresModel bankLoanForeClosuresModel)
+        {
+            if (IsNull(bankLoanForeClosuresModel))
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+            bankLoanForeClosuresModel.MaturityDate = DateTime.UtcNow;
+            BankLoanForeClosures bankLoanForeClosures = bankLoanForeClosuresModel.FromModelToEntity<BankLoanForeClosures>();
+
+            //Create new BankLoanForeClosures and return it.
+            BankLoanForeClosures bankLoanForeClosuresData = _bankLoanForeClosuresRepository.Insert(bankLoanForeClosures);
+            if (bankLoanForeClosuresData?.BankLoanForeClosuresId > 0)
+            {
+                bankLoanForeClosuresModel.BankLoanForeClosuresId = bankLoanForeClosuresData.BankLoanForeClosuresId;
+            }
+            else
+            {
+                bankLoanForeClosuresModel.HasError = true;
+                bankLoanForeClosuresModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+            }
+            return bankLoanForeClosuresModel;
+        }
+        // Get BankLoanForeClosures by bankPostingLoanAccountId.
+        public virtual BankLoanForeClosuresModel GetBankLoanForeClosures(int bankPostingLoanAccountId)
+        {
+            if (bankPostingLoanAccountId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BankPostingLoanAccountId"));
+
+            // Step 1: Check if BankSavingsAccountClosures already exists for this account
+            BankLoanForeClosures existingBankLoanForeClosures = _bankLoanForeClosuresRepository.Table.FirstOrDefault(x => x.BankPostingLoanAccountId == bankPostingLoanAccountId);
+
+            if (existingBankLoanForeClosures != null)
+            {
+                return new BankLoanForeClosuresModel
+                {
+                    BankPostingLoanAccountId = existingBankLoanForeClosures.BankPostingLoanAccountId,
+                    BankLoanForeClosuresId = existingBankLoanForeClosures.BankLoanForeClosuresId,
+                    RemainingEMI = existingBankLoanForeClosures.RemainingEMI,
+                    RemainingEMIAmount = existingBankLoanForeClosures.RemainingEMIAmount,
+                    MaturityDate = existingBankLoanForeClosures.MaturityDate,
+                    LoanScheduleStatusEnumId = existingBankLoanForeClosures.LoanScheduleStatusEnumId,
+                };
+            }
+
+            // If no existingBankSavingsAccountClosure , return a new model with default values
+            return new BankLoanForeClosuresModel
+            {
+                BankPostingLoanAccountId = bankPostingLoanAccountId,
+            };
+        }
+
+        //Update BankLoanForeClosures.
+        public virtual bool UpdateBankLoanForeClosures(BankLoanForeClosuresModel bankLoanForeClosuresModel)
+        {
+            if (IsNull(bankLoanForeClosuresModel))
+                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
+
+            if (bankLoanForeClosuresModel.BankPostingLoanAccountId < 1)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BankLoanForeClosuresId"));
+
+            BankLoanForeClosures bankLoanForeClosures = bankLoanForeClosuresModel.FromEntityToModel<BankLoanForeClosures>();
+            //Update Bank Posting Loan Account
+            bool isUpdated = _bankLoanForeClosuresRepository.Update(bankLoanForeClosures);
+            if (!isUpdated)
+            {
+                bankLoanForeClosuresModel.HasError = true;
+                bankLoanForeClosuresModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+            }
+            return isUpdated;
+        }
+        #endregion
     }
 }

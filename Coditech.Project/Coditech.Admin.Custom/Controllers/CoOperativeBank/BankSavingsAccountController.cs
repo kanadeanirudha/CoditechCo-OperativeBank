@@ -127,7 +127,7 @@ namespace Coditech.Admin.Controllers
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(bankSavingsAccountClosuresViewModel.ErrorMessage));
-            return View(createEdit, bankSavingsAccountClosuresViewModel);
+            return View(BankSavingsAccountClosures, bankSavingsAccountClosuresViewModel);
         }
 
         [HttpGet]

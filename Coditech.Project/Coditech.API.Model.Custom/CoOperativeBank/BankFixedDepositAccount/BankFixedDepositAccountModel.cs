@@ -22,6 +22,6 @@
         public string AccountStatus { get; set; }
         public string InterestType { get; set; }
         public string InterestPayout { get; set; }
-        public string SelectedCentreCode { get; set; }
+        public string CentreCode { get; set; }
     }
 }

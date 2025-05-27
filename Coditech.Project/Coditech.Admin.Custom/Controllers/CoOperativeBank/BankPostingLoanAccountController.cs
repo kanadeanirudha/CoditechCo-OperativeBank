@@ -10,6 +10,7 @@ namespace Coditech.Admin.Controllers
     {
         private readonly IBankPostingLoanAccountAgent _bankPostingLoanAccountAgent;
         private const string createEdit = "~/Views/CoOperativeBank/BankPostingLoanAccount/CreateEdit.cshtml";
+        private const string BankLoanForeClosures = "~/Views/CoOperativeBank/BankPostingLoanAccount/BankLoanForeClosures.cshtml";
 
         public BankPostingLoanAccountController(IBankPostingLoanAccountAgent bankPostingLoanAccountAgent)
         {
@@ -117,51 +118,43 @@ namespace Coditech.Admin.Controllers
             };
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", productDropdown);
         }
+        #region BankLoanForeClosures
+
+        [HttpPost]
+        public virtual ActionResult CreateBankLoanForeClosures(BankLoanForeClosuresViewModel bankLoanForeClosuresViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                bankLoanForeClosuresViewModel = _bankPostingLoanAccountAgent.CreateBankLoanForeClosures(bankLoanForeClosuresViewModel);
+                if (!bankLoanForeClosuresViewModel.HasError)
+                {
+                    SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
+                    return RedirectToAction("UpdateBankLoanForeClosures", new { bankPostingLoanAccountId = bankLoanForeClosuresViewModel.BankPostingLoanAccountId });
+                }
+            }
+            SetNotificationMessage(GetErrorNotificationMessage(bankLoanForeClosuresViewModel.ErrorMessage));
+            return View(BankLoanForeClosures, bankLoanForeClosuresViewModel);
+        }
+
+        [HttpGet]
+        public virtual ActionResult UpdateBankLoanForeClosures(int bankPostingLoanAccountId)
+        {
+            BankLoanForeClosuresViewModel bankLoanForeClosuresViewModel = _bankPostingLoanAccountAgent.GetBankLoanForeClosures(bankPostingLoanAccountId);
+            return ActionView(BankLoanForeClosures, bankLoanForeClosuresViewModel);
+        }
+
+        [HttpPost]
+        public virtual ActionResult UpdateBankLoanForeClosures(BankLoanForeClosuresViewModel bankLoanForeClosuresViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                SetNotificationMessage(_bankPostingLoanAccountAgent.UpdateBankLoanForeClosures(bankLoanForeClosuresViewModel).HasError
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("UpdateBankLoanForeClosures", new { bankPostingLoanAccountId = bankLoanForeClosuresViewModel.BankPostingLoanAccountId });
+            }
+            return View(BankLoanForeClosures, bankLoanForeClosuresViewModel);
+        }
+        #endregion
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//[HttpGet]
-//public virtual ActionResult Create()
-//{
-//    BankPostingLoanAccountViewModel model = new BankPostingLoanAccountViewModel();
-//    //{
-//    //    BankPostingLoanAccountList = new List<BankPostingLoanAccountViewModel>
-//    //    {
-//    //        new BankPostingLoanAccountViewModel { AddressTypeEnum = AddressTypeEnum.PermanentAddress.ToString() },
-//    //        new BankPostingLoanAccountViewModel { AddressTypeEnum = AddressTypeEnum.CorrespondanceAddress.ToString() },
-//    //        new BankPostingLoanAccountViewModel { AddressTypeEnum = AddressTypeEnum.BusinessAddress.ToString() }
-//    //    },
-//    //    FirstName = "",
-//    //    LastName = "",
-//    //    GeneralPersonAddressId = 0
-//    //};
-//    return ActionView("~/Views/CoOperativeBank/BankPostingLoanAccount/CreateEdit.cshtml", model);
-//}

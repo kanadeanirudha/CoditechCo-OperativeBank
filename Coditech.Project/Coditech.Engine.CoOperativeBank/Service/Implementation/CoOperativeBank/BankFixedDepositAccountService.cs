@@ -79,7 +79,7 @@ namespace Coditech.API.Service
             BankFixedDepositAccount bankFixedDepositAccount = _bankFixedDepositAccountRepository.Table.FirstOrDefault(x => x.BankFixedDepositAccountId == bankFixedDepositAccountId);
             string selectedCentreCode = _bankMemberRepository.Table.Where(x => x.BankMemberId == bankFixedDepositAccount.BankMemberId).Select(x => x.CentreCode).FirstOrDefault();
             BankFixedDepositAccountModel bankFixedDepositAccountModel = bankFixedDepositAccount?.FromEntityToModel<BankFixedDepositAccountModel>();
-            bankFixedDepositAccountModel.SelectedCentreCode = selectedCentreCode;
+            bankFixedDepositAccountModel.CentreCode = selectedCentreCode;
             return bankFixedDepositAccountModel;
         }
 

@@ -55,7 +55,7 @@ namespace Coditech.Admin.Agents
             return listViewModel;
         }
 
-        //Create Bank PostingLoanAccount
+        //Create BankPostingLoanAccount
         public virtual BankPostingLoanAccountViewModel CreatePostingLoanAccount(BankPostingLoanAccountViewModel bankPostingLoanAccountViewModel)
         {
             try
@@ -149,6 +149,71 @@ namespace Coditech.Admin.Agents
                 return false;
             }
         }
+        #region BankLoanForeClosures
+
+        //Create BankLoanForeClosures
+        public virtual BankLoanForeClosuresViewModel CreateBankLoanForeClosures(BankLoanForeClosuresViewModel bankLoanForeClosuresViewModel)
+        {
+            try
+            {
+                BankLoanForeClosuresResponse response = _bankPostingLoanAccountClient.CreateBankLoanForeClosures(bankLoanForeClosuresViewModel.ToModel<BankLoanForeClosuresModel>());
+                BankLoanForeClosuresModel bankLoanForeClosuresModel = response?.BankLoanForeClosuresModel;
+                return IsNotNull(bankLoanForeClosuresModel) ? bankLoanForeClosuresModel.ToViewModel<BankLoanForeClosuresViewModel>() : new BankLoanForeClosuresViewModel();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, "BankLoanForeClosures", TraceLevel.Error);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (BankLoanForeClosuresViewModel)GetViewModelWithErrorMessage(bankLoanForeClosuresViewModel, ex.ErrorMessage);
+                    default:
+                        return (BankLoanForeClosuresViewModel)GetViewModelWithErrorMessage(bankLoanForeClosuresViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, "BankLoanForeClosures", TraceLevel.Error);
+                return (BankLoanForeClosuresViewModel)GetViewModelWithErrorMessage(bankLoanForeClosuresViewModel, GeneralResources.ErrorFailedToCreate);
+            }
+        }
+
+        //Get BankLoanForeClosures bankPostingLoanAccountId
+        public virtual BankLoanForeClosuresViewModel GetBankLoanForeClosures(int bankPostingLoanAccountId)
+        {
+            BankLoanForeClosuresResponse response = _bankPostingLoanAccountClient.GetBankLoanForeClosures(bankPostingLoanAccountId);
+            return response?.BankLoanForeClosuresModel.ToViewModel<BankLoanForeClosuresViewModel>();
+        }
+
+        //Update BankLoanForeClosures.
+        public virtual BankLoanForeClosuresViewModel UpdateBankLoanForeClosures(BankLoanForeClosuresViewModel bankLoanForeClosuresViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", "BankLoanForeClosures", TraceLevel.Info);
+                BankLoanForeClosuresResponse response = _bankPostingLoanAccountClient.UpdateBankLoanForeClosures(bankLoanForeClosuresViewModel.ToModel<BankLoanForeClosuresModel>());
+                BankLoanForeClosuresModel bankLoanForeClosuresModel = response?.BankLoanForeClosuresModel;
+                _coditechLogging.LogMessage("Agent method execution done.", "BankLoanForeClosures", TraceLevel.Info);
+                return IsNotNull(bankLoanForeClosuresModel) ? bankLoanForeClosuresModel.ToViewModel<BankLoanForeClosuresViewModel>() : (BankLoanForeClosuresViewModel)GetViewModelWithErrorMessage(new BankLoanForeClosuresViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, "BankLoanForeClosures", TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (BankLoanForeClosuresViewModel)GetViewModelWithErrorMessage(bankLoanForeClosuresViewModel, ex.ErrorMessage);
+                    default:
+                        return (BankLoanForeClosuresViewModel)GetViewModelWithErrorMessage(bankLoanForeClosuresViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, "BankLoanForeClosures", TraceLevel.Error);
+                return (BankLoanForeClosuresViewModel)GetViewModelWithErrorMessage(bankLoanForeClosuresViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
+        #endregion
         #endregion
 
         #region protected

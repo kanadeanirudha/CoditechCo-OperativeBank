@@ -3,8 +3,8 @@
     ViewBag.Title = "Bank Posting Loan Account List";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
-    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "SelectedCentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "BankPostingLoanAccount.GetBankMemberByCentreCode()" };
-    DropdownViewModel memberDropdown = new DropdownViewModel() { DropdownType = DropdownCustomTypeEnum.BankMember.ToString(), DropdownName = "BankMemberId", DropdownSelectedValue = Model.BankMemberId.ToString(), Parameter = Model.SelectedCentreCode, IsCustomDropdown = true };
+    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "CentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "BankPostingLoanAccount.GetBankMemberByCentreCode()" };
+    DropdownViewModel memberDropdown = new DropdownViewModel() { DropdownType = DropdownCustomTypeEnum.BankMembers.ToString(), DropdownName = "BankMemberId", DropdownSelectedValue = Model.BankMemberId.ToString(), Parameter = Model.SelectedCentreCode, IsCustomDropdown = true };
 }
 <!-- Page Content-->
 <div class="page-content mt-5">
@@ -45,4 +45,5 @@
         </div>
     </div>
 </div>
+<script src="~/js/coditech/CoOperativeBank/BankPostingLoanAccount.js"></script>
 <!-- end page content -->

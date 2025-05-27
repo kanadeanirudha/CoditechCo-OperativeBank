@@ -20,5 +20,13 @@ namespace Coditech.API.Endpoint
 
         public string DeletePostingLoanAccountAsync() =>
                   $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankPostingLoanAccount/DeletePostingLoanAccount";
+
+        public string CreateBankLoanForeClosuresAsync() =>
+         $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankPostingLoanAccount/CreateBankLoanForeClosures";
+        public string GetBankLoanForeClosuresAsync(int bankPostingLoanAccountId) =>
+            $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankPostingLoanAccount/GetBankLoanForeClosures?bankPostingLoanAccountId={bankPostingLoanAccountId}";
+
+        public string UpdateBankLoanForeClosuresAsync() =>
+               $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankPostingLoanAccount/UpdateBankLoanForeClosures";
     }
 }

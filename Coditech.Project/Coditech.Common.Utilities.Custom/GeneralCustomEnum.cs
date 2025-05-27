@@ -26,7 +26,8 @@
         TenureMonths,
         TenureYears,
         RepaymentMode,
-        BankProduct
+        BankProduct,
+        LoanScheduleStatus,
     }
     public enum DashboardFormCustomEnum
     {

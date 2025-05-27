@@ -39,5 +39,29 @@ namespace Coditech.API.Client
         /// <param name="ParameterModel">ParameterModel.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         TrueFalseResponse DeletePostingLoanAccount(ParameterModel body);
+
+        #region BankLoanForeClosures
+
+        /// <summary>
+        /// Create BankLoanForeClosures.
+        /// </summary>
+        /// <param name="BankLoanForeClosuresModel">BankLoanForeClosuresModel.</param>
+        /// <returns>Returns BankLoanForeClosuresResponse.</returns>
+        BankLoanForeClosuresResponse CreateBankLoanForeClosures(BankLoanForeClosuresModel body);
+
+        /// <summary>
+        /// Get BankLoanForeClosures Detail by BankPostingLoanAccountId.
+        /// </summary>
+        /// <param name="bankPostingLoanAccountId">BankPostingLoanAccountId</param>
+        /// <returns>Returns BankLoanForeClosuresResponse.</returns>
+        BankLoanForeClosuresResponse GetBankLoanForeClosures(int bankPostingLoanAccountId);
+
+        /// <summary>
+        /// Update BankLoanForeClosures Detail.
+        /// </summary>
+        /// <param name="BankLoanForeClosuresModel">BankLoanForeClosuresModel.</param>
+        /// <returns>Returns updated BankLoanForeClosuresResponse</returns>
+        BankLoanForeClosuresResponse UpdateBankLoanForeClosures(BankLoanForeClosuresModel body);
+        #endregion
     }
 }

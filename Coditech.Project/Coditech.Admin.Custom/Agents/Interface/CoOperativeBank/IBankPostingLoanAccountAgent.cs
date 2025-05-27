@@ -38,5 +38,29 @@ namespace Coditech.Admin.Agents
         /// <returns>Returns true if deleted successfully else return false.</returns>
         bool DeletePostingLoanAccount(string bankPostingLoanAccountId, out string errorMessage);
 
+        #region BankLoanForeClosures
+
+        /// <summary>
+        /// Create BankLoanForeClosures.
+        /// </summary>
+        /// <param name="bankLoanForeClosuresViewModel"> BankLoanForeClosures View Model.</param>
+        /// <returns>Returns created model.</returns>
+        BankLoanForeClosuresViewModel CreateBankLoanForeClosures(BankLoanForeClosuresViewModel bankLoanForeClosuresViewModel);
+
+        /// <summary>
+        /// Get BankLoanForeClosures by BankLoanForeClosures.
+        /// </summary>
+        /// <param name="bankPostingLoanAccountId">BankPostingLoanAccountId</param>
+        /// <returns>Returns BankLoanForeClosuresViewModel.</returns>
+        BankLoanForeClosuresViewModel GetBankLoanForeClosures(int bankPostingLoanAccountId);
+
+        /// <summary>
+        /// Update BankLoanForeClosures.
+        /// </summary>
+        /// <param name="bankLoanForeClosuresViewModel">BankLoanForeClosuresViewModel.</param>
+        /// <returns>Returns updated BankLoanForeClosuresViewModel</returns>
+        BankLoanForeClosuresViewModel UpdateBankLoanForeClosures(BankLoanForeClosuresViewModel bankLoanForeClosuresViewModel);
+        #endregion
+
     }
 }
