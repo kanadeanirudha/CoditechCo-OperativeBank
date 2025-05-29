@@ -28,6 +28,8 @@
         RepaymentMode,
         BankProduct,
         LoanScheduleStatus,
+        ClosureType,
+        BankProducts,
     }
     public enum DashboardFormCustomEnum
     {
@@ -57,6 +59,7 @@
         BankProduct,
         AccSetupGL,
         BankSavingsAccountClosures,
+        BankFixedDepositClosure,
     }
     public enum UserTypeCustomEnum
     {

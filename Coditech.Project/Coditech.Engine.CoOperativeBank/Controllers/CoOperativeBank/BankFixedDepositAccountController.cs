@@ -1,4 +1,5 @@
-﻿using Coditech.API.Service;
+﻿using Coditech.API.Data;
+using Coditech.API.Service;
 using Coditech.Common.API;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
@@ -130,5 +131,73 @@ namespace Coditech.Engine.DBTM.Controllers
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+        #region BankFixedDepositClosure
+
+        [Route("/BankFixedDepositAccount/CreateBankFixedDepositClosure")]
+        [HttpPost, ValidateModel]
+        [Produces(typeof(BankFixedDepositClosureResponse))]
+        public virtual IActionResult CreateBankFixedDepositClosure([FromBody] BankFixedDepositClosureModel model)
+        {
+            try
+            {
+                BankFixedDepositClosureModel bankFixedDepositClosure = _bankFixedDepositAccountService.CreateBankFixedDepositClosure(model);
+                return IsNotNull(bankFixedDepositClosure) ? CreateCreatedResponse(new BankFixedDepositClosureResponse { BankFixedDepositClosureModel = bankFixedDepositClosure }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankFixedDepositClosure.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new BankFixedDepositClosureResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankFixedDepositClosure.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new BankFixedDepositClosureResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/BankFixedDepositAccount/GetBankFixedDepositClosure")]
+        [HttpGet]
+        [Produces(typeof(BankFixedDepositClosureResponse))]
+        public virtual IActionResult GetBankFixedDepositClosure(short bankFixedDepositAccountId)
+        {
+            try
+            {
+                BankFixedDepositClosureModel bankFixedDepositClosureModel = _bankFixedDepositAccountService.GetBankFixedDepositClosure(bankFixedDepositAccountId);
+                return IsNotNull(bankFixedDepositClosureModel) ? CreateOKResponse(new BankFixedDepositClosureResponse { BankFixedDepositClosureModel = bankFixedDepositClosureModel }) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankFixedDepositClosure.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new BankFixedDepositClosureResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankFixedDepositClosure.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new BankFixedDepositClosureResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+        [Route("/BankFixedDepositAccount/UpdateBankFixedDepositClosure")]
+        [HttpPut, ValidateModel]
+        [Produces(typeof(BankFixedDepositClosureResponse))]
+        public virtual IActionResult UpdateBankFixedDepositClosure([FromBody] BankFixedDepositClosureModel model)
+        {
+            try
+            {
+                bool isUpdated = _bankFixedDepositAccountService.UpdateBankFixedDepositClosure(model);
+                return isUpdated ? CreateOKResponse(new BankFixedDepositClosureResponse { BankFixedDepositClosureModel = model }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankFixedDepositClosure.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new BankFixedDepositClosureResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankFixedDepositClosure.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new BankFixedDepositClosureResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        #endregion
     }
 }

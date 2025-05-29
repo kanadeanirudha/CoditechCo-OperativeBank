@@ -150,6 +150,71 @@ namespace Coditech.Admin.Agents
                 return false;
             }
         }
+        #region BankFixedDepositClosure
+
+        //Create BankFixedDepositClosure
+        public virtual BankFixedDepositClosureViewModel CreateBankFixedDepositClosure(BankFixedDepositClosureViewModel bankFixedDepositClosureViewModel)
+        {
+            try
+            {
+                BankFixedDepositClosureResponse response = _bankFixedDepositAccountClient.CreateBankFixedDepositClosure(bankFixedDepositClosureViewModel.ToModel<BankFixedDepositClosureModel>());
+                BankFixedDepositClosureModel bankFixedDepositClosureModel = response?.BankFixedDepositClosureModel;
+                return IsNotNull(bankFixedDepositClosureModel) ? bankFixedDepositClosureModel.ToViewModel<BankFixedDepositClosureViewModel>() : new BankFixedDepositClosureViewModel();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankFixedDepositClosure.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (BankFixedDepositClosureViewModel)GetViewModelWithErrorMessage(bankFixedDepositClosureViewModel, ex.ErrorMessage);
+                    default:
+                        return (BankFixedDepositClosureViewModel)GetViewModelWithErrorMessage(bankFixedDepositClosureViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankFixedDepositClosure.ToString(), TraceLevel.Error);
+                return (BankFixedDepositClosureViewModel)GetViewModelWithErrorMessage(bankFixedDepositClosureViewModel, GeneralResources.ErrorFailedToCreate);
+            }
+        }
+
+        //Get BankFixedDepositClosure by bankFixedDepositAccountId.
+        public virtual BankFixedDepositClosureViewModel GetBankFixedDepositClosure(short bankFixedDepositAccountId)
+        {
+            BankFixedDepositClosureResponse response = _bankFixedDepositAccountClient.GetBankFixedDepositClosure(bankFixedDepositAccountId);
+            return response?.BankFixedDepositClosureModel.ToViewModel<BankFixedDepositClosureViewModel>();
+        }
+
+        //Update BankFixedDepositClosure.
+        public virtual BankFixedDepositClosureViewModel UpdateBankFixedDepositClosure(BankFixedDepositClosureViewModel bankFixedDepositClosureViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", LogComponentCustomEnum.BankFixedDepositClosure.ToString(), TraceLevel.Info);
+                BankFixedDepositClosureResponse response = _bankFixedDepositAccountClient.UpdateBankFixedDepositClosure(bankFixedDepositClosureViewModel.ToModel<BankFixedDepositClosureModel>());
+                BankFixedDepositClosureModel bankFixedDepositClosureModel = response?.BankFixedDepositClosureModel;
+                _coditechLogging.LogMessage("Agent method execution done.", LogComponentCustomEnum.BankFixedDepositClosure.ToString(), TraceLevel.Info);
+                return IsNotNull(bankFixedDepositClosureModel) ? bankFixedDepositClosureModel.ToViewModel<BankFixedDepositClosureViewModel>() : (BankFixedDepositClosureViewModel)GetViewModelWithErrorMessage(new BankFixedDepositClosureViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankFixedDepositClosure.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (BankFixedDepositClosureViewModel)GetViewModelWithErrorMessage(bankFixedDepositClosureViewModel, ex.ErrorMessage);
+                    default:
+                        return (BankFixedDepositClosureViewModel)GetViewModelWithErrorMessage(bankFixedDepositClosureViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankFixedDepositClosure.ToString(), TraceLevel.Error);
+                return (BankFixedDepositClosureViewModel)GetViewModelWithErrorMessage(bankFixedDepositClosureViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
+        #endregion
         #endregion
 
         #region protected

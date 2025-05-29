@@ -37,5 +37,30 @@ namespace Coditech.Admin.Agents
         /// <param name="bankFixedDepositAccountId">bankFixedDepositAccountId.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         bool DeleteBankFixedDepositAccount(string bankFixedDepositAccountId, out string errorMessage);
+
+        #region BankFixedDepositClosure
+
+        /// <summary>
+        /// Create BankFixedDepositClosure.
+        /// </summary>
+        /// <param name="bankFixedDepositClosureViewModel">BankFixedDepositClosureViewModel.</param>
+        /// <returns>Returns created model.</returns>
+        BankFixedDepositClosureViewModel CreateBankFixedDepositClosure(BankFixedDepositClosureViewModel bankFixedDepositClosureViewModel);
+
+        /// <summary>
+        /// Get BankFixedDepositClosure by bankFixedDepositAccountId.
+        /// </summary>
+        /// <param name="bankFixedDepositAccountId">bankFixedDepositAccountId</param>
+        /// <returns>Returns BankFixedDepositAccountViewModel.</returns>
+        BankFixedDepositClosureViewModel GetBankFixedDepositClosure(short bankFixedDepositAccountId);
+
+        /// <summary>
+        /// Update BankFixedDepositClosure.
+        /// </summary>
+        /// <param name="bankFixedDepositAccountViewModel">bankFixedDepositAccountViewModel.</param>
+        /// <returns>Returns updated BankFixedDepositAccountViewModel</returns>
+        BankFixedDepositClosureViewModel UpdateBankFixedDepositClosure(BankFixedDepositClosureViewModel bankFixedDepositClosureViewModel);
+
+        #endregion
     }
 }

@@ -9,12 +9,13 @@ namespace Coditech.Admin.Controllers
     {
         private readonly IBankFixedDepositAccountAgent _bankFixedDepositAccountAgent;
         private const string createEdit = "~/Views/CoOperativeBank/BankFixedDepositAccount/CreateEdit.cshtml";
+        private const string BankFixedDepositClosure = "~/Views/CoOperativeBank/BankFixedDepositAccount/BankFixedDepositClosure.cshtml";
 
         public BankFixedDepositAccountController(IBankFixedDepositAccountAgent bankFixedDepositAccountAgent)
         {
             _bankFixedDepositAccountAgent = bankFixedDepositAccountAgent;
         }
-
+        #region BankFixedDepositAccount
         public virtual ActionResult List(DataTableViewModel dataTableViewModel)
         {
             BankFixedDepositAccountListViewModel list = new BankFixedDepositAccountListViewModel();
@@ -46,7 +47,8 @@ namespace Coditech.Admin.Controllers
                 if (!bankFixedDepositAccountViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("List", CreateActionDataTable());
+                    return RedirectToAction("List", new DataTableViewModel { SelectedCentreCode = bankFixedDepositAccountViewModel.CentreCode });
+
                 }
             }
             SetNotificationMessage(GetErrorNotificationMessage(bankFixedDepositAccountViewModel.ErrorMessage));
@@ -69,7 +71,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(bankFixedDepositAccountViewModel.HasError
                 ? GetErrorNotificationMessage(bankFixedDepositAccountViewModel.ErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction<BankFixedDepositAccountController>(x => x.List(null));
+                return RedirectToAction("Edit", new { bankFixedDepositAccountId = bankFixedDepositAccountViewModel.BankFixedDepositAccountId });
             }
             return View(createEdit, bankFixedDepositAccountViewModel);
         }
@@ -89,5 +91,53 @@ namespace Coditech.Admin.Controllers
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
             return RedirectToAction<BankFixedDepositAccountController>(x => x.List(null));
         }
+        public virtual ActionResult Cancel(string SelectedCentreCode)
+        {
+            DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode};
+            return RedirectToAction("List", dataTableViewModel);
+        }
+        #endregion
+        #region BankFixedDepositClosure
+
+        [HttpPost]
+        public virtual ActionResult CreateBankFixedDepositClosure(BankFixedDepositClosureViewModel bankFixedDepositClosureViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                bankFixedDepositClosureViewModel = _bankFixedDepositAccountAgent.CreateBankFixedDepositClosure(bankFixedDepositClosureViewModel);
+                if (!bankFixedDepositClosureViewModel.HasError)
+                {
+                    SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
+                    return RedirectToAction("UpdateBankFixedDepositClosure", new { bankFixedDepositAccountId = bankFixedDepositClosureViewModel.BankFixedDepositAccountId });
+
+                }
+            }
+            SetNotificationMessage(GetErrorNotificationMessage(bankFixedDepositClosureViewModel.ErrorMessage));
+            return View(createEdit, bankFixedDepositClosureViewModel);
+        }
+
+        [HttpGet]
+        public virtual ActionResult UpdateBankFixedDepositClosure(short bankFixedDepositAccountId)
+        {
+            BankFixedDepositClosureViewModel bankFixedDepositClosureViewModel = _bankFixedDepositAccountAgent.GetBankFixedDepositClosure(bankFixedDepositAccountId);
+            return ActionView(BankFixedDepositClosure, bankFixedDepositClosureViewModel);
+        }
+
+        [HttpPost]
+        public virtual ActionResult UpdateBankFixedDepositClosure(BankFixedDepositClosureViewModel bankFixedDepositClosureViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                bankFixedDepositClosureViewModel = _bankFixedDepositAccountAgent.UpdateBankFixedDepositClosure(bankFixedDepositClosureViewModel);
+                SetNotificationMessage(bankFixedDepositClosureViewModel.HasError
+                ? GetErrorNotificationMessage(bankFixedDepositClosureViewModel.ErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("UpdateBankFixedDepositClosure", new { bankFixedDepositAccountId = bankFixedDepositClosureViewModel.BankFixedDepositAccountId });
+
+            }
+            return View(BankFixedDepositClosure, bankFixedDepositClosureViewModel);
+        }
+
+        #endregion
     }
 }

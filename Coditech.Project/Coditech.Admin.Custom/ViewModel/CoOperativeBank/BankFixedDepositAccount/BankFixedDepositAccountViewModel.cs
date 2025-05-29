@@ -2,22 +2,28 @@
 using System.ComponentModel.DataAnnotations;
 namespace Coditech.Admin.ViewModel
 {
-    public class BankFixedDepositAccountViewModel : BaseViewModel
+    public partial class BankFixedDepositAccountViewModel : BaseViewModel
     {
         public short BankFixedDepositAccountId { get; set; }
         [Display(Name = "Bank Member")]
         public int BankMemberId { get; set; }
+        [Display(Name = "Bank Product")]
         public short BankProductId { get; set; }
         [Display(Name = "Bank Member Nominee")]
         public int BankMemberNomineeId { get; set; }
+       
+        [MaxLength(20)]
         [Display(Name = "Account Number")]
         public int? FixedDepositAccountNumber { get; set; }
+        [Required]
         [Display(Name = "Deposit Amount")]
         public decimal? DepositAmount { get; set; }
+        [Required]
         [Display(Name = "Interest Rate")]
         public decimal? InterestRate { get; set; }
         [Display(Name = "Start Date")]
         public DateTime StartDate { get; set; } = DateTime.Now;
+        [Required]
         [Display(Name = "Tenure Months")]
         public int? TenureMonths { get; set; }
         [Display(Name = "Maturity Date")]

@@ -39,5 +39,29 @@ namespace Coditech.API.Client
         /// <param name="ParameterModel">ParameterModel.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         TrueFalseResponse DeleteBankFixedDepositAccount(ParameterModel body);
+
+        #region BankFixedDepositClosure
+
+        /// <summary>
+        /// Create BankFixedDepositClosure.
+        /// </summary>
+        /// <param name="BankFixedDepositClosureModel">BankFixedDepositClosureModel.</param>
+        /// <returns>Returns BankFixedDepositClosureResponse.</returns>
+        BankFixedDepositClosureResponse CreateBankFixedDepositClosure(BankFixedDepositClosureModel body);
+
+        /// <summary>
+        /// Get BankFixedDepositClosure by bankFixedDepositAccountId.
+        /// </summary>
+        /// <param name="bankFixedDepositAccountId">bankFixedDepositAccountId</param>
+        /// <returns>Returns BankFixedDepositClosureResponse.</returns>
+        BankFixedDepositClosureResponse GetBankFixedDepositClosure(short bankFixedDepositAccountId);
+
+        /// <summary>
+        /// Update BankFixedDepositClosure
+        /// </summary>
+        /// <param name="BankFixedDepositClosureModel">BankFixedDepositClosureModel.</param>
+        /// <returns>Returns updated BankFixedDepositClosureResponse</returns>
+        BankFixedDepositClosureResponse UpdateBankFixedDepositClosure(BankFixedDepositClosureModel body);
+        #endregion
     }
 }

@@ -16,12 +16,14 @@ namespace Coditech.API.Service
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<BankFixedDepositAccount> _bankFixedDepositAccountRepository;
         private readonly ICoditechRepository<BankMember> _bankMemberRepository;
+        private readonly ICoditechRepository<BankFixedDepositClosure> _bankFixedDepositClosureRepository;
         public BankFixedDepositAccountService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _bankFixedDepositAccountRepository = new CoditechRepository<BankFixedDepositAccount>(_serviceProvider.GetService<CoditechCustom_Entities>());
             _bankMemberRepository = new CoditechRepository<BankMember>(_serviceProvider.GetService<CoditechCustom_Entities>());
+            _bankFixedDepositClosureRepository = new CoditechRepository<BankFixedDepositClosure>(_serviceProvider.GetService<CoditechCustom_Entities>());
         }
         public virtual BankFixedDepositAccountListModel GetBankFixedDepositAccountList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
@@ -127,5 +129,89 @@ namespace Coditech.API.Service
         //protected virtual bool IsBankInsurancePoliciesTypeAlreadyExist(string insurancePoliciesTypeCode, short bankInsurancePoliciesTypeId = 0)
         // => _bankInsurancePoliciesTypeRepository.Table.Any(x => x.InsurancePoliciesTypeCode == insurancePoliciesTypeCode && (x.BankInsurancePoliciesTypeId != bankInsurancePoliciesTypeId || bankInsurancePoliciesTypeId == 0));
         //#endregion
+
+        #region BankFixedDepositClosure
+
+        //Create BankFixedDepositClosure.
+        public virtual BankFixedDepositClosureModel CreateBankFixedDepositClosure(BankFixedDepositClosureModel bankFixedDepositClosureModel)
+        {
+            if (IsNull(bankFixedDepositClosureModel))
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+
+            //if (IsBankInsurancePoliciesTypeAlreadyExist(bankInsurancePoliciesTypeModel.InsurancePoliciesTypeCode, bankInsurancePoliciesTypeModel.BankInsurancePoliciesTypeId))
+            //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Insurance Policies Code"));
+
+            BankFixedDepositClosure bankFixedDepositClosure = bankFixedDepositClosureModel.FromModelToEntity<BankFixedDepositClosure>();
+
+            //Create new BankFixedDepositAccount and return it.
+            BankFixedDepositClosure bankFixedDepositClosureData = _bankFixedDepositClosureRepository.Insert(bankFixedDepositClosure);
+            if (bankFixedDepositClosureData?.BankFixedDepositClosureId > 0)
+            {
+                bankFixedDepositClosureModel.BankFixedDepositClosureId = bankFixedDepositClosureData.BankFixedDepositClosureId;
+            }
+            else
+            {
+                bankFixedDepositClosureModel.HasError = true;
+                bankFixedDepositClosureModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+            }
+            return bankFixedDepositClosureModel;
+        }
+
+        // Get BankFixedDepositClosure by bankFixedDepositAccountId.
+        public virtual BankFixedDepositClosureModel GetBankFixedDepositClosure(short bankFixedDepositAccountId)
+        {
+            if (bankFixedDepositAccountId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BankFixedDepositAccountId"));
+
+            // Step 1: Check if BankFixedDepositClosure already exists for this account
+            BankFixedDepositClosure existingBankFixedDepositClosure = _bankFixedDepositClosureRepository.Table.FirstOrDefault(x => x.BankFixedDepositAccountId == bankFixedDepositAccountId);
+
+            if (existingBankFixedDepositClosure != null)
+            {
+                return new BankFixedDepositClosureModel
+                {
+                    BankFixedDepositClosureId = existingBankFixedDepositClosure.BankFixedDepositClosureId,
+                    BankFixedDepositAccountId = existingBankFixedDepositClosure.BankFixedDepositAccountId,
+                    ClosureDate = existingBankFixedDepositClosure.ClosureDate,
+                    ClosureTypeEnumId = existingBankFixedDepositClosure.ClosureTypeEnumId,
+                    AmountPaid = existingBankFixedDepositClosure.AmountPaid,
+                    PenaltyApplied = existingBankFixedDepositClosure.PenaltyApplied,
+                    ApprovedBy = existingBankFixedDepositClosure.ApprovedBy,
+                    Remarks = existingBankFixedDepositClosure.Remarks,
+                };
+            }
+
+            // If no existingBankFixedDepositClosure , return a new model with default values
+            return new BankFixedDepositClosureModel
+            {
+                BankFixedDepositAccountId = bankFixedDepositAccountId,
+            };
+        }
+
+        //Update BankFixedDepositClosure.
+        public virtual bool UpdateBankFixedDepositClosure(BankFixedDepositClosureModel bankFixedDepositClosureModel)
+        {
+            if (IsNull(bankFixedDepositClosureModel))
+                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
+
+            if (bankFixedDepositClosureModel.BankFixedDepositClosureId < 1)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BankFixedDepositClosureId"));
+
+            //if (IsBankInsurancePoliciesTypeAlreadyExist(bankInsurancePoliciesTypeModel.InsurancePoliciesTypeCode, bankInsurancePoliciesTypeModel.BankInsurancePoliciesTypeId))
+            //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Insurance Policies Code"));
+
+            BankFixedDepositClosure bankFixedDepositClosure = bankFixedDepositClosureModel.FromModelToEntity<BankFixedDepositClosure>();
+
+            //Update BankFixedDepositClosure
+            bool isBankFixedDepositClosureUpdated = _bankFixedDepositClosureRepository.Update(bankFixedDepositClosure);
+            if (!isBankFixedDepositClosureUpdated)
+            {
+                bankFixedDepositClosureModel.HasError = true;
+                bankFixedDepositClosureModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+            }
+            return isBankFixedDepositClosureUpdated;
+        }
+
+        #endregion
     }
 }

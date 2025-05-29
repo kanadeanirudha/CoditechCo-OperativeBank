@@ -3,15 +3,25 @@
     ViewBag.Title = Model.BankFixedDepositAccountId > 0 ? "Update Bank Fixed Deposit Account" : "Add Bank Fixed Deposit Account";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
-    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "CentreCode", DropdownSelectedValue = Model.CentreCode, ChangeEvent = "BankSavingsAccount.GetBankMemberByCentreCode()", IsDisabled = Model.BankFixedDepositAccountId > 0 };
-    DropdownViewModel bankMemberDropdown = new DropdownViewModel() { DropdownType = DropdownCustomTypeEnum.BankMembers.ToString(), DropdownName = "BankMemberId", DropdownSelectedValue = Model.BankMemberId.ToString(), Parameter = Model.CentreCode, IsCustomDropdown = true, IsDisabled = Model.BankFixedDepositAccountId > 0 };
+    string css = Model.BankFixedDepositAccountId > 0 ? "col-lg-10" : "col-lg-12";
+    Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+    keyValuePairs.Add("BankFixedDepositAccountId", Model.BankFixedDepositAccountId.ToString());
+    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "CentreCode", DropdownSelectedValue = Model.CentreCode, ChangeEvent = "BankSavingsAccount.GetBankMemberByCentreCode(); BankSavingsAccount.GetBankProductByCentreCode();" };
+    DropdownViewModel bankMemberDropdown = new DropdownViewModel() { DropdownType = DropdownCustomTypeEnum.BankMembers.ToString(), DropdownName = "BankMemberId", DropdownSelectedValue = Model.BankMemberId.ToString(), Parameter = Model.CentreCode, IsCustomDropdown = true };
+    DropdownViewModel bankProductDropdown = new DropdownViewModel() { DropdownType = DropdownCustomTypeEnum.BankProducts.ToString(), DropdownName = "BankProductId", DropdownSelectedValue = Model.BankProductId.ToString(), Parameter = Model.CentreCode, IsCustomDropdown = true };
     DropdownViewModel bankMemberNomineeDropdown = new DropdownViewModel() { DropdownType = DropdownCustomTypeEnum.BankMemberNominee.ToString(), DropdownName = "BankMemberNomineeId", DropdownSelectedValue = Model.BankMemberNomineeId.ToString(), Parameter = Model.BankMemberNomineeId.ToString(), IsCustomDropdown = true };
 }
 <!-- Page Content-->
 <div class="page-content mt-5">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-12">
+            @if (Model.BankFixedDepositAccountId > 0)
+            {
+                <div class="col-lg-2">
+                    @Html.Partial("~/Views/CoOperativeBank/BankFixedDepositAccount/_BankFixedDepositAccountSidePannel.cshtml", keyValuePairs)
+                </div>
+            }
+            <div class="@css">
                 <div class="card">
                     <div class="card-header">
                         <div class="row align-items-center">
@@ -36,6 +46,7 @@
                                 @Html.HiddenFor(m => m.CentreCode)
                                 @Html.HiddenFor(m => m.BankMemberId)
                                 @Html.HiddenFor(m => m.BankMemberNomineeId)
+                                @Html.HiddenFor(m => m.BankProductId)
                             }
                             <div class="row">
                                 <div class="col-lg-4">
@@ -43,6 +54,13 @@
                                         @Html.LabelFor(x => x.CentreCode, new { @class = "form-label required" })
                                         @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", centreDropdown)
                                         @Html.ValidationMessageFor(x => x.CentreCode)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.BankProductId, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", bankProductDropdown)
+                                        @Html.ValidationMessageFor(x => x.BankProductId)
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
@@ -62,21 +80,21 @@
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.FixedDepositAccountNumber, new { @class = "form-label required" })
-                                        @Html.TextBoxFor(x => x.FixedDepositAccountNumber, new { @class = "form-control", @onkeypress = "return CoditechCommon.AvoidSpacing()" })
+                                        @Html.TextBoxFor(x => x.FixedDepositAccountNumber, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
                                         @Html.ValidationMessageFor(x => x.FixedDepositAccountNumber)
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.DepositAmount, new { @class = "form-label required" })
-                                        @Html.TextBoxFor(x => x.DepositAmount, new { @class = "form-control", @onkeypress = "return CoditechCommon.AvoidSpacing()" })
+                                        @Html.TextBoxFor(x => x.DepositAmount, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
                                         @Html.ValidationMessageFor(x => x.DepositAmount)
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.InterestRate, new { @class = "form-label required" })
-                                        @Html.TextBoxFor(x => x.InterestRate, new { @class = "form-control", @onkeypress = "return CoditechCommon.AvoidSpacing()" })
+                                        @Html.TextBoxFor(x => x.InterestRate, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
                                         @Html.ValidationMessageFor(x => x.InterestRate)
                                     </div>
                                 </div>
@@ -90,7 +108,7 @@
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.TenureMonths, new { @class = "form-label required"})
-                                        @Html.TextBoxFor(x => x.TenureMonths, new { @class = "form-control", @onkeypress = "return CoditechCommon.AvoidSpacing()" })
+                                        @Html.TextBoxFor(x => x.TenureMonths, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
                                         @Html.ValidationMessageFor(x => x.TenureMonths)
                                     </div>
                                 </div>
@@ -170,7 +188,8 @@
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
-                            <a href="../@controllerName/List" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
+                            <a href="../@controllerName/Cancel?SelectedCentreCode=@Model.CentreCode" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
+
                         }
                     </div>
                 </div>

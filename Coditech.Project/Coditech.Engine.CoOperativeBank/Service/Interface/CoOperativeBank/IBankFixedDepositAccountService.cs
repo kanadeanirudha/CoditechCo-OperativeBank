@@ -10,5 +10,9 @@ namespace Coditech.API.Service
         BankFixedDepositAccountModel GetBankFixedDepositAccount(short bankFixedDepositAccountId);
         bool UpdateBankFixedDepositAccount(BankFixedDepositAccountModel model);
         bool DeleteBankFixedDepositAccount(ParameterModel parameterModel);
+
+        BankFixedDepositClosureModel CreateBankFixedDepositClosure(BankFixedDepositClosureModel model);
+        BankFixedDepositClosureModel GetBankFixedDepositClosure(short bankFixedDepositAccountId);
+        bool UpdateBankFixedDepositClosure(BankFixedDepositClosureModel model);
     }
 }
