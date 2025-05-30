@@ -241,7 +241,7 @@ namespace Coditech.API.Common
         }
         #endregion
 
-        #region register Dependency
+        #region Register Dependency
         /// <summary>
         /// Register DI with default microsoft container.
         /// </summary>
@@ -271,6 +271,9 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IBankFixedDepositAccountService, BankFixedDepositAccountService>();
             builder.Services.AddScoped<IBankProductService, BankProductService>();
             builder.Services.AddScoped<IBankPostingLoanAccountService, BankPostingLoanAccountService>();
+            
+            builder.Services.AddScoped<IBankRecurringDepositAccountService, BankRecurringDepositAccountService>();
+
 
             #endregion
 

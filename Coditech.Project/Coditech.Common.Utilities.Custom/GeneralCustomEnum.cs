@@ -55,10 +55,12 @@
         BankFixedDepositAccount,
         BankProduct,
         AccSetupGL,
-        BankMemberNominee
+        BankMemberNominee,
+        BankRecurringDepositAccount,
     }
     public enum UserTypeCustomEnum
     {
-        BankMember
+        BankMember,
+        BankRecurringDepositAccount,
     }
 }

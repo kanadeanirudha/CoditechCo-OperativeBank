@@ -1,0 +1,128 @@
+﻿using Coditech.API.Data;
+using Coditech.Common.API.Model;
+using Coditech.Common.Exceptions;
+using Coditech.Common.Helper;
+using Coditech.Common.Helper.Utilities;
+using Coditech.Common.Logger;
+using Coditech.Resources;
+using System.Collections.Specialized;
+using System.Data;
+using static Coditech.Common.Helper.HelperUtility;
+namespace Coditech.API.Service
+{
+    public class BankRecurringDepositAccountService : IBankRecurringDepositAccountService
+    {
+        protected readonly IServiceProvider _serviceProvider;
+        protected readonly ICoditechLogging _coditechLogging;
+        private readonly ICoditechRepository<BankRecurringDepositAccount> _bankRecurringDepositAccountRepository;
+        private readonly ICoditechRepository<BankMember> _bankMemberRepository;
+        public BankRecurringDepositAccountService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+            _coditechLogging = coditechLogging;
+            _bankRecurringDepositAccountRepository = new CoditechRepository<BankRecurringDepositAccount>(_serviceProvider.GetService<CoditechCustom_Entities>());
+            _bankMemberRepository = new CoditechRepository<BankMember>(_serviceProvider.GetService<CoditechCustom_Entities>());
+        }
+        public virtual BankRecurringDepositAccountListModel GetBankRecurringDepositAccountList(string centreCode, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        {
+            //string selectedCentreCode = filters?.Find(x => string.Equals(x.FilterName, FilterKeys.SelectedCentreCode, StringComparison.CurrentCultureIgnoreCase))?.FilterValue;
+            //filters.RemoveAll(x => x.FilterName == FilterKeys.SelectedCentreCode);
+
+            //Bind the Filter, sorts & Paging details.
+            PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
+            CoditechViewRepository<BankRecurringDepositAccountModel> objStoredProc = new CoditechViewRepository<BankRecurringDepositAccountModel>(_serviceProvider.GetService<CoditechCustom_Entities>());
+            objStoredProc.SetParameter("@CentreCode", centreCode, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
+            objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
+            List<BankRecurringDepositAccountModel> bankRecurringDepositAccountList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetBankRecurringDepositAccountList @CentreCode,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 5, out pageListModel.TotalRowCount)?.ToList();
+            BankRecurringDepositAccountListModel listModel = new BankRecurringDepositAccountListModel();
+
+            listModel.BankRecurringDepositAccountList = bankRecurringDepositAccountList?.Count > 0 ? bankRecurringDepositAccountList : new List<BankRecurringDepositAccountModel>();
+            listModel.BindPageListModel(pageListModel);
+            return listModel;
+        }
+        //Create BankRecurringDepositAccount.
+        public virtual BankRecurringDepositAccountModel CreateBankRecurringDepositAccount(BankRecurringDepositAccountModel bankRecurringDepositAccountModel)
+        {
+            if (IsNull(bankRecurringDepositAccountModel))
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+
+            BankRecurringDepositAccount bankRecurringDepositAccount = bankRecurringDepositAccountModel.FromModelToEntity<BankRecurringDepositAccount>();
+
+            //Create new BankRecurringDepositAccount and return it.
+            BankRecurringDepositAccount bankRecurringDepositAccountData = _bankRecurringDepositAccountRepository.Insert(bankRecurringDepositAccount);
+            if (bankRecurringDepositAccountData?.BankRecurringDepositAccountId > 0)
+            {
+                bankRecurringDepositAccountModel.BankRecurringDepositAccountId = bankRecurringDepositAccountData.BankRecurringDepositAccountId;
+            }
+            else
+            {
+                bankRecurringDepositAccountModel.HasError = true;
+                bankRecurringDepositAccountModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+            }
+            return bankRecurringDepositAccountModel;
+        }
+
+        //Get BankRecurringDepositAccount by bankRecurringDepositAccountId.
+        public virtual BankRecurringDepositAccountModel GetBankRecurringDepositAccount(int bankRecurringDepositAccountId)
+        {
+            if (bankRecurringDepositAccountId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BankRecurringDepositAccountId"));
+
+            //Get the Country Details based on id.
+            BankRecurringDepositAccount bankRecurringDepositAccount = _bankRecurringDepositAccountRepository.Table.FirstOrDefault(x => x.BankRecurringDepositAccountId == bankRecurringDepositAccountId);
+            BankRecurringDepositAccountModel bankRecurringDepositAccountModel = bankRecurringDepositAccount?.FromEntityToModel<BankRecurringDepositAccountModel>();
+            string centreCode = _bankMemberRepository.Table.Where(x => x.BankMemberId == bankRecurringDepositAccount.BankMemberId).Select(x => x.CentreCode).FirstOrDefault();
+             bankRecurringDepositAccountModel.CentreCode = centreCode;
+            return bankRecurringDepositAccountModel;
+        }
+
+        //Update BankRecurringDepositAccount.
+        public virtual bool UpdateBankRecurringDepositAccount(BankRecurringDepositAccountModel bankRecurringDepositAccountModel)
+        {
+            if (IsNull(bankRecurringDepositAccountModel))
+                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
+
+            if (bankRecurringDepositAccountModel.BankRecurringDepositAccountId < 1)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BankRecurringDepositAccountId"));
+
+            //if (IsBankInsurancePoliciesTypeAlreadyExist(bankInsurancePoliciesTypeModel.InsurancePoliciesTypeCode, bankInsurancePoliciesTypeModel.BankInsurancePoliciesTypeId))
+            //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Insurance Policies Code"));
+
+            BankRecurringDepositAccount bankRecurringDepositAccount = bankRecurringDepositAccountModel.FromModelToEntity<BankRecurringDepositAccount>();
+
+            //Update BankRecurringDepositAccount
+            bool isBankRecurringDepositAccountUpdated = _bankRecurringDepositAccountRepository.Update(bankRecurringDepositAccount);
+            if (!isBankRecurringDepositAccountUpdated)
+            {
+                bankRecurringDepositAccountModel.HasError = true;
+                bankRecurringDepositAccountModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+            }
+            return isBankRecurringDepositAccountUpdated;
+        }
+
+        //Delete BankRecurringDepositAccount.
+        public virtual bool DeleteBankRecurringDepositAccount(ParameterModel parameterModel)
+        {
+            if (IsNull(parameterModel) || string.IsNullOrEmpty(parameterModel.Ids))
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BankRecurringDepositAccountId"));
+
+            CoditechViewRepository<View_ReturnBoolean> objStoredProc = new CoditechViewRepository<View_ReturnBoolean>(_serviceProvider.GetService<Coditech_Entities>());
+            objStoredProc.SetParameter("BankRecurringDepositAccountId", parameterModel.Ids, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("Status", null, ParameterDirection.Output, DbType.Int32);
+            int status = 0;
+            objStoredProc.ExecuteStoredProcedureList("Coditech_DeleteBankRecurringDepositAccount @IBankRecurringDepositAccountServiceId,  @Status OUT", 1, out status);
+
+            return status == 1 ? true : false;
+        }
+
+        //#region Protected Method
+        ////Check if Insurance Policies Type code is already present or not.
+        //protected virtual bool IsBankInsurancePoliciesTypeAlreadyExist(string insurancePoliciesTypeCode, short bankInsurancePoliciesTypeId = 0)
+        // => _bankInsurancePoliciesTypeRepository.Table.Any(x => x.InsurancePoliciesTypeCode == insurancePoliciesTypeCode && (x.BankInsurancePoliciesTypeId != bankInsurancePoliciesTypeId || bankInsurancePoliciesTypeId == 0));
+        //#endregion
+    }
+}
