@@ -8,21 +8,20 @@ using Newtonsoft.Json;
 using System.Net;
 namespace Coditech.API.Client
 {
-    public class BankMemberNomineeClient : BaseClient, IBankMemberNomineeClient
+    public class BankRecurringDepositAccountClient : BaseClient, IBankRecurringDepositAccountClient
     {
-        BankMemberNomineeEndpoint bankMemberNomineeEndpoint = null;
-        public BankMemberNomineeClient()
+        BankRecurringDepositAccountEndpoint bankRecurringDepositAccountEndpoint = null;
+        public BankRecurringDepositAccountClient()
         {
-            bankMemberNomineeEndpoint = new BankMemberNomineeEndpoint();
+            bankRecurringDepositAccountEndpoint = new BankRecurringDepositAccountEndpoint();
         }
-        public virtual BankMemberNomineeListResponse List(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public virtual BankRecurringDepositAccountListResponse List(string centreCode,IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            return Task.Run(async () => await ListAsync(expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await ListAsync(centreCode,expand, filter, sort, pageIndex, pageSize, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
-
-        public virtual async Task<BankMemberNomineeListResponse> ListAsync(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
+        public virtual async Task<BankRecurringDepositAccountListResponse> ListAsync(string centreCode,IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
         {
-            string endpoint = bankMemberNomineeEndpoint.ListAsync(expand, filter, sort, pageIndex, pageSize);
+            string endpoint = bankRecurringDepositAccountEndpoint.ListAsync(centreCode,expand, filter, sort, pageIndex, pageSize);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -34,7 +33,7 @@ namespace Coditech.API.Client
                 var status_ = (int)response.StatusCode;
                 if (status_ == 200)
                 {
-                    var objectResponse = await ReadObjectResponseAsync<BankMemberNomineeListResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse = await ReadObjectResponseAsync<BankRecurringDepositAccountListResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse.Object == null)
                     {
                         throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
@@ -43,12 +42,12 @@ namespace Coditech.API.Client
                 }
                 else if (status_ == 204)
                 {
-                    return new BankMemberNomineeListResponse();
+                    return new BankRecurringDepositAccountListResponse();
                 }
                 else
                 {
                     string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    BankMemberNomineeListResponse typedBody = JsonConvert.DeserializeObject<BankMemberNomineeListResponse>(responseData);
+                    BankRecurringDepositAccountListResponse typedBody = JsonConvert.DeserializeObject<BankRecurringDepositAccountListResponse>(responseData);
                     UpdateApiStatus(typedBody, status, response);
                     throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                 }
@@ -60,14 +59,13 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual BankMemberNomineeResponse CreateMemberNominee(BankMemberNomineeModel body)
+        public virtual BankRecurringDepositAccountResponse CreateBankRecurringDepositAccount(BankRecurringDepositAccountModel body)
         {
-            return Task.Run(async () => await CreateMemberNomineeAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await CreateBankRecurringDepositAccountAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
         }
-
-        public virtual async Task<BankMemberNomineeResponse> CreateMemberNomineeAsync(BankMemberNomineeModel body, CancellationToken cancellationToken)
+        public virtual async Task<BankRecurringDepositAccountResponse> CreateBankRecurringDepositAccountAsync(BankRecurringDepositAccountModel body, CancellationToken cancellationToken)
         {
-            string endpoint = bankMemberNomineeEndpoint.CreateMemberNomineeAsync();
+            string endpoint = bankRecurringDepositAccountEndpoint.CreateBankRecurringDepositAccountAsync();
             HttpResponseMessage response = null;
             bool disposeResponse = true;
             try
@@ -80,7 +78,7 @@ namespace Coditech.API.Client
                 {
                     case HttpStatusCode.OK:
                         {
-                            ObjectResponseResult<BankMemberNomineeResponse> objectResponseResult2 = await ReadObjectResponseAsync<BankMemberNomineeResponse>(response, BindHeaders(response), cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                            ObjectResponseResult<BankRecurringDepositAccountResponse> objectResponseResult2 = await ReadObjectResponseAsync<BankRecurringDepositAccountResponse>(response, BindHeaders(response), cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
                             if (objectResponseResult2.Object == null)
                             {
                                 throw new CoditechException(objectResponseResult2.Object.ErrorCode, objectResponseResult2.Object.ErrorMessage);
@@ -90,7 +88,7 @@ namespace Coditech.API.Client
                         }
                     case HttpStatusCode.Created:
                         {
-                            ObjectResponseResult<BankMemberNomineeResponse> objectResponseResult = await ReadObjectResponseAsync<BankMemberNomineeResponse>(response, dictionary, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                            ObjectResponseResult<BankRecurringDepositAccountResponse> objectResponseResult = await ReadObjectResponseAsync<BankRecurringDepositAccountResponse>(response, dictionary, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
                             if (objectResponseResult.Object == null)
                             {
                                 throw new CoditechException(objectResponseResult.Object.ErrorCode, objectResponseResult.Object.ErrorMessage);
@@ -100,8 +98,8 @@ namespace Coditech.API.Client
                         }
                     default:
                         {
-                            string value = response.Content != null ? await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false) : null;
-                            BankMemberNomineeResponse result = JsonConvert.DeserializeObject<BankMemberNomineeResponse>(value);
+                            string value = ((response.Content != null) ? (await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false)) : null);
+                            BankRecurringDepositAccountResponse result = JsonConvert.DeserializeObject<BankRecurringDepositAccountResponse>(value);
                             UpdateApiStatus(result, status, response);
                             throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                         }
@@ -115,18 +113,16 @@ namespace Coditech.API.Client
                 }
             }
         }
-
-        public virtual BankMemberNomineeResponse GetMemberNominee(int bankMemberId)
+        public virtual BankRecurringDepositAccountResponse GetBankRecurringDepositAccount(int bankRecurringDepositAccountId)
         {
-            return Task.Run(async () => await GetMemberNomineeAsync(bankMemberId, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetBankRecurringDepositAccountAsync(bankRecurringDepositAccountId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
-
-        public virtual async Task<BankMemberNomineeResponse> GetMemberNomineeAsync(int bankMemberId, CancellationToken cancellationToken)
+        public virtual async Task<BankRecurringDepositAccountResponse> GetBankRecurringDepositAccountAsync(int bankRecurringDepositAccountId, System.Threading.CancellationToken cancellationToken)
         {
-            if (bankMemberId <= 0)
-                throw new ArgumentNullException("bankMemberId");
+            if (bankRecurringDepositAccountId <= 0)
+                throw new System.ArgumentNullException("bankRecurringDepositAccountId");
 
-            string endpoint = bankMemberNomineeEndpoint.GetMemberNomineeAsync(bankMemberId);
+            string endpoint = bankRecurringDepositAccountEndpoint.GetBankRecurringDepositAccountAsync(bankRecurringDepositAccountId);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -138,7 +134,7 @@ namespace Coditech.API.Client
                 var status_ = (int)response.StatusCode;
                 if (status_ == 200)
                 {
-                    var objectResponse = await ReadObjectResponseAsync<BankMemberNomineeResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse = await ReadObjectResponseAsync< BankRecurringDepositAccountResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse.Object == null)
                     {
                         throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
@@ -148,12 +144,12 @@ namespace Coditech.API.Client
                 else
                 if (status_ == 204)
                 {
-                    return new BankMemberNomineeResponse();
+                    return new BankRecurringDepositAccountResponse();
                 }
                 else
                 {
                     string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    BankMemberNomineeResponse typedBody = JsonConvert.DeserializeObject<BankMemberNomineeResponse>(responseData);
+                    BankRecurringDepositAccountResponse typedBody = JsonConvert.DeserializeObject<BankRecurringDepositAccountResponse>(responseData);
                     UpdateApiStatus(typedBody, status, response);
                     throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                 }
@@ -164,15 +160,13 @@ namespace Coditech.API.Client
                     response.Dispose();
             }
         }
-
-        public virtual BankMemberNomineeResponse UpdateMemberNominee(BankMemberNomineeModel body)
+        public virtual BankRecurringDepositAccountResponse UpdateBankRecurringDepositAccount(BankRecurringDepositAccountModel body)
         {
-            return Task.Run(async () => await UpdateMemberNomineeAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await UpdateBankRecurringDepositAccountAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
-
-        public virtual async Task<BankMemberNomineeResponse> UpdateMemberNomineeAsync(BankMemberNomineeModel body, CancellationToken cancellationToken)
+        public virtual async Task<BankRecurringDepositAccountResponse> UpdateBankRecurringDepositAccountAsync(BankRecurringDepositAccountModel body, System.Threading.CancellationToken cancellationToken)
         {
-            string endpoint = bankMemberNomineeEndpoint.UpdateMemberNomineeAsync();
+            string endpoint = bankRecurringDepositAccountEndpoint.UpdateBankRecurringDepositAccountAsync();
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -185,7 +179,7 @@ namespace Coditech.API.Client
                 var status_ = (int)response.StatusCode;
                 if (status_ == 200)
                 {
-                    var objectResponse = await ReadObjectResponseAsync<BankMemberNomineeResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse = await ReadObjectResponseAsync<BankRecurringDepositAccountResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse.Object == null)
                     {
                         throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
@@ -195,7 +189,7 @@ namespace Coditech.API.Client
                 else
                 if (status_ == 201)
                 {
-                    var objectResponse = await ReadObjectResponseAsync<BankMemberNomineeResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse = await ReadObjectResponseAsync<BankRecurringDepositAccountResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse.Object == null)
                     {
                         throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
@@ -205,7 +199,7 @@ namespace Coditech.API.Client
                 else
                 {
                     string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    BankMemberNomineeResponse typedBody = JsonConvert.DeserializeObject<BankMemberNomineeResponse>(responseData);
+                    BankRecurringDepositAccountResponse typedBody = JsonConvert.DeserializeObject<BankRecurringDepositAccountResponse>(responseData);
                     UpdateApiStatus(typedBody, status, response);
                     throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                 }
@@ -217,15 +211,13 @@ namespace Coditech.API.Client
                     response.Dispose();
             }
         }
-
-        public virtual TrueFalseResponse DeleteMemberNominee(ParameterModel body)
+        public virtual TrueFalseResponse DeleteBankRecurringDepositAccount(ParameterModel body)
         {
-            return Task.Run(async () => await DeleteMemberNomineeAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await DeleteBankRecurringDepositAccountAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
-
-        public virtual async Task<TrueFalseResponse> DeleteMemberNomineeAsync(ParameterModel body, CancellationToken cancellationToken)
+        public virtual async Task<TrueFalseResponse> DeleteBankRecurringDepositAccountAsync(ParameterModel body, System.Threading.CancellationToken cancellationToken)
         {
-            string endpoint = bankMemberNomineeEndpoint.DeleteMemberNomineeAsync();
+            string endpoint = bankRecurringDepositAccountEndpoint.DeleteBankRecurringDepositAccountAsync();
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try

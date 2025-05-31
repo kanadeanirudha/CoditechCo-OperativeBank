@@ -7,7 +7,7 @@ namespace Coditech.API.Service
     {
         BankMemberNomineeListModel GetMemberNomineeList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
         BankMemberNomineeModel CreateMemberNominee(BankMemberNomineeModel model);
-        BankMemberNomineeModel GetMemberNominee(int bankMemberNomineeId);
+        BankMemberNomineeModel GetMemberNominee(int bankMemberId);
         bool UpdateMemberNominee(BankMemberNomineeModel model);
         bool DeleteMemberNominee(ParameterModel parameterModel);
     }

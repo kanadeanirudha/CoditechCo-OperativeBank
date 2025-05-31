@@ -1,4 +1,5 @@
 ﻿using Coditech.Common.Helper;
+using Coditech.Resources;
 using System.ComponentModel.DataAnnotations;
 using System.Data.SqlTypes;
 namespace Coditech.Admin.ViewModel
@@ -39,8 +40,9 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "Percentage Of Shares ")]
         [Required]
         public decimal PercentageShare { get; set; }
+        [Display(Name = "Centre")]
+       
         public string CentreCode { get; set; }
-        
 
     }
 }

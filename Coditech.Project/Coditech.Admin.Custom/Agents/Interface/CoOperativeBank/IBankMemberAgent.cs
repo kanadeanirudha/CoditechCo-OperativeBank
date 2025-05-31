@@ -51,6 +51,7 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="bankMemberId">BankMemberId.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
+
         bool DeleteBankMember(string bankMemberId, out string errorMessage);
 
     }

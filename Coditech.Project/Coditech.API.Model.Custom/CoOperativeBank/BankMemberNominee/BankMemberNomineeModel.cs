@@ -11,7 +11,9 @@
         public string AadharCardNumber { get; set; }
         public int RelationTypeEnumId { get; set; }
         public decimal PercentageShare { get; set; }
-       
+        public string CentreCode { get; set; }
+
+
 
     }
 }

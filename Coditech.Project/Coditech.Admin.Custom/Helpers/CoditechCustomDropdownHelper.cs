@@ -1,4 +1,5 @@
-﻿using Coditech.Admin.ViewModel;
+﻿using Coditech.Admin.Utilities;
+using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
@@ -8,7 +9,16 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace Coditech.Admin.Helpers
 {
     public static class CoditechCustomDropdownHelper
+
     {
+        public static List<UserAccessibleCentreModel> AccessibleCentreList()
+        {
+            return SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.AccessibleCentreList;
+        }
+        public static List<UserBalanceSheetModel> BindAccountBalanceSheetIdByCentreCodeList()
+        {
+            return SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.BalanceSheetList;
+        }
         public static DropdownViewModel GeneralDropdownList(DropdownViewModel dropdownViewModel)
         {
             List<SelectListItem> dropdownList = new List<SelectListItem>();
@@ -56,6 +66,10 @@ namespace Coditech.Admin.Helpers
             {
                 GetTenureYearsDropdown(dropdownViewModel, dropdownList);
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.BankProduct.ToString()))
+            {
+                GetBankproductList(dropdownViewModel, dropdownList);
+            }
             dropdownViewModel.DropdownList = dropdownList;
             return dropdownViewModel;
         }
@@ -81,6 +95,7 @@ namespace Coditech.Admin.Helpers
             centreCode = !string.IsNullOrEmpty(centreCode) && centreCode.Contains(":") ? centreCode.Split(':')[0] : centreCode;
             return centreCode;
         }
+
         private static void GetBankSetupDivisionList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             BankSetupDivisionListResponse response = new BankSetupDivisionClient().List(null, null, null, 1, int.MaxValue);
@@ -293,5 +308,24 @@ namespace Coditech.Admin.Helpers
                 }
             }
         }
+            private static void GetAccessibleCentreList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        {
+            List<UserAccessibleCentreModel> accessibleCentreList = AccessibleCentreList();
+            if (accessibleCentreList?.Count == 1)
+                dropdownViewModel.DropdownSelectedValue = accessibleCentreList.FirstOrDefault().CentreCode;
+            else
+                dropdownList.Add(new SelectListItem() { Text = "-------Select Centre-------", Value = "" });
+
+            foreach (var item in accessibleCentreList)
+            {
+                dropdownList.Add(new SelectListItem()
+                {
+                    Text = item.CentreName,
+                    Value = item.CentreCode,
+                    Selected = dropdownViewModel.DropdownSelectedValue == Convert.ToString(item.CentreCode)
+                });
+            }
+        }
     }
+    
 }

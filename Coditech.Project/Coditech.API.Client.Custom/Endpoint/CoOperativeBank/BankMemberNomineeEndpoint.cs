@@ -13,8 +13,8 @@ namespace Coditech.API.Endpoint
         public string CreateMemberNomineeAsync() =>
             $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankMemberNominee/CreateMemberNominee";
 
-        public string GetMemberNomineeAsync(int bankMemberNomineeId) =>
-            $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankMemberNominee/GetMemberNominee?bankMemberNomineeId={bankMemberNomineeId}";
+        public string GetMemberNomineeAsync(int bankMemberId) =>
+            $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankMemberNominee/GetMemberNominee?bankMemberId={bankMemberId}";
 
         public string UpdateMemberNomineeAsync() =>
                $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankMemberNominee/UpdateMemberNominee";

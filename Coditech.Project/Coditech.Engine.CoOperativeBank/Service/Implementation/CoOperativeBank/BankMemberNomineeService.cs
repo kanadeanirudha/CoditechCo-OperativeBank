@@ -4,23 +4,25 @@ using Coditech.Common.Exceptions;
 using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
+using Coditech.Common.Service;
 using Coditech.Resources;
-using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Specialized;
 using System.Data;
 using static Coditech.Common.Helper.HelperUtility;
 namespace Coditech.API.Service
 {
-    public class BankMemberNomineeService : IBankMemberNomineeService
+    public class BankMemberNomineeService : BaseService, IBankMemberNomineeService
     {
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<BankMemberNominee> _bankMemberNomineeRepository;
-        public BankMemberNomineeService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
+        private readonly ICoditechRepository<BankMember> _bankMemberRepository;
+        public BankMemberNomineeService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _bankMemberNomineeRepository = new CoditechRepository<BankMemberNominee>(_serviceProvider.GetService<CoditechCustom_Entities>());
+            _bankMemberRepository = new CoditechRepository<BankMember>(_serviceProvider.GetService<CoditechCustom_Entities>());
         }
 
         public virtual BankMemberNomineeListModel GetMemberNomineeList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
@@ -61,16 +63,30 @@ namespace Coditech.API.Service
              return bankMemberNomineeModel;
         }
 
-        //Get BankMemberNominee by BankMemberNominee id.
-        public virtual BankMemberNomineeModel GetMemberNominee(int bankMemberNomineeId)
+        public virtual BankMemberNomineeModel GetMemberNominee(int bankMemberId)
         {
-            if (bankMemberNomineeId <= 0)
-                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BankMemberNominee"));
+            if (bankMemberId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BankMemberId"));
 
-            //Get the BankMemberNominee Details based on id.
-            BankMemberNominee bankMemberNominee = _bankMemberNomineeRepository.Table.FirstOrDefault(x => x.BankMemberNomineeId == bankMemberNomineeId);
-            BankMemberNomineeModel bankMemberNomineeModel = bankMemberNominee?.FromEntityToModel<BankMemberNomineeModel>();
-            return bankMemberNomineeModel;
+
+            BankMemberNominee bankMemberNominee = _bankMemberNomineeRepository.Table.Where(x => x.BankMemberId == bankMemberId)?.FirstOrDefault();
+            BankMemberNomineeModel bankMemberNomineeModel = bankMemberNominee?.FromEntityToModel<BankMemberNomineeModel>() ?? new BankMemberNomineeModel { BankMemberId = bankMemberId };
+            if (bankMemberNomineeModel.BankMemberNomineeId > 0 && bankMemberNomineeModel.PersonId > 0)
+            {
+               // int bankMemberNomineeId = _bankMemberNomineeRepository.Table.Where(x => x.BankMemberId == bankMemberId).Select(y => y.BankMemberNomineeId).FirstOrDefault();
+
+                if (IsNotNull(bankMemberNomineeModel))
+                {
+                    GeneralPersonModel generalPersonModel = GetGeneralPersonDetails(bankMemberNomineeModel.PersonId);
+                    if (IsNotNull(bankMemberNomineeModel))
+                    {
+                        bankMemberNomineeModel.FirstName = generalPersonModel.FirstName;
+                        bankMemberNomineeModel.LastName = generalPersonModel.LastName;
+                    }
+                }
+            }
+
+            return bankMemberNomineeModel; 
         }
 
         //Update BankMemberNominee.

@@ -9,12 +9,15 @@ namespace Coditech.Admin.Controllers
     public class BankMemberController : BaseController
     {
         private readonly IBankMemberAgent _bankMemberAgent;
+        private readonly IBankMemberNomineeAgent _bankMemberNomineeAgent;
         private const string createEdit = "~/Views/CoOperativeBank/BankMember/CreateEdit.cshtml";
         private const string createEditMember = "~/Views/CoOperativeBank/BankMember/CreateEditMember.cshtml";
+        private const string createEditNominee = "~/Views/CoOperativeBank/BankMemberNominee/CreateEdit.cshtml";
 
-        public BankMemberController(IBankMemberAgent bankMemberAgent)
+        public BankMemberController(IBankMemberAgent bankMemberAgent, IBankMemberNomineeAgent bankMemberNomineeAgent)
         {
             _bankMemberAgent = bankMemberAgent;
+            _bankMemberNomineeAgent = bankMemberNomineeAgent;
         }
         public virtual ActionResult List(DataTableViewModel dataTableViewModel)
         {
@@ -115,6 +118,45 @@ namespace Coditech.Admin.Controllers
         {
             DataTableViewModel dataTableViewModel = new DataTableViewModel() { SelectedCentreCode = SelectedCentreCode};
             return RedirectToAction("List", dataTableViewModel);
+        }
+        #endregion
+
+        #region Bank Member Nominee
+
+        [HttpPost]
+        public virtual ActionResult CreateMemberNominee(BankMemberNomineeViewModel bankMemberNomineeViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                bankMemberNomineeViewModel = _bankMemberNomineeAgent.CreateMemberNominee(bankMemberNomineeViewModel);
+                if (!bankMemberNomineeViewModel.HasError)
+                {
+                    SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
+                    return RedirectToAction("GetMemberNominee", new { bankMemberId = bankMemberNomineeViewModel.BankMemberId });
+                }
+            }
+            SetNotificationMessage(GetErrorNotificationMessage(bankMemberNomineeViewModel.ErrorMessage));
+            return View(createEditNominee, bankMemberNomineeViewModel);
+        }
+
+        [HttpGet]
+        public virtual ActionResult GetMemberNominee(int bankMemberId )
+        {
+            BankMemberNomineeViewModel bankMemberNomineeViewModel = _bankMemberNomineeAgent.GetMemberNominee(bankMemberId);
+            return ActionView(createEditNominee, bankMemberNomineeViewModel);
+        }
+
+        [HttpPost]
+        public virtual ActionResult UpdateMemberNominee(BankMemberNomineeViewModel bankMemberNomineeViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                SetNotificationMessage(_bankMemberNomineeAgent.UpdateMemberNominee(bankMemberNomineeViewModel).HasError
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("GetMemberNominee", new { bankMemberId = bankMemberNomineeViewModel.BankMemberId });
+            }
+            return View(createEditNominee, bankMemberNomineeViewModel);
         }
         #endregion
     }

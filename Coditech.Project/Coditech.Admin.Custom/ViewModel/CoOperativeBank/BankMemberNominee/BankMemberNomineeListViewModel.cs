@@ -8,5 +8,7 @@ namespace Coditech.Admin.ViewModel
         {
             BankMemberNomineeList = new List<BankMemberNomineeViewModel>();
         }
+        public string SelectedCentreCode { get; set; } = string.Empty;
+
     }
 }

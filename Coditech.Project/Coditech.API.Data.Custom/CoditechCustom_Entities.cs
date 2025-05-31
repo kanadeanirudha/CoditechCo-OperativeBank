@@ -30,6 +30,7 @@ namespace Coditech.API.Data
         public DbSet<BankSavingsAccountClosures> BankSavingsAccountClosures { get; set; }
         public DbSet<BankLoanForeClosures> BankLoanForeClosures { get; set; }
         public DbSet<BankFixedDepositClosure> BankFixedDepositClosure { get; set; }
+        public DbSet<BankRecurringDepositAccount> BankRecurringDepositAccount {  get; set; }
         #endregion
     }
 }

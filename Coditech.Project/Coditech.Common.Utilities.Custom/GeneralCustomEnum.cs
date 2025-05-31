@@ -60,9 +60,12 @@
         AccSetupGL,
         BankSavingsAccountClosures,
         BankFixedDepositClosure,
+        BankMemberNominee,
+        BankRecurringDepositAccount,
     }
     public enum UserTypeCustomEnum
     {
-        BankMember
+        BankMember,
+        BankRecurringDepositAccount,
     }
 }

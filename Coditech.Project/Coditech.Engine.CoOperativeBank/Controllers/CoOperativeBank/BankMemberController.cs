@@ -15,10 +15,13 @@ namespace Coditech.API.Controllers
     public class BankMemberController : BaseController
     {
         private readonly IBankMemberService _bankMemberService;
+        private readonly IBankMemberNomineeService _bankMemberNomineeService;
+
         protected readonly ICoditechLogging _coditechLogging;
-        public BankMemberController(ICoditechLogging coditechLogging, IBankMemberService bankMemberService)
+        public BankMemberController(ICoditechLogging coditechLogging, IBankMemberService bankMemberService, IBankMemberNomineeService bankMemberNomineeService)
         {
             _bankMemberService = bankMemberService;
+            _bankMemberNomineeService = bankMemberNomineeService;
             _coditechLogging = coditechLogging;
         }
 
