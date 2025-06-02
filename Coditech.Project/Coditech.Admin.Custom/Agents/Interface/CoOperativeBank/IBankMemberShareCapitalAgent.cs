@@ -22,7 +22,7 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="bankMemberShareCapital">bankMemberShareCapital</param>
         /// <returns>Returns BankMemberShareCapitalViewModel.</returns>
-        BankMemberShareCapitalViewModel GetMemberShareCapital(int bankMemberShareCapitalId);
+        BankMemberShareCapitalViewModel GetMemberShareCapital(int bankMemberId);
 
         /// <summary>
         /// Update BankMemberShareCapital.

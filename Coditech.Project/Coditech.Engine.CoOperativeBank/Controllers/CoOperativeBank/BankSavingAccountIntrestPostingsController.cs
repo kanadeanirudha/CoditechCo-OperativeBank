@@ -71,11 +71,11 @@ namespace Coditech.Engine.DBTM.Controllers
         [Route("/BankSavingAccountIntrestPostings/GetBankSavingAccountIntrestPostings")]
         [HttpGet]
         [Produces(typeof(BankSavingAccountIntrestPostingsResponse))]
-        public virtual IActionResult GetBankSavingAccountIntrestPostings(int bankSavingAccountIntrestPostingsId)
+        public virtual IActionResult GetBankSavingAccountIntrestPostings(int bankSavingsAccountId)
         {
             try
             {
-                BankSavingAccountIntrestPostingsModel bankSavingAccountIntrestPostingsModel = _bankSavingAccountIntrestPostingsService.GetBankSavingAccountIntrestPostings(bankSavingAccountIntrestPostingsId);
+                BankSavingAccountIntrestPostingsModel bankSavingAccountIntrestPostingsModel = _bankSavingAccountIntrestPostingsService.GetBankSavingAccountIntrestPostings(bankSavingsAccountId);
                 return IsNotNull(bankSavingAccountIntrestPostingsModel) ? CreateOKResponse(new BankSavingAccountIntrestPostingsResponse { BankSavingAccountIntrestPostingsModel = bankSavingAccountIntrestPostingsModel }) : CreateNoContentResponse();
             }
             catch (CoditechException ex)

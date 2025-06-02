@@ -2,20 +2,30 @@
 @{
     ViewBag.Title = Model.BankSavingAccountIntrestPostingsId > 0 ? "Update Bank Saving Account Intrest Postings" : "Add Bank Saving Account Intrest Postings";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
-    string actionName = ViewContext.RouteData.Values["action"].ToString();
-    DropdownViewModel bankSavingsAccountDropdown = new DropdownViewModel()
-            {
-                DropdownType = DropdownCustomTypeEnum.BankSavingsAccount.ToString(),
-                DropdownName = "BankSavingsAccountId",
-                DropdownSelectedValue = Model.BankSavingsAccountId.ToString(),
-                Parameter = Model.BankSavingsAccountId.ToString(),
-                IsCustomDropdown = true
-            };
+    string actionName = Model.BankSavingAccountIntrestPostingsId > 0 ? "UpdateBankSavingAccountIntrestPostings" : "CreateBankSavingAccountIntrestPostings";
+    string css = Model.BankSavingsAccountId > 0 ? "col-lg-10" : "col-lg-12";
+    Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+    keyValuePairs.Add("BankSavingsAccountId", Model.BankSavingsAccountId.ToString());
+    // DropdownViewModel bankSavingsAccountDropdown = new DropdownViewModel()
+    //         {
+    //             DropdownType = DropdownCustomTypeEnum.BankSavingsAccount.ToString(),
+    //             DropdownName = "BankSavingsAccountId",
+    //             DropdownSelectedValue = Model.BankSavingsAccountId.ToString(),
+    //             Parameter = Model.BankSavingsAccountId.ToString(),
+    //             IsCustomDropdown = true,
+    //             IsDisabled = true
+    //         };
 }
 <div class="page-content mt-5">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-12">
+            @if (Model.BankSavingsAccountId > 0)
+            {
+                <div class="col-lg-2">
+                    @Html.Partial("~/Views/CoOperativeBank/BankSavingsAccount/_BankSavingAccountSidePannel.cshtml", keyValuePairs)
+                </div>
+            }
+            <div class="@css">
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">
@@ -26,12 +36,13 @@
                         @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
                         {
                             @Html.HiddenFor(m => m.BankSavingAccountIntrestPostingsId)
+                            @Html.HiddenFor(m => m.BankSavingsAccountId)
 
-                            <div class="col-lg-8 mb-3">
+                           @*  <div class="col-lg-8 mb-3">
                                 @Html.LabelFor(x => x.BankSavingsAccountId, new { @class = "form-label required" })
                                 @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", bankSavingsAccountDropdown)
                                 @Html.ValidationMessageFor(x => x.BankSavingsAccountId)
-                            </div>
+                            </div> *@
 
                             <div class="row">
                                 <div class="col-lg-4 mb-3">

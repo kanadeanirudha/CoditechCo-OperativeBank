@@ -116,17 +116,17 @@ namespace Coditech.API.Client
             }
         }
 
-        public virtual BankMemberShareCapitalResponse GetMemberShareCapital(int bankMemberShareCapitalId)
+        public virtual BankMemberShareCapitalResponse GetMemberShareCapital(int bankMemberId)
         {
-            return Task.Run(async () => await GetMemberShareCapitalAsync(bankMemberShareCapitalId, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetMemberShareCapitalAsync(bankMemberId, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<BankMemberShareCapitalResponse> GetMemberShareCapitalAsync(int bankMemberShareCapitalId, CancellationToken cancellationToken)
+        public virtual async Task<BankMemberShareCapitalResponse> GetMemberShareCapitalAsync(int bankMemberId, CancellationToken cancellationToken)
         {
-            if (bankMemberShareCapitalId <= 0)
-                throw new ArgumentNullException("bankMemberShareCapital");
+            if (bankMemberId <= 0)
+                throw new ArgumentNullException("bankMemberId");
 
-            string endpoint = bankMemberShareCapitalEndpoint.GetMemberShareCapitalAsync(bankMemberShareCapitalId);
+            string endpoint = bankMemberShareCapitalEndpoint.GetMemberShareCapitalAsync(bankMemberId);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try

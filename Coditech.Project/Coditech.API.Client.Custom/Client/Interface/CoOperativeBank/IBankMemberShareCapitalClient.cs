@@ -24,7 +24,7 @@ namespace Coditech.API.Client
         /// </summary>
         /// <param name="bankMemberShareCapitalId">BankMemberShareCapitalId</param>
         /// <returns>Returns BankMemberShareCapitalResponse.</returns>
-        BankMemberShareCapitalResponse GetMemberShareCapital(int bankMemberShareCapitalId);
+        BankMemberShareCapitalResponse GetMemberShareCapital(int bankMemberId);
 
         /// <summary>
         /// Update BankMemberShareCapital.

@@ -72,11 +72,11 @@ namespace Coditech.API.Controllers
         [Route("/BankMemberShareCapital/GetMemberShareCapital")]
         [HttpGet]
         [Produces(typeof(BankMemberShareCapitalResponse))]
-        public virtual IActionResult GetMemberShareCapital(int bankMemberShareCapitalId)
+        public virtual IActionResult GetMemberShareCapital(int bankMemberId)
         {
             try
             {
-                BankMemberShareCapitalModel bankMemberShareCapitalModel = _bankMemberShareCapitalService.GetMemberShareCapital(bankMemberShareCapitalId);
+                BankMemberShareCapitalModel bankMemberShareCapitalModel = _bankMemberShareCapitalService.GetMemberShareCapital(bankMemberId);
                 return IsNotNull(bankMemberShareCapitalModel) ? CreateOKResponse(new BankMemberShareCapitalResponse { BankMemberShareCapitalModel = bankMemberShareCapitalModel }) : CreateNoContentResponse();
             }
             catch (CoditechException ex)

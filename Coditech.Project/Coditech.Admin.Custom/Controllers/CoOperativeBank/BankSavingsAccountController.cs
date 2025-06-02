@@ -9,13 +9,16 @@ namespace Coditech.Admin.Controllers
     public class BankSavingsAccountController : BaseController
     {
         private readonly IBankSavingsAccountAgent _bankSavingsAccountAgent;
+        private readonly IBankSavingAccountIntrestPostingsAgent _bankSavingAccountIntrestPostingsAgent;
         private const string createEdit = "~/Views/CoOperativeBank/BankSavingsAccount/CreateEdit.cshtml";
         private const string BankSavingsAccountClosures = "~/Views/CoOperativeBank/BankSavingsAccount/BankSavingsAccountClosures.cshtml";
+        private const string createEditBankSavingAccountIntrestPostings = "~/Views/CoOperativeBank/BankSavingAccountIntrestPostings/CreateEdit.cshtml";
 
 
-        public BankSavingsAccountController(IBankSavingsAccountAgent bankSavingsAccountAgent)
+        public BankSavingsAccountController(IBankSavingsAccountAgent bankSavingsAccountAgent, IBankSavingAccountIntrestPostingsAgent bankSavingAccountIntrestPostingsAgent)
         {
             _bankSavingsAccountAgent = bankSavingsAccountAgent;
+            _bankSavingAccountIntrestPostingsAgent = bankSavingAccountIntrestPostingsAgent;
         }
         #region BankSavingAccount
         public virtual ActionResult List(DataTableViewModel dataTableModel)
@@ -149,6 +152,46 @@ namespace Coditech.Admin.Controllers
             }
             return View(BankSavingsAccountClosures, bankSavingsAccountClosuresViewModel);
         }
+        #endregion
+
+        #region BankSavingAccountIntrestPostings
+        [HttpPost]
+        public virtual ActionResult CreateBankSavingAccountIntrestPostings(BankSavingAccountIntrestPostingsViewModel bankSavingAccountIntrestPostingsViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                bankSavingAccountIntrestPostingsViewModel = _bankSavingAccountIntrestPostingsAgent.CreateBankSavingAccountIntrestPostings(bankSavingAccountIntrestPostingsViewModel);
+                if (!bankSavingAccountIntrestPostingsViewModel.HasError)
+                {
+                    SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
+                    return RedirectToAction("UpdateBankSavingAccountIntrestPostings", new { bankSavingsAccountId = bankSavingAccountIntrestPostingsViewModel.BankSavingsAccountId });
+                }
+            }
+            SetNotificationMessage(GetErrorNotificationMessage(bankSavingAccountIntrestPostingsViewModel.ErrorMessage));
+            return View(createEditBankSavingAccountIntrestPostings, bankSavingAccountIntrestPostingsViewModel);
+        }
+
+        [HttpGet]
+        public virtual ActionResult UpdateBankSavingAccountIntrestPostings(int bankSavingsAccountId)
+        {
+            BankSavingAccountIntrestPostingsViewModel bankSavingAccountIntrestPostingsViewModel = _bankSavingAccountIntrestPostingsAgent.GetBankSavingAccountIntrestPostings(bankSavingsAccountId);
+            return ActionView(createEditBankSavingAccountIntrestPostings, bankSavingAccountIntrestPostingsViewModel);
+        }
+
+        [HttpPost]
+        public virtual ActionResult UpdateBankSavingAccountIntrestPostings(BankSavingAccountIntrestPostingsViewModel bankSavingAccountIntrestPostingsViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                bankSavingAccountIntrestPostingsViewModel = _bankSavingAccountIntrestPostingsAgent.UpdateBankSavingAccountIntrestPostings(bankSavingAccountIntrestPostingsViewModel);
+                SetNotificationMessage(bankSavingAccountIntrestPostingsViewModel.HasError
+                ? GetErrorNotificationMessage(bankSavingAccountIntrestPostingsViewModel.ErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("UpdateBankSavingAccountIntrestPostings", new { bankSavingsAccountId = bankSavingAccountIntrestPostingsViewModel.BankSavingsAccountId });
+            }
+            return View(createEditBankSavingAccountIntrestPostings, bankSavingAccountIntrestPostingsViewModel);
+        }
+
         #endregion
     }
 }

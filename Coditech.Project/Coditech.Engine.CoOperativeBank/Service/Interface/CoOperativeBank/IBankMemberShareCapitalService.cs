@@ -7,7 +7,7 @@ namespace Coditech.API.Service
     {
         BankMemberShareCapitalListModel GetMemberShareCapitalList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
         BankMemberShareCapitalModel CreateMemberShareCapital(BankMemberShareCapitalModel model);
-        BankMemberShareCapitalModel GetMemberShareCapital(int bankMemberShareCapitalId);
+        BankMemberShareCapitalModel GetMemberShareCapital(int bankMemberId);
         bool UpdateMemberShareCapital(BankMemberShareCapitalModel model);
         bool DeleteMemberShareCapital(ParameterModel parameterModel);
     }

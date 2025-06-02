@@ -13,8 +13,8 @@ namespace Coditech.API.Endpoint
         public string CreateMemberShareCapitalAsync() =>
             $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankMemberShareCapital/CreateMemberShareCapital";
 
-        public string GetMemberShareCapitalAsync(int bankMemberShareCapitalId) =>
-            $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankMemberShareCapital/GetMemberShareCapital?bankMemberShareCapitalId={bankMemberShareCapitalId}";
+        public string GetMemberShareCapitalAsync(int bankMemberId) =>
+            $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankMemberShareCapital/GetMemberShareCapital?bankMemberId={bankMemberId}";
 
         public string UpdateMemberShareCapitalAsync() =>
                $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankMemberShareCapital/UpdateMemberShareCapital";

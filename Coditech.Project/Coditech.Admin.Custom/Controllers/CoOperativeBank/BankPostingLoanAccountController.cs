@@ -19,6 +19,7 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult List(DataTableViewModel dataTableViewModel)
         {
             BankPostingLoanAccountListViewModel list = new BankPostingLoanAccountListViewModel();
+            GetListOnlyIfSingleCentre(dataTableViewModel);
             if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode) && !string.IsNullOrEmpty(dataTableViewModel.SelectedParameter1))
             {
                 list = _bankPostingLoanAccountAgent.GetBankPostingLoanAccountList(dataTableViewModel);
