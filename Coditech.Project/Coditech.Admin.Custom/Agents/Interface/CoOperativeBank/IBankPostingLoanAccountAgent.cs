@@ -8,7 +8,7 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="dataTableModel">DataTable ViewModel.</param>
         /// <returns>BankPostingLoanAccountListViewModel</returns>
-        BankPostingLoanAccountListViewModel GetBankPostingLoanAccountList(DataTableViewModel dataTableModel);
+        BankPostingLoanAccountListViewModel GetBankPostingLoanAccountList(int bankMemberId,DataTableViewModel dataTableModel);
 
         /// <summary>
         /// Create BankPostingLoanAccount.
@@ -62,5 +62,18 @@ namespace Coditech.Admin.Agents
         BankLoanForeClosuresViewModel UpdateBankLoanForeClosures(BankLoanForeClosuresViewModel bankLoanForeClosuresViewModel);
         #endregion
 
+        /// <summary>
+        /// Get BankLoanRepayment by BankLoanRepayment.
+        /// </summary>
+        /// <param name="bankPostingLoanAccountId">BankPostingLoanAccountId</param>
+        /// <returns>Returns BankLoanRepaymentViewModel.</returns>
+        BankLoanRepaymentViewModel GetLoanRepayment(int bankPostingLoanAccountId);
+
+        /// <summary>
+        /// Update BankLoanRepayment.
+        /// </summary>
+        /// <param name="bankLoanRepaymentViewModel">BankLoanRepaymentViewModel.</param>
+        /// <returns>Returns updated BankLoanRepaymentViewModel</returns>
+        BankLoanRepaymentViewModel UpdateLoanRepayment(BankLoanRepaymentViewModel bankLoanRepaymentViewModel);
     }
 }

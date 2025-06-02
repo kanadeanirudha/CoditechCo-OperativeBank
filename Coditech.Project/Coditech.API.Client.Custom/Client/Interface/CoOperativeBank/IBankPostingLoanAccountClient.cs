@@ -10,7 +10,7 @@ namespace Coditech.API.Client
         /// Get list of BankPostingLoanAccount.
         /// </summary>
         /// <returns>BankPostingLoanAccountListResponse</returns>
-        BankPostingLoanAccountListResponse List(int bankMemberId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
+        BankPostingLoanAccountListResponse List(string centreCode, int bankMemberId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
 
         /// <summary>
         /// Create GeneralBatch.
@@ -20,14 +20,14 @@ namespace Coditech.API.Client
         BankPostingLoanAccountResponse CreatePostingLoanAccount(BankPostingLoanAccountModel body);
 
         /// <summary>
-        /// Get Member Other Detail by BankPostingLoanAccountId.
+        /// Get PostingLoanAccount Detail by BankPostingLoanAccountId.
         /// </summary>
         /// <param name="bankPostingLoanAccountId">BankPostingLoanAccountId</param>
         /// <returns>Returns BankPostingLoanAccountResponse.</returns>
         BankPostingLoanAccountResponse GetPostingLoanAccount(int bankPostingLoanAccountId);
 
         /// <summary>
-        /// Update Member Other Detail.
+        /// Update PostingLoanAccount Detail.
         /// </summary>
         /// <param name="bankPostingLoanAccountModel">BankPostingLoanAccountModel.</param>
         /// <returns>Returns updated BankPostingLoanAccountResponse</returns>
@@ -63,5 +63,19 @@ namespace Coditech.API.Client
         /// <returns>Returns updated BankLoanForeClosuresResponse</returns>
         BankLoanForeClosuresResponse UpdateBankLoanForeClosures(BankLoanForeClosuresModel body);
         #endregion
+
+        /// <summary>
+        /// Get LoanRepayment Detail by BankPostingLoanAccountId.
+        /// </summary>
+        /// <param name="bankPostingLoanAccountId">BankPostingLoanAccountId</param>
+        /// <returns>Returns BankLoanRepaymentResponse.</returns>
+        BankLoanRepaymentResponse GetLoanRepayment(int bankPostingLoanAccountId);
+
+        /// <summary>
+        /// UpdateLoanRepayment Detail.
+        /// </summary>
+        /// <param name="bankLoanRepaymentModel">BankLoanRepaymentModel.</param>
+        /// <returns>Returns updated BankLoanRepaymentResponse</returns>
+        BankLoanRepaymentResponse UpdateLoanRepayment(BankLoanRepaymentModel body);
     }
 }

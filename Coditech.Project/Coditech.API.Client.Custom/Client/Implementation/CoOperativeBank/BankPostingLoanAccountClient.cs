@@ -15,14 +15,14 @@ namespace Coditech.API.Client
         {
             bankPostingLoanAccountEndpoint = new BankPostingLoanAccountEndpoint();
         }
-        public virtual BankPostingLoanAccountListResponse List(int bankMemberId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public virtual BankPostingLoanAccountListResponse List(string centreCode, int bankMemberId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            return Task.Run(async () => await ListAsync(bankMemberId, expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await ListAsync(centreCode,bankMemberId, expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<BankPostingLoanAccountListResponse> ListAsync(int bankMemberId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
+        public virtual async Task<BankPostingLoanAccountListResponse> ListAsync(string centreCode, int bankMemberId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
         {
-            string endpoint = bankPostingLoanAccountEndpoint.ListAsync(bankMemberId, expand, filter, sort, pageIndex, pageSize);
+            string endpoint = bankPostingLoanAccountEndpoint.ListAsync(centreCode, bankMemberId, expand, filter, sort, pageIndex, pageSize);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -418,5 +418,107 @@ namespace Coditech.API.Client
             }
         }
         #endregion
+
+        public virtual BankLoanRepaymentResponse GetLoanRepayment(int bankPostingLoanAccountId)
+        {
+            return Task.Run(async () => await GetLoanRepaymentAsync(bankPostingLoanAccountId, CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<BankLoanRepaymentResponse> GetLoanRepaymentAsync(int bankPostingLoanAccountId, CancellationToken cancellationToken)
+        {
+            if (bankPostingLoanAccountId <= 0)
+                throw new ArgumentNullException("BankPostingLoanAccountId");
+
+            string endpoint = bankPostingLoanAccountEndpoint.GetLoanRepaymentAsync(bankPostingLoanAccountId);
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<BankLoanRepaymentResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 204)
+                {
+                    return new BankLoanRepaymentResponse();
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    BankLoanRepaymentResponse typedBody = JsonConvert.DeserializeObject<BankLoanRepaymentResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+
+        public virtual BankLoanRepaymentResponse UpdateLoanRepayment(BankLoanRepaymentModel body)
+        {
+            return Task.Run(async () => await UpdateLoanRepaymentAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+        }
+
+        public virtual async Task<BankLoanRepaymentResponse> UpdateLoanRepaymentAsync(BankLoanRepaymentModel body, CancellationToken cancellationToken)
+        {
+            string endpoint = bankPostingLoanAccountEndpoint.UpdateLoanRepaymentAsync();
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await PutResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(false);
+
+                var headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<BankLoanRepaymentResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 201)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<BankLoanRepaymentResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    BankLoanRepaymentResponse typedBody = JsonConvert.DeserializeObject<BankLoanRepaymentResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
     }
 }

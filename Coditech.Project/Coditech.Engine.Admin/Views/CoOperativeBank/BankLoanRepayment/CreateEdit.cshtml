@@ -1,0 +1,152 @@
+﻿@model BankLoanRepaymentViewModel
+@{
+    ViewBag.Title = Model.BankPostingLoanAccountId > 0 ? "Update Bank Loan Repayment" : "Add Bank Loan Repayment";
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    string actionName = ViewContext.RouteData.Values["action"].ToString();
+    Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+    keyValuePairs.Add("BankPostingLoanAccountId", Model.BankPostingLoanAccountId.ToString());
+}
+<!-- Page Content-->
+<div class="page-content mt-5">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-2">
+                @Html.Partial("~/Views/CoOperativeBank/BankPostingLoanAccount/_BankPostingLoanAccountSidePannel.cshtml", keyValuePairs)
+            </div>
+            <div class="col-lg-10">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                @if (Model.BankLoanRepaymentId > 0)
+                                {
+                                    <h4 class="card-title">Update Bank Loan Repayment: @Model.ReceiptNumber</h4>
+                                }
+                                else
+                                {
+                                    <h4 class="card-title">Create Bank Loan Repayment</h4>
+                                }
+                            </div><!--end col-->
+                        </div>  <!--end row-->
+                    </div>
+                    <div class="card-body">
+                        @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
+                        {
+                            @Html.HiddenFor(m => m.BankPostingLoanAccountId)
+                            @Html.HiddenFor(m => m.BankLoanRepaymentId)
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.PaymentModeEnumId, new { @class = "form-label" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                               {
+                                   DropdownSelectedValue = Model.PaymentModeEnumId.ToString(),
+                                   DropdownName = "PaymentModeEnumId",
+                                   GroupCode = DropdownCustomTypeEnum.PaymentMode.ToString(),
+                                   IsDisabled = Model.PaymentModeEnumId > 0,
+                                   IsRequired = true,
+                               })
+                                        @Html.ValidationMessageFor(x => x.PaymentModeEnumId)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.AmountPaid, new { @class = "form-label required" })
+                                        @if (Model.IsEditable || Model.BankLoanRepaymentId == 0)
+                                        {
+                                            @Html.TextBoxFor(x => x.AmountPaid, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBoxFor(x => x.AmountPaid, new { @class = "form-control", @readonly = "true" })
+                                        }
+                                        @Html.ValidationMessageFor(x => x.AmountPaid)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.PrincipalComponent, new { @class = "form-label required" })
+                                        @if (Model.IsEditable || Model.BankLoanRepaymentId == 0)
+                                        {
+                                            @Html.TextBoxFor(x => x.PrincipalComponent, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBoxFor(x => x.PrincipalComponent, new { @class = "form-control", @readonly = "true" })
+                                        }
+                                        @Html.ValidationMessageFor(x => x.PrincipalComponent)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.InterestComponent, new { @class = "form-label required" })
+                                        @if (Model.IsEditable || Model.BankLoanRepaymentId == 0)
+                                        {
+                                            @Html.TextBoxFor(x => x.InterestComponent, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBoxFor(x => x.InterestComponent, new { @class = "form-control", @readonly = "true" })
+                                        }
+                                        @Html.ValidationMessageFor(x => x.InterestComponent)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.PenaltyCharges, new { @class = "form-label required" })
+                                        @if (Model.IsEditable || Model.BankLoanRepaymentId == 0)
+                                        {
+                                            @Html.TextBoxFor(x => x.PenaltyCharges, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBoxFor(x => x.PenaltyCharges, new { @class = "form-control", @readonly = "true" })
+                                        }
+                                        @Html.ValidationMessageFor(x => x.PenaltyCharges)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.PaymentDate, new { @class = "form-label required" })
+                                        @Html.TextBoxFor(x => x.PaymentDate, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control datepicker", @readonly = "true" })
+                                        @Html.ValidationMessageFor(x => x.PaymentDate)
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <div class="mb-3">
+                                            @Html.LabelFor(x => x.Remark, new { @class = "form-label" })
+                                            @Html.TextAreaFor(x => x.Remark, new { @class = "form-control", @maxlength = "500" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
+                            <a href="../@controllerName/List" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/js/coditech/CoOperativeBank/BankPostingLoanAccount.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".datepicker").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: "@AdminGeneralHelper.DateFormatForCalendar()",
+                minDate: 0,
+                yearRange: "2022:2028",
+                language: "en",
+                autoSize: true,
+                onSelect: function () {
+                    var dateDate = $(this).datepicker('getDate');
+                    console.log("Date selected:", dateDate);
+                }
+            });
+        });
+    </script>
+}

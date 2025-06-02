@@ -11,6 +11,6 @@ namespace Coditech.Admin.ViewModel
         }
         public string SelectedParameter1 { get; set; }
         public int BankMemberId { get; set; }
-        public string SelectedCentreCode { get; set; }
+        public string CentreCode { get; set; }
     }
 }

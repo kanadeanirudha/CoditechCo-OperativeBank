@@ -26,11 +26,11 @@ namespace Coditech.API.Controllers
         [Route("/BankPostingLoanAccount/GetBankPostingLoanAccountList")]
         [Produces(typeof(BankPostingLoanAccountListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
-        public virtual IActionResult GetBankPostingLoanAccountList(int bankMemberId,FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        public virtual IActionResult GetBankPostingLoanAccountList(string centreCode,int bankMemberId,FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
         {
             try
             {
-                BankPostingLoanAccountListModel list = _bankPostingLoanAccountService.GetBankPostingLoanAccountList(bankMemberId, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                BankPostingLoanAccountListModel list = _bankPostingLoanAccountService.GetBankPostingLoanAccountList(centreCode, bankMemberId, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
                 string data = ApiHelper.ToJson(list);
                 return !string.IsNullOrEmpty(data) ? CreateOKResponse<BankPostingLoanAccountListResponse>(data) : CreateNoContentResponse();
             }
@@ -201,5 +201,49 @@ namespace Coditech.API.Controllers
             }
         }
         #endregion
+
+        [Route("/BankPostingLoanAccount/GetLoanRepayment")]
+        [HttpGet]
+        [Produces(typeof(BankLoanRepaymentResponse))]
+        public virtual IActionResult GetLoanRepayment(int bankPostingLoanAccountId)
+        {
+            try
+            {
+                BankLoanRepaymentModel bankLoanRepaymentModel = _bankPostingLoanAccountService.GetLoanRepayment(bankPostingLoanAccountId);
+                return IsNotNull(bankLoanRepaymentModel) ? CreateOKResponse(new BankLoanRepaymentResponse { BankLoanRepaymentModel = bankLoanRepaymentModel }) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, "BankLoanRepayment", TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new BankPostingLoanAccountResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, "BankLoanRepayment", TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new BankPostingLoanAccountResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/BankPostingLoanAccount/UpdateLoanRepayment")]
+        [HttpPut, ValidateModel]
+        [Produces(typeof(BankLoanRepaymentResponse))]
+        public virtual IActionResult UpdateLoanRepayment([FromBody] BankLoanRepaymentModel model)
+        {
+            try
+            {
+                bool isUpdated = _bankPostingLoanAccountService.UpdateLoanRepayment(model);
+                return isUpdated ? CreateOKResponse(new BankLoanRepaymentResponse { BankLoanRepaymentModel = model }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, "BankLoanRepayment", TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new BankPostingLoanAccountResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, "BankLoanRepayment", TraceLevel.Error);
+                return CreateInternalServerErrorResponse(new BankPostingLoanAccountResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
     }
 }

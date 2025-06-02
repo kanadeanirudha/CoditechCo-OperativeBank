@@ -1,4 +1,5 @@
-﻿using Coditech.Admin.ViewModel;
+﻿using Coditech.Admin.Utilities;
+using Coditech.Admin.ViewModel;
 using Coditech.API.Client;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
@@ -32,21 +33,17 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Public Methods
-        public virtual BankPostingLoanAccountListViewModel GetBankPostingLoanAccountList(DataTableViewModel dataTableModel)
+        public virtual BankPostingLoanAccountListViewModel GetBankPostingLoanAccountList(int bankMemberId,DataTableViewModel dataTableModel)
         {
+            string centreCode = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.SelectedCentreCode;
             FilterCollection filters = new FilterCollection();
             dataTableModel = dataTableModel ?? new DataTableViewModel();
             if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
             {
-                filters.Add("FirstName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("LastName", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("EmailId", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("MobileNumber", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-                filters.Add("PostingLoanAccountCode", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
+                filters.Add("LoanAccountNumber", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
             }
-            filters.Add(FilterKeys.SelectedCentreCode, ProcedureFilterOperators.Equals, dataTableModel.SelectedCentreCode);
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
-            BankPostingLoanAccountListResponse response = _bankPostingLoanAccountClient.List(Convert.ToInt32(dataTableModel.SelectedParameter1), null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            BankPostingLoanAccountListResponse response = _bankPostingLoanAccountClient.List(centreCode, bankMemberId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             BankPostingLoanAccountListModel bankPostingLoanAccountList = new BankPostingLoanAccountListModel { BankPostingLoanAccountList = response?.BankPostingLoanAccountList };
             BankPostingLoanAccountListViewModel listViewModel = new BankPostingLoanAccountListViewModel();
             listViewModel.BankPostingLoanAccountList = bankPostingLoanAccountList?.BankPostingLoanAccountList?.ToViewModel<BankPostingLoanAccountViewModel>().ToList();
@@ -214,6 +211,42 @@ namespace Coditech.Admin.Agents
             }
         }
         #endregion
+
+        //Get Bank Loan Repayment by Bank Posting Loan Account id.
+        public virtual BankLoanRepaymentViewModel GetLoanRepayment(int bankPostingLoanAccountId)
+        {
+            BankLoanRepaymentResponse response = _bankPostingLoanAccountClient.GetLoanRepayment(bankPostingLoanAccountId);
+            return response?.BankLoanRepaymentModel.ToViewModel<BankLoanRepaymentViewModel>();
+        }
+
+        //Update BankLoanRepayment.
+        public virtual BankLoanRepaymentViewModel UpdateLoanRepayment(BankLoanRepaymentViewModel bankLoanRepaymentViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", "BankLoanRepayment", TraceLevel.Info);
+                BankLoanRepaymentResponse response = _bankPostingLoanAccountClient.UpdateLoanRepayment(bankLoanRepaymentViewModel.ToModel<BankLoanRepaymentModel>());
+                BankLoanRepaymentModel bankLoanRepaymentModel = response?.BankLoanRepaymentModel;
+                _coditechLogging.LogMessage("Agent method execution done.", "BankLoanRepayment", TraceLevel.Info);
+                return IsNotNull(bankLoanRepaymentModel) ? bankLoanRepaymentModel.ToViewModel<BankLoanRepaymentViewModel>() : (BankLoanRepaymentViewModel)GetViewModelWithErrorMessage(new BankLoanRepaymentViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, "BankLoanRepayment", TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (BankLoanRepaymentViewModel)GetViewModelWithErrorMessage(bankLoanRepaymentViewModel, ex.ErrorMessage);
+                    default:
+                        return (BankLoanRepaymentViewModel)GetViewModelWithErrorMessage(bankLoanRepaymentViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, "BankLoanRepayment", TraceLevel.Error);
+                return (BankLoanRepaymentViewModel)GetViewModelWithErrorMessage(bankLoanRepaymentViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
         #endregion
 
         #region protected
@@ -267,66 +300,14 @@ namespace Coditech.Admin.Agents
                 ColumnCode = "RepaymentModeEnumId",
                 IsSortable = true,
             });
+            datatableColumnList.Add(new DatatableColumns()
+            {
+                ColumnName = "Tenure Months",
+                ColumnCode = "TenureMonths",
+                IsSortable = true,
+            });
             return datatableColumnList;
         }
         #endregion
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//Create  Bank Setup Property Valuers.
-//public virtual BankPostingLoanAccountViewModel CreateBankPostingLoanAccount(BankPostingLoanAccountViewModel bankPostingLoanAccountViewModel)
-//{
-//    try
-//    {
-//        BankPostingLoanAccountResponse response = _bankPostingLoanAccountClient.CreateBankPostingLoanAccount(bankPostingLoanAccountViewModel.ToModel<BankPostingLoanAccountModel>());
-//        BankPostingLoanAccountModel bankPostingLoanAccountModel = response?.BankPostingLoanAccountModel;
-//        return IsNotNull(bankPostingLoanAccountModel) ? bankPostingLoanAccountModel.ToViewModel<BankPostingLoanAccountViewModel>() : new BankPostingLoanAccountViewModel();
-//    }
-//    catch (CoditechException ex)
-//    {
-//        _coditechLogging.LogMessage(ex, "BankPostingLoanAccount", TraceLevel.Warning);
-//        switch (ex.ErrorCode)
-//        {
-//            case ErrorCodes.AlreadyExist:
-//                return (BankPostingLoanAccountViewModel)GetViewModelWithErrorMessage(bankPostingLoanAccountViewModel, ex.ErrorMessage);
-//            default:
-//                return (BankPostingLoanAccountViewModel)GetViewModelWithErrorMessage(bankPostingLoanAccountViewModel, GeneralResources.ErrorFailedToCreate);
-//        }
-//    }
-//    catch (Exception ex)
-//    {
-//        _coditechLogging.LogMessage(ex, "BankPostingLoanAccount", TraceLevel.Error);
-//        return (BankPostingLoanAccountViewModel)GetViewModelWithErrorMessage(bankPostingLoanAccountViewModel, GeneralResources.ErrorFailedToCreate);
-//    }
-//}

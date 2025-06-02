@@ -5,9 +5,9 @@ namespace Coditech.API.Endpoint
 {
     public class BankPostingLoanAccountEndpoint : BaseEndpoint
     {
-        public string ListAsync(int bankMemberId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public string ListAsync(string centreCode, int bankMemberId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            string endpoint = $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankPostingLoanAccount/GetBankPostingLoanAccountList?bankMemberId={bankMemberId}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";
+            string endpoint = $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankPostingLoanAccount/GetBankPostingLoanAccountList?centreCode={centreCode}&bankMemberId={bankMemberId}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
         public string CreatePostingLoanAccountAsync() =>
@@ -28,5 +28,10 @@ namespace Coditech.API.Endpoint
 
         public string UpdateBankLoanForeClosuresAsync() =>
                $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankPostingLoanAccount/UpdateBankLoanForeClosures";
+        public string GetLoanRepaymentAsync(int bankPostingLoanAccountId) =>
+            $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankPostingLoanAccount/GetLoanRepayment?bankPostingLoanAccountId={bankPostingLoanAccountId}";
+
+        public string UpdateLoanRepaymentAsync() =>
+               $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankPostingLoanAccount/UpdateLoanRepayment";
     }
 }

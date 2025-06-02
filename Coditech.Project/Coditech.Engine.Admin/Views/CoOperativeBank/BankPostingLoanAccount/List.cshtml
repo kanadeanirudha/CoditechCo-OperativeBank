@@ -3,8 +3,8 @@
     ViewBag.Title = "Bank Posting Loan Account List";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
-    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "CentreCode", DropdownSelectedValue = Model.SelectedCentreCode, ChangeEvent = "BankPostingLoanAccount.GetBankMemberByCentreCode()" };
-    DropdownViewModel memberDropdown = new DropdownViewModel() { DropdownType = DropdownCustomTypeEnum.BankMembers.ToString(), DropdownName = "BankMemberId", DropdownSelectedValue = Model.BankMemberId.ToString(), Parameter = Model.SelectedCentreCode, IsCustomDropdown = true };
+    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "CentreCode", DropdownSelectedValue = Model.CentreCode, ChangeEvent = "BankPostingLoanAccount.GetBankMemberByCentreCode()" };
+    DropdownViewModel memberDropdown = new DropdownViewModel() { DropdownType = DropdownCustomTypeEnum.BankMembers.ToString(), DropdownName = "BankMemberId", DropdownSelectedValue = Model.BankMemberId.ToString(), ChangeEvent = "BankPostingLoanAccount.LoadBankMemberListByCentreCode('" + @controllerName + "','" + @actionName + "')", IsCustomDropdown = true };
 }
 <!-- Page Content-->
 <div class="page-content mt-5">
@@ -19,19 +19,13 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-md-1">
-                                <label>@AdminResources.LabelCentre</label>
-                            </div>
-                            <div class="col-md-4">
-                                @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", centreDropdown)
-                            </div>
-                            <div class="col-md-1">
                                 <label>Bank Member</label>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", memberDropdown)
                             </div>
                             <div class="col-md-1">
-                                <input type="button" class="btn btn-success" value="Show" id="ShowDataId" onclick="BankPostingLoanAccount.GetBankMemberByCentreCode()" />
+                                <input type="button" class="btn btn-success" value="Show" id="ShowDataId" onclick="BankPostingLoanAccount.LoadBankMemberListByCentreCode('@controllerName','@actionName')" />
                             </div>
                         </div>
                     </div>
@@ -47,3 +41,5 @@
 </div>
 <script src="~/js/coditech/CoOperativeBank/BankPostingLoanAccount.js"></script>
 <!-- end page content -->
+<!-- end page content -->
+<script src="~/js/coditech/CoOperativeBank/BankPostingLoanAccount.js"></script>

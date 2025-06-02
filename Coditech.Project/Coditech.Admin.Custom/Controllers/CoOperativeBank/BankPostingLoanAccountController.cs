@@ -11,6 +11,7 @@ namespace Coditech.Admin.Controllers
         private readonly IBankPostingLoanAccountAgent _bankPostingLoanAccountAgent;
         private const string createEdit = "~/Views/CoOperativeBank/BankPostingLoanAccount/CreateEdit.cshtml";
         private const string BankLoanForeClosures = "~/Views/CoOperativeBank/BankPostingLoanAccount/BankLoanForeClosures.cshtml";
+        private const string createEditRepayment = "~/Views/CoOperativeBank/BankLoanRepayment/CreateEdit.cshtml";
 
         public BankPostingLoanAccountController(IBankPostingLoanAccountAgent bankPostingLoanAccountAgent)
         {
@@ -19,11 +20,11 @@ namespace Coditech.Admin.Controllers
         public virtual ActionResult List(DataTableViewModel dataTableViewModel)
         {
             BankPostingLoanAccountListViewModel list = new BankPostingLoanAccountListViewModel();
-            if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode) && !string.IsNullOrEmpty(dataTableViewModel.SelectedParameter1))
+            if (!string.IsNullOrEmpty(dataTableViewModel.SelectedParameter1))
             {
-                list = _bankPostingLoanAccountAgent.GetBankPostingLoanAccountList(dataTableViewModel);
+                list = _bankPostingLoanAccountAgent.GetBankPostingLoanAccountList(Convert.ToInt32(dataTableViewModel.SelectedParameter1), dataTableViewModel);
             }
-            list.SelectedCentreCode = dataTableViewModel.SelectedCentreCode;
+            list.CentreCode = dataTableViewModel.SelectedCentreCode;
             list.SelectedParameter1 = dataTableViewModel.SelectedParameter1;
             if (AjaxHelper.IsAjaxRequest)
             {
@@ -101,7 +102,6 @@ namespace Coditech.Admin.Controllers
                 DropdownName = "BankMemberId",
                 Parameter = selectedCentreCode,
                 IsCustomDropdown = true,
-
             };
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", bankMemberByCentreCodeDropdown);
         }
@@ -156,5 +156,28 @@ namespace Coditech.Admin.Controllers
             return View(BankLoanForeClosures, bankLoanForeClosuresViewModel);
         }
         #endregion
+   
+        #region Loan Repayment
+        [HttpGet]
+        public virtual ActionResult UpdateLoanRepayment(int bankPostingLoanAccountId)
+        {
+            BankLoanRepaymentViewModel bankLoanRepaymentViewModel = _bankPostingLoanAccountAgent.GetLoanRepayment(bankPostingLoanAccountId);
+            return ActionView(createEditRepayment, bankLoanRepaymentViewModel);
+        }
+
+        [HttpPost]
+        public virtual ActionResult UpdateLoanRepayment(BankLoanRepaymentViewModel bankLoanRepaymentViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                SetNotificationMessage(_bankPostingLoanAccountAgent.UpdateLoanRepayment(bankLoanRepaymentViewModel).HasError
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("UpdateLoanRepayment", new { bankPostingLoanAccountId = bankLoanRepaymentViewModel.BankPostingLoanAccountId });
+            }
+            return View(createEditRepayment, bankLoanRepaymentViewModel);
+        }
+        #endregion
     }
 }
+

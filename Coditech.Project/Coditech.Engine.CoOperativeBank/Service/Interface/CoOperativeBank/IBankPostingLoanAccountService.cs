@@ -5,7 +5,7 @@ namespace Coditech.API.Service
 {
     public interface IBankPostingLoanAccountService
     {
-        BankPostingLoanAccountListModel GetBankPostingLoanAccountList(int bankMemberId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
+        BankPostingLoanAccountListModel GetBankPostingLoanAccountList(string centreCode, int bankMemberId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
         BankPostingLoanAccountModel CreatePostingLoanAccount(BankPostingLoanAccountModel model);
         BankPostingLoanAccountModel GetPostingLoanAccount(int bankPostingLoanAccountId);
         bool UpdatePostingLoanAccount(BankPostingLoanAccountModel model);
@@ -13,5 +13,7 @@ namespace Coditech.API.Service
         BankLoanForeClosuresModel CreateBankLoanForeClosures(BankLoanForeClosuresModel model);
         BankLoanForeClosuresModel GetBankLoanForeClosures(int bankPostingLoanAccountId);
         bool UpdateBankLoanForeClosures(BankLoanForeClosuresModel model);
+        BankLoanRepaymentModel GetLoanRepayment(int bankPostingLoanAccountId);
+        bool UpdateLoanRepayment(BankLoanRepaymentModel model);
     }
 }

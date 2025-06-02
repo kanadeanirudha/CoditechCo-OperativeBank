@@ -32,6 +32,15 @@
         }
     },
 
+    LoadBankMemberListByCentreCode: function (controllerName, methodName) {
+        $('#DataTables_SearchById').val("")
+        if ($("#SelectedParameter1").val() == "") {
+            CoditechNotification.DisplayNotificationMessage("Please select Member.", "error");
+        }
+        else {
+            CoditechDataTable.LoadList(controllerName, methodName);
+        }
+    },
     GetBankProductByCentreCode: function () {
         var selectedCentreCode = $("#CentreCode").val();
         $('#DataTablesDivId tbody').html('');

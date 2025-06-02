@@ -5,7 +5,10 @@ using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Common.Service;
+using Coditech.Model;
 using Coditech.Resources;
+using Org.BouncyCastle.Asn1.Cms;
+using Org.BouncyCastle.Crypto.Agreement.Kdf;
 using System.Collections.Specialized;
 using System.Data;
 using static Coditech.Common.Helper.HelperUtility;
@@ -17,23 +20,21 @@ namespace Coditech.API.Service
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<BankPostingLoanAccount> _bankPostingLoanAccountRepository;
         private readonly ICoditechRepository<BankLoanForeClosures> _bankLoanForeClosuresRepository;
+        private readonly ICoditechRepository<BankLoanRepayment> _bankLoanRepaymentRepository;
         public BankPostingLoanAccountService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _bankPostingLoanAccountRepository = new CoditechRepository<BankPostingLoanAccount>(_serviceProvider.GetService<CoditechCustom_Entities>());
             _bankLoanForeClosuresRepository = new CoditechRepository<BankLoanForeClosures>(_serviceProvider.GetService<CoditechCustom_Entities>());
+            _bankLoanRepaymentRepository = new CoditechRepository<BankLoanRepayment>(_serviceProvider.GetService<CoditechCustom_Entities>());
         }
-        public virtual BankPostingLoanAccountListModel GetBankPostingLoanAccountList(int bankMemberId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        public virtual BankPostingLoanAccountListModel GetBankPostingLoanAccountList(string centreCode, int bankMemberId, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
-            string selectedCentreCode = filters?.Find(x => string.Equals(x.FilterName, FilterKeys.SelectedCentreCode, StringComparison.CurrentCultureIgnoreCase))?.FilterValue;
-
-            filters.RemoveAll(x => x.FilterName == FilterKeys.SelectedCentreCode);
-
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<BankPostingLoanAccountModel> objStoredProc = new CoditechViewRepository<BankPostingLoanAccountModel>(_serviceProvider.GetService<Coditech_Entities>());
-            objStoredProc.SetParameter("@CentreCode", selectedCentreCode, ParameterDirection.Input, DbType.String);
+            objStoredProc.SetParameter("@CentreCode", centreCode, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@BankMemberId", bankMemberId, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
@@ -193,5 +194,55 @@ namespace Coditech.API.Service
             return isUpdated;
         }
         #endregion
+
+        //Get BankLoanRepayment by BankPostingLoanAccount id.
+        public virtual BankLoanRepaymentModel GetLoanRepayment(int bankPostingLoanAccountId)
+        {
+            if (bankPostingLoanAccountId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BankPostingLoanAccountId"));
+            //Get the BankLoanRepayment Details based on id.
+            BankLoanRepayment bankLoanRepayment = _bankLoanRepaymentRepository.Table.FirstOrDefault(x => x.BankPostingLoanAccountId == bankPostingLoanAccountId);
+            BankLoanRepaymentModel bankLoanRepaymentModel = IsNull(bankLoanRepayment) ? new BankLoanRepaymentModel() : bankLoanRepayment.FromEntityToModel<BankLoanRepaymentModel>();
+            bankLoanRepaymentModel.BankPostingLoanAccountId = bankPostingLoanAccountId;
+            return bankLoanRepaymentModel;
+        }
+
+        //Update BankLoanRepayment.
+        public virtual bool UpdateLoanRepayment(BankLoanRepaymentModel bankLoanRepaymentModel)
+        {
+            if (IsNull(bankLoanRepaymentModel))
+                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
+
+            if (bankLoanRepaymentModel.BankPostingLoanAccountId < 1)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BankPostingLoanAccountId"));
+
+            //Update Bank Posting Loan Account
+            bool isUpdated = false;
+            BankLoanRepayment bankLoanRepayment = bankLoanRepaymentModel.FromEntityToModel<BankLoanRepayment>();
+            if(bankLoanRepaymentModel.BankLoanRepaymentId > 0)
+                isUpdated = _bankLoanRepaymentRepository.Update(bankLoanRepayment);
+            else
+            {
+                BankPostingLoanAccount model = new CoditechRepository<BankPostingLoanAccount>(_serviceProvider.GetService<CoditechCustom_Entities>()).Table.Where(x => x.BankPostingLoanAccountId == bankLoanRepaymentModel.BankPostingLoanAccountId)?.FirstOrDefault();
+                bankLoanRepaymentModel.LoanAccountNumber = model.LoanAccountNumber;
+                string loanAccountNumber = model.LoanAccountNumber.Length >= 4 ? model.LoanAccountNumber[^4..] : model.LoanAccountNumber;
+                string paymentDate = bankLoanRepaymentModel.PaymentDate.ToString("yyyyMMdd");
+                bankLoanRepaymentModel.ReceiptNumber = $"RCPT{loanAccountNumber}{paymentDate}{bankLoanRepaymentModel.BankPostingLoanAccountId:D4}";
+                bankLoanRepayment = bankLoanRepaymentModel.FromEntityToModel<BankLoanRepayment>();
+                bankLoanRepayment = _bankLoanRepaymentRepository.Insert(bankLoanRepayment);
+                isUpdated = bankLoanRepayment.BankLoanRepaymentId > 0;
+            }
+            if (!isUpdated)
+            {
+                bankLoanRepaymentModel.HasError = true;
+                bankLoanRepaymentModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+            }
+            return isUpdated;
+        }
+
+        #region Protected Method
+
+        #endregion
+
     }
 }

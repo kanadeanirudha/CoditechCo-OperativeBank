@@ -58,6 +58,10 @@ namespace Coditech.Admin.Helpers
             {
                 GetBankproductList(dropdownViewModel, dropdownList);
             }
+            else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.BankProduct.ToString()))
+            {
+                GetBankproductList(dropdownViewModel, dropdownList);
+            }
             else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.TenureMonths.ToString()))
             {
                 GetTenureMonthsDropdown(dropdownViewModel, dropdownList);
@@ -139,7 +143,7 @@ namespace Coditech.Admin.Helpers
                     });
                 }
             }
-        }
+        }         
         private static void GetBankProductList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             if (dropdownViewModel.IsRequired)
@@ -279,7 +283,7 @@ namespace Coditech.Admin.Helpers
                 {
                     Value = i.ToString(),
                     Text = i + " Year" + (i != 1 ? "s" : ""),
-                    Selected = dropdownViewModel.DropdownSelectedValue == i.ToString() // Fix: Convert int to string for comparison  
+                    Selected = dropdownViewModel.DropdownSelectedValue == i.ToString() 
                 });
             }
         }
