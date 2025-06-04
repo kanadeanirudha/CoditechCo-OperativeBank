@@ -62,6 +62,7 @@
         BankFixedDepositClosure,
         BankMemberNominee,
         BankRecurringDepositAccount,
+        BankFixedDepositInterestPostings,
     }
     public enum UserTypeCustomEnum
     {

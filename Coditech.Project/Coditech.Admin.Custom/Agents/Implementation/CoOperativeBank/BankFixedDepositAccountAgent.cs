@@ -215,6 +215,72 @@ namespace Coditech.Admin.Agents
             }
         }
         #endregion
+        #region BankFixedDepositInterestPostings
+
+        //Create BankFixedDepositInterestPostings
+        public virtual BankFixedDepositInterestPostingsViewModel CreateBankFixedDepositInterestPostings(BankFixedDepositInterestPostingsViewModel bankFixedDepositInterestPostingsViewModel)
+        {
+            try
+            {
+                BankFixedDepositInterestPostingsResponse response = _bankFixedDepositAccountClient.CreateBankFixedDepositInterestPostings(bankFixedDepositInterestPostingsViewModel.ToModel<BankFixedDepositInterestPostingsModel>());
+                BankFixedDepositInterestPostingsModel bankFixedDepositInterestPostingsModel = response?.BankFixedDepositInterestPostingsModel;
+                return IsNotNull(bankFixedDepositInterestPostingsModel) ? bankFixedDepositInterestPostingsModel.ToViewModel<BankFixedDepositInterestPostingsViewModel>() : new BankFixedDepositInterestPostingsViewModel();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankFixedDepositInterestPostings.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (BankFixedDepositInterestPostingsViewModel)GetViewModelWithErrorMessage(bankFixedDepositInterestPostingsViewModel, ex.ErrorMessage);
+                    default:
+                        return (BankFixedDepositInterestPostingsViewModel)GetViewModelWithErrorMessage(bankFixedDepositInterestPostingsViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankFixedDepositInterestPostings.ToString(), TraceLevel.Error);
+                return (BankFixedDepositInterestPostingsViewModel)GetViewModelWithErrorMessage(bankFixedDepositInterestPostingsViewModel, GeneralResources.ErrorFailedToCreate);
+            }
+        }
+
+        //Get BankFixedDepositInterestPostings by bankFixedDepositAccountId.
+        public virtual BankFixedDepositInterestPostingsViewModel GetBankFixedDepositInterestPostings(short bankFixedDepositAccountId)
+        {
+            BankFixedDepositInterestPostingsResponse response = _bankFixedDepositAccountClient.GetBankFixedDepositInterestPostings(bankFixedDepositAccountId);
+            return response?.BankFixedDepositInterestPostingsModel.ToViewModel<BankFixedDepositInterestPostingsViewModel>();
+        }
+
+        //Update BankFixedDepositInterestPostings.
+        public virtual BankFixedDepositInterestPostingsViewModel UpdateBankFixedDepositInterestPostings(BankFixedDepositInterestPostingsViewModel bankFixedDepositInterestPostingsViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", LogComponentCustomEnum.BankFixedDepositInterestPostings.ToString(), TraceLevel.Info);
+                BankFixedDepositInterestPostingsResponse response = _bankFixedDepositAccountClient.UpdateBankFixedDepositInterestPostings(bankFixedDepositInterestPostingsViewModel.ToModel<BankFixedDepositInterestPostingsModel>());
+                BankFixedDepositInterestPostingsModel bankFixedDepositInterestPostingsModel = response?.BankFixedDepositInterestPostingsModel;
+                _coditechLogging.LogMessage("Agent method execution done.", LogComponentCustomEnum.BankFixedDepositInterestPostings.ToString(), TraceLevel.Info);
+                return IsNotNull(bankFixedDepositInterestPostingsModel) ? bankFixedDepositInterestPostingsModel.ToViewModel<BankFixedDepositInterestPostingsViewModel>() : (BankFixedDepositInterestPostingsViewModel)GetViewModelWithErrorMessage(new BankFixedDepositInterestPostingsViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankFixedDepositInterestPostings.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (BankFixedDepositInterestPostingsViewModel)GetViewModelWithErrorMessage(bankFixedDepositInterestPostingsViewModel, ex.ErrorMessage);
+                    default:
+                        return (BankFixedDepositInterestPostingsViewModel)GetViewModelWithErrorMessage(bankFixedDepositInterestPostingsViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankFixedDepositInterestPostings.ToString(), TraceLevel.Error);
+                return (BankFixedDepositInterestPostingsViewModel)GetViewModelWithErrorMessage(bankFixedDepositInterestPostingsViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
+
+        #endregion
         #endregion
 
         #region protected

@@ -271,14 +271,8 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IBankFixedDepositAccountService, BankFixedDepositAccountService>();
             builder.Services.AddScoped<IBankProductService, BankProductService>();
             builder.Services.AddScoped<IBankPostingLoanAccountService, BankPostingLoanAccountService>();
-            
             builder.Services.AddScoped<IBankRecurringDepositAccountService, BankRecurringDepositAccountService>();
 
-
-            #endregion
-
-            #region
-            //builder.Services.AddScoped<IBankSetupMortagePropertyTypeService, BankSetupMortagePropertyTypeService>();
 
             #endregion
         }

@@ -30,5 +30,15 @@ namespace Coditech.API.Endpoint
 
         public string UpdateBankFixedDepositClosureAsync() =>
                $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankFixedDepositAccount/UpdateBankFixedDepositClosure";
+
+        public string CreateBankFixedDepositInterestPostingsAsync() =>
+          $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankFixedDepositAccount/CreateBankFixedDepositInterestPostings";
+
+        public string GetBankFixedDepositInterestPostingsAsync(short bankFixedDepositAccountId) =>
+            $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankFixedDepositAccount/GetBankFixedDepositInterestPostings?bankFixedDepositAccountId={bankFixedDepositAccountId}";
+
+        public string UpdateBankFixedDepositInterestPostingsAsync() =>
+               $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankFixedDepositAccount/UpdateBankFixedDepositInterestPostings";
+
     }
 }

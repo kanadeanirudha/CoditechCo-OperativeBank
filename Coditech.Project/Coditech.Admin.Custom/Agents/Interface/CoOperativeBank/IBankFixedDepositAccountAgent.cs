@@ -62,5 +62,29 @@ namespace Coditech.Admin.Agents
         BankFixedDepositClosureViewModel UpdateBankFixedDepositClosure(BankFixedDepositClosureViewModel bankFixedDepositClosureViewModel);
 
         #endregion
+        #region BankFixedDepositInterestPostings
+
+        /// <summary>
+        /// Create BankFixedDepositInterestPostings.
+        /// </summary>
+        /// <param name="bankFixedDepositInterestPostingsViewModel">BankFixedDepositInterestPostingsViewModel.</param>
+        /// <returns>Returns created model.</returns>
+        BankFixedDepositInterestPostingsViewModel CreateBankFixedDepositInterestPostings(BankFixedDepositInterestPostingsViewModel bankFixedDepositInterestPostingsViewModel);
+
+        /// <summary>
+        /// Get BankFixedDepositInterestPostings by bankFixedDepositAccountId.
+        /// </summary>
+        /// <param name="bankFixedDepositAccountId">bankFixedDepositAccountId</param>
+        /// <returns>Returns BankFixedDepositInterestPostingsViewModel.</returns>
+        BankFixedDepositInterestPostingsViewModel GetBankFixedDepositInterestPostings(short bankFixedDepositAccountId);
+
+        /// <summary>
+        /// Update BankFixedDepositInterestPostings.
+        /// </summary>
+        /// <param name="bankFixedDepositInterestPostingsViewModel">bankFixedDepositInterestPostingsViewModel.</param>
+        /// <returns>Returns updated BankFixedDepositInterestPostingsViewModel</returns>
+        BankFixedDepositInterestPostingsViewModel UpdateBankFixedDepositInterestPostings(BankFixedDepositInterestPostingsViewModel bankFixedDepositInterestPostingsViewModel);
+
+        #endregion
     }
 }
