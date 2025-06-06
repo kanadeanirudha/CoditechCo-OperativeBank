@@ -272,6 +272,7 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IBankProductService, BankProductService>();
             builder.Services.AddScoped<IBankPostingLoanAccountService, BankPostingLoanAccountService>();
             builder.Services.AddScoped<IBankRecurringDepositAccountService, BankRecurringDepositAccountService>();
+            builder.Services.AddScoped<IBankSavingsAccountTransactionsService, BankSavingsAccountTransactionsService>();
 
 
             #endregion

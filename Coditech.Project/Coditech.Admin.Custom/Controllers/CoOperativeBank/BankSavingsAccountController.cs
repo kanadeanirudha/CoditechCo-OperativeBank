@@ -1,4 +1,5 @@
 ﻿using Coditech.Admin.Agents;
+using Coditech.Admin.Custom.Agents.Interface.CoOperativeBank;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
 using Coditech.Common.Helper.Utilities;
@@ -10,15 +11,16 @@ namespace Coditech.Admin.Controllers
     {
         private readonly IBankSavingsAccountAgent _bankSavingsAccountAgent;
         private readonly IBankSavingAccountIntrestPostingsAgent _bankSavingAccountIntrestPostingsAgent;
+        private readonly IBankSavingsAccountTransactionsAgent _bankSavingsAccountTransactionsAgent;
         private const string createEdit = "~/Views/CoOperativeBank/BankSavingsAccount/CreateEdit.cshtml";
         private const string BankSavingsAccountClosures = "~/Views/CoOperativeBank/BankSavingsAccount/BankSavingsAccountClosures.cshtml";
         private const string createEditBankSavingAccountIntrestPostings = "~/Views/CoOperativeBank/BankSavingAccountIntrestPostings/CreateEdit.cshtml";
-
-
-        public BankSavingsAccountController(IBankSavingsAccountAgent bankSavingsAccountAgent, IBankSavingAccountIntrestPostingsAgent bankSavingAccountIntrestPostingsAgent)
+        private const string createEditBankSavingsAccountTransactions = "~/Views/CoOperativeBank/BankSavingsAccountTransactions/CreateEdit.cshtml";
+        public BankSavingsAccountController(IBankSavingsAccountAgent bankSavingsAccountAgent, IBankSavingAccountIntrestPostingsAgent bankSavingAccountIntrestPostingsAgent, IBankSavingsAccountTransactionsAgent bankSavingsAccountTransactionsAgent)
         {
             _bankSavingsAccountAgent = bankSavingsAccountAgent;
             _bankSavingAccountIntrestPostingsAgent = bankSavingAccountIntrestPostingsAgent;
+            _bankSavingsAccountTransactionsAgent = bankSavingsAccountTransactionsAgent;
         }
         #region BankSavingAccount
         public virtual ActionResult List(DataTableViewModel dataTableModel)
@@ -190,6 +192,46 @@ namespace Coditech.Admin.Controllers
                 return RedirectToAction("UpdateBankSavingAccountIntrestPostings", new { bankSavingsAccountId = bankSavingAccountIntrestPostingsViewModel.BankSavingsAccountId });
             }
             return View(createEditBankSavingAccountIntrestPostings, bankSavingAccountIntrestPostingsViewModel);
+        }
+        #endregion
+
+        #region BankSavingsAccountTransactions
+
+        [HttpPost]
+        public virtual ActionResult CreateBankSavingsAccountTransactions(BankSavingsAccountTransactionsViewModel bankSavingsAccountTransactionsViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                bankSavingsAccountTransactionsViewModel = _bankSavingsAccountTransactionsAgent.CreateBankSavingsAccountTransactions(bankSavingsAccountTransactionsViewModel);
+                if (!bankSavingsAccountTransactionsViewModel.HasError)
+                {
+                    SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
+                    return RedirectToAction("UpdateBankSavingsAccountTransactions", new { bankSavingsAccountId = bankSavingsAccountTransactionsViewModel.BankSavingsAccountId });
+                }
+            }
+            SetNotificationMessage(GetErrorNotificationMessage(bankSavingsAccountTransactionsViewModel.ErrorMessage));
+            return View(createEditBankSavingsAccountTransactions, bankSavingsAccountTransactionsViewModel);
+        }
+
+        [HttpGet]
+        public virtual ActionResult UpdateBankSavingsAccountTransactions(long bankSavingsAccountId)
+        {
+            BankSavingsAccountTransactionsViewModel bankSavingsAccountTransactionsViewModel = _bankSavingsAccountTransactionsAgent.GetBankSavingsAccountTransactions(bankSavingsAccountId);
+            return ActionView(createEditBankSavingsAccountTransactions, bankSavingsAccountTransactionsViewModel);
+        }
+
+        [HttpPost]
+        public virtual ActionResult UpdateBankSavingsAccountTransactions(BankSavingsAccountTransactionsViewModel bankSavingsAccountTransactionsViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                bankSavingsAccountTransactionsViewModel = _bankSavingsAccountTransactionsAgent.UpdateBankSavingsAccountTransactions(bankSavingsAccountTransactionsViewModel);
+                SetNotificationMessage(bankSavingsAccountTransactionsViewModel.HasError
+                ? GetErrorNotificationMessage(bankSavingsAccountTransactionsViewModel.ErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("UpdateBankSavingsAccountTransactions", new { bankSavingsAccountId = bankSavingsAccountTransactionsViewModel.BankSavingsAccountId });
+            }
+            return View(createEditBankSavingsAccountTransactions, bankSavingsAccountTransactionsViewModel);
         }
 
         #endregion
