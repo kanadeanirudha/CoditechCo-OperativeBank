@@ -253,8 +253,6 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<ICustomDashboardService, CustomDashboardService>();
            
 
-            //builder.Services.AddScoped<ICustomDashboardService, CustomDashboardService>();
-
             #region CoOperativeBank
             builder.Services.AddScoped<IBankSetupMortagePropertyTypeService, BankSetupMortagePropertyTypeService>();
             builder.Services.AddScoped<IBankVehicleModelService, BankVehicleModelService>();
@@ -273,6 +271,7 @@ namespace Coditech.API.Common
             builder.Services.AddScoped<IBankPostingLoanAccountService, BankPostingLoanAccountService>();
             builder.Services.AddScoped<IBankRecurringDepositAccountService, BankRecurringDepositAccountService>();
             builder.Services.AddScoped<IBankSavingsAccountTransactionsService, BankSavingsAccountTransactionsService>();
+            builder.Services.AddScoped<IBankLoanScheduleService, BankLoanScheduleService>();
 
 
             #endregion

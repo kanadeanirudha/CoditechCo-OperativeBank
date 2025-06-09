@@ -9,12 +9,15 @@ namespace Coditech.Admin.Controllers
     public class BankPostingLoanAccountController : BaseController
     {
         private readonly IBankPostingLoanAccountAgent _bankPostingLoanAccountAgent;
+        private readonly IBankLoanScheduleAgent _bankLoanScheduleAgent;
         private const string createEdit = "~/Views/CoOperativeBank/BankPostingLoanAccount/CreateEdit.cshtml";
+        private const string BankLoanSchedulecreateEdit = "~/Views/CoOperativeBank/BankLoanSchedule/CreateEdit.cshtml";
         private const string BankLoanForeClosures = "~/Views/CoOperativeBank/BankPostingLoanAccount/BankLoanForeClosures.cshtml";
 
-        public BankPostingLoanAccountController(IBankPostingLoanAccountAgent bankPostingLoanAccountAgent)
+        public BankPostingLoanAccountController(IBankPostingLoanAccountAgent bankPostingLoanAccountAgent, IBankLoanScheduleAgent bankLoanScheduleAgent)
         {
             _bankPostingLoanAccountAgent = bankPostingLoanAccountAgent;
+            _bankLoanScheduleAgent = bankLoanScheduleAgent;
         }
         public virtual ActionResult List(DataTableViewModel dataTableViewModel)
         {
@@ -155,6 +158,44 @@ namespace Coditech.Admin.Controllers
                 return RedirectToAction("UpdateBankLoanForeClosures", new { bankPostingLoanAccountId = bankLoanForeClosuresViewModel.BankPostingLoanAccountId });
             }
             return View(BankLoanForeClosures, bankLoanForeClosuresViewModel);
+        }
+        #endregion
+        #region BankLoanSchedule
+
+        [HttpPost]
+        public virtual ActionResult CreateBankLoanSchedule(BankLoanScheduleViewModel bankLoanScheduleViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                bankLoanScheduleViewModel = _bankLoanScheduleAgent.CreateBankLoanSchedule(bankLoanScheduleViewModel);
+                if (!bankLoanScheduleViewModel.HasError)
+                {
+                    SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
+                    return RedirectToAction("UpdateBankLoanSchedule", new { bankPostingLoanAccountId = bankLoanScheduleViewModel.BankPostingLoanAccountId });
+                }
+            }
+            SetNotificationMessage(GetErrorNotificationMessage(bankLoanScheduleViewModel.ErrorMessage));
+            return View(BankLoanSchedulecreateEdit, bankLoanScheduleViewModel);
+        }
+
+        [HttpGet]
+        public virtual ActionResult UpdateBankLoanSchedule(int bankPostingLoanAccountId)
+        {
+            BankLoanScheduleViewModel bankLoanScheduleViewModel = _bankLoanScheduleAgent.GetBankLoanSchedule(bankPostingLoanAccountId);
+            return ActionView(BankLoanSchedulecreateEdit, bankLoanScheduleViewModel);
+        }
+
+        [HttpPost]
+        public virtual ActionResult UpdateBankLoanSchedule(BankLoanScheduleViewModel bankLoanScheduleViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                SetNotificationMessage(_bankLoanScheduleAgent.UpdateBankLoanSchedule(bankLoanScheduleViewModel).HasError
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("UpdateBankLoanSchedule", new { bankPostingLoanAccountId = bankLoanScheduleViewModel.BankPostingLoanAccountId });
+            }
+            return View(BankLoanSchedulecreateEdit, bankLoanScheduleViewModel);
         }
         #endregion
     }
