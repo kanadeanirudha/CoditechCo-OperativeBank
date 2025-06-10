@@ -39,5 +39,28 @@ namespace Coditech.API.Client
         /// <param name="ParameterModel">ParameterModel.</param>
         /// <returns>Returns true if deleted successfully else return false.</returns>
         TrueFalseResponse DeleteBankRecurringDepositAccount(ParameterModel body);
+
+        #region BankRecurringDepositClosure
+        /// <summary>
+        /// Create BankRecurringDepositClosure.
+        /// </summary>
+        /// <param name="BankRecurringDepositClosureModel">BankRecurringDepositClosureModel.</param>
+        /// <returns>Returns BankRecurringDepositAccountResponse.</returns>
+        BankRecurringDepositClosureResponse CreateBankRecurringDepositClosure(BankRecurringDepositClosureModel body);
+
+        /// <summary>
+        /// Get BankRecurringDepositClosure by bankRecurringDepositAccountId.
+        /// </summary>
+        /// <param name="bankRecurringDepositAccountId">bankRecurringDepositAccountId</param>
+        /// <returns>Returns BankRecurringDepositClosureResponse.</returns>
+        BankRecurringDepositClosureResponse GetBankRecurringDepositClosure(int bankRecurringDepositAccountId);
+
+        /// <summary>
+        /// Update BankRecurringDepositClosure
+        /// </summary>
+        /// <param name="BankRecurringDepositClosureModel">BankRecurringDepositClosureModel.</param>
+        /// <returns>Returns updated BankRecurringDepositClosureResponse</returns>
+        BankRecurringDepositClosureResponse UpdateBankRecurringDepositClosure(BankRecurringDepositClosureModel body);
+        #endregion
     }
 }

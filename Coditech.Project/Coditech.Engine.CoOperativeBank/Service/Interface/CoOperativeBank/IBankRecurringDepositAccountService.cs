@@ -10,5 +10,8 @@ namespace Coditech.API.Service
         BankRecurringDepositAccountModel GetBankRecurringDepositAccount(int bankRecurringDepositAccountId);
         bool UpdateBankRecurringDepositAccount(BankRecurringDepositAccountModel model);
         bool DeleteBankRecurringDepositAccount(ParameterModel parameterModel);
+        BankRecurringDepositClosureModel CreateBankRecurringDepositClosure(BankRecurringDepositClosureModel model);
+        BankRecurringDepositClosureModel GetBankRecurringDepositClosure(int bankRecurringDepositAccountId);
+        bool UpdateBankRecurringDepositClosure(BankRecurringDepositClosureModel model);
     }
 }
