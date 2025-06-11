@@ -131,5 +131,73 @@ namespace Coditech.Engine.DBTM.Controllers
                 return CreateInternalServerErrorResponse(new TrueFalseResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+        #region  BankRecurringDepositInterestPosting
+
+        [Route("/BankRecurringDepositAccount/CreateBankRecurringDepositInterestPosting")]
+        [HttpPost, ValidateModel]
+        [Produces(typeof(BankRecurringDepositInterestPostingResponse))]
+        public virtual IActionResult CreateBankRecurringDepositInterestPosting([FromBody] BankRecurringDepositInterestPostingModel model)
+        {
+            try
+            {
+                BankRecurringDepositInterestPostingModel bankRecurringDepositInterestPosting = _bankRecurringDepositAccountService.CreateBankRecurringDepositInterestPosting(model);
+                return IsNotNull(bankRecurringDepositInterestPosting) ? CreateCreatedResponse(new BankRecurringDepositInterestPostingResponse { BankRecurringDepositInterestPostingModel = bankRecurringDepositInterestPosting }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankRecurringDepositInterestPosting.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new BankRecurringDepositInterestPostingResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankRecurringDepositInterestPosting.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new BankRecurringDepositInterestPostingResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/BankRecurringDepositAccount/GetBankRecurringDepositInterestPosting")]
+        [HttpGet]
+        [Produces(typeof(BankRecurringDepositInterestPostingResponse))]
+        public virtual IActionResult GetBankRecurringDepositInterestPosting(int bankRecurringDepositAccountId)
+        {
+            try
+            {
+                BankRecurringDepositInterestPostingModel bankRecurringDepositInterestPostingModel = _bankRecurringDepositAccountService.GetBankRecurringDepositInterestPosting(bankRecurringDepositAccountId);
+                return IsNotNull(bankRecurringDepositInterestPostingModel) ? CreateOKResponse(new BankRecurringDepositInterestPostingResponse { BankRecurringDepositInterestPostingModel = bankRecurringDepositInterestPostingModel }) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankRecurringDepositInterestPosting.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new BankRecurringDepositInterestPostingResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankRecurringDepositInterestPosting.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new BankRecurringDepositInterestPostingResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+        [Route("/BankRecurringDepositAccount/UpdateBankRecurringDepositInterestPosting")]
+        [HttpPut, ValidateModel]
+        [Produces(typeof(BankRecurringDepositInterestPostingResponse))]
+        public virtual IActionResult UpdateBankRecurringDepositInterestPosting([FromBody] BankRecurringDepositInterestPostingModel model)
+        {
+            try
+            {
+                bool isUpdated = _bankRecurringDepositAccountService.UpdateBankRecurringDepositInterestPosting(model);
+                return isUpdated ? CreateOKResponse(new BankRecurringDepositInterestPostingResponse { BankRecurringDepositInterestPostingModel = model }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankRecurringDepositInterestPosting.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new BankRecurringDepositInterestPostingResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankRecurringDepositInterestPosting.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new BankRecurringDepositInterestPostingResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        #endregion
     }
 }

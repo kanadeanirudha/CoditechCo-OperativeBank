@@ -21,5 +21,15 @@ namespace Coditech.API.Endpoint
 
         public string DeleteBankRecurringDepositAccountAsync() =>
                   $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankRecurringDepositAccount/DeleteBankRecurringDepositAccount";
+
+        public string CreateBankRecurringDepositInterestPostingAsync() =>
+          $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankRecurringDepositAccount/CreateBankRecurringDepositInterestPosting";
+
+        public string GetBankRecurringDepositInterestPostingAsync(int bankRecurringDepositAccountId) =>
+            $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankRecurringDepositAccount/GetBankRecurringDepositInterestPosting?bankRecurringDepositAccountId={bankRecurringDepositAccountId}";
+
+        public string UpdateBankRecurringDepositInterestPostingAsync() =>
+               $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankRecurringDepositAccount/UpdateBankRecurringDepositInterestPosting";
+
     }
 }

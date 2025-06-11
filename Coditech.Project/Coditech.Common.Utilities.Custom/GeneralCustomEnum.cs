@@ -68,6 +68,7 @@
         BankFixedDepositInterestPostings,
         BankSavingsAccountTransactions,
         BankLoanSchedule,
+        BankRecurringDepositInterestPosting,
     }
     public enum UserTypeCustomEnum
     {

@@ -10,6 +10,7 @@ namespace Coditech.Admin.Controllers
     {
         private readonly IBankRecurringDepositAccountAgent _bankRecurringDepositAccountAgent;
         private const string createEdit = "~/Views/CoOperativeBank/BankRecurringDepositAccount/CreateEdit.cshtml";
+        private const string BankRecurringDepositInterestPosting = "~/Views/CoOperativeBank/BankRecurringDepositAccount/InterestPostingCreateEdit.cshtml";
 
         public BankRecurringDepositAccountController(IBankRecurringDepositAccountAgent bankRecurringDepositAccountAgent)
         {
@@ -109,7 +110,47 @@ namespace Coditech.Admin.Controllers
             };
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", bankMemberByCentreCodeDropdown);
         }
-       
 
+        #region BankRecurringDepositInterestPosting
+
+        [HttpPost]
+        public virtual ActionResult CreateBankRecurringDepositInterestPosting(BankRecurringDepositInterestPostingViewModel bankRecurringDepositInterestPostingViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                bankRecurringDepositInterestPostingViewModel = _bankRecurringDepositAccountAgent.CreateBankRecurringDepositInterestPosting(bankRecurringDepositInterestPostingViewModel);
+                if (!bankRecurringDepositInterestPostingViewModel.HasError)
+                {
+                    SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
+                    return RedirectToAction("UpdateBankRecurringDepositInterestPosting", new { bankRecurringDepositAccountId = bankRecurringDepositInterestPostingViewModel.BankRecurringDepositAccountId });
+
+                }
+            }
+            SetNotificationMessage(GetErrorNotificationMessage(bankRecurringDepositInterestPostingViewModel.ErrorMessage));
+            return View(BankRecurringDepositInterestPosting, bankRecurringDepositInterestPostingViewModel);
+        }
+
+        [HttpGet]
+        public virtual ActionResult UpdateBankRecurringDepositInterestPosting(int bankRecurringDepositAccountId)
+        {
+            BankRecurringDepositInterestPostingViewModel bankRecurringDepositInterestPostingViewModel = _bankRecurringDepositAccountAgent.GetBankRecurringDepositInterestPosting(bankRecurringDepositAccountId);
+            return ActionView(BankRecurringDepositInterestPosting, bankRecurringDepositInterestPostingViewModel);
+        }
+
+        [HttpPost]
+        public virtual ActionResult UpdateBankRecurringDepositInterestPosting(BankRecurringDepositInterestPostingViewModel bankRecurringDepositInterestPostingViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                bankRecurringDepositInterestPostingViewModel = _bankRecurringDepositAccountAgent.UpdateBankRecurringDepositInterestPosting(bankRecurringDepositInterestPostingViewModel);
+                SetNotificationMessage(bankRecurringDepositInterestPostingViewModel.HasError
+                ? GetErrorNotificationMessage(bankRecurringDepositInterestPostingViewModel.ErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("UpdateBankRecurringDepositInterestPosting", new { bankRecurringDepositAccountId = bankRecurringDepositInterestPostingViewModel.BankRecurringDepositAccountId });
+
+            }
+            return View(BankRecurringDepositInterestPosting, bankRecurringDepositInterestPostingViewModel);
+        }
+        #endregion
     }
 }

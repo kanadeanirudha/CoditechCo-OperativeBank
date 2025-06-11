@@ -16,12 +16,16 @@ namespace Coditech.API.Service
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<BankRecurringDepositAccount> _bankRecurringDepositAccountRepository;
         private readonly ICoditechRepository<BankMember> _bankMemberRepository;
+        private readonly ICoditechRepository<BankRecurringDepositInterestPosting> _bankRecurringDepositInterestPostingRepository;
+
         public BankRecurringDepositAccountService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _bankRecurringDepositAccountRepository = new CoditechRepository<BankRecurringDepositAccount>(_serviceProvider.GetService<CoditechCustom_Entities>());
             _bankMemberRepository = new CoditechRepository<BankMember>(_serviceProvider.GetService<CoditechCustom_Entities>());
+            _bankRecurringDepositInterestPostingRepository = new CoditechRepository<BankRecurringDepositInterestPosting>(_serviceProvider.GetService<CoditechCustom_Entities>());
+
         }
         public virtual BankRecurringDepositAccountListModel GetBankRecurringDepositAccountList(string centreCode, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
@@ -124,5 +128,80 @@ namespace Coditech.API.Service
         //protected virtual bool IsBankInsurancePoliciesTypeAlreadyExist(string insurancePoliciesTypeCode, short bankInsurancePoliciesTypeId = 0)
         // => _bankInsurancePoliciesTypeRepository.Table.Any(x => x.InsurancePoliciesTypeCode == insurancePoliciesTypeCode && (x.BankInsurancePoliciesTypeId != bankInsurancePoliciesTypeId || bankInsurancePoliciesTypeId == 0));
         //#endregion
+
+        #region BankRecurringDepositInterestPosting
+
+        //Create BankRecurringDepositInterestPosting.
+        public virtual BankRecurringDepositInterestPostingModel CreateBankRecurringDepositInterestPosting(BankRecurringDepositInterestPostingModel bankRecurringDepositInterestPostingModel)
+        {
+            if (IsNull(bankRecurringDepositInterestPostingModel))
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
+
+            BankRecurringDepositInterestPosting bankRecurringDepositInterestPosting = bankRecurringDepositInterestPostingModel.FromModelToEntity<BankRecurringDepositInterestPosting>();
+
+            //Create new BankFixedDepositInterestPostings and return it.
+            BankRecurringDepositInterestPosting bankRecurringDepositInterestPostingData = _bankRecurringDepositInterestPostingRepository.Insert(bankRecurringDepositInterestPosting);
+            if (bankRecurringDepositInterestPostingData?.BankRecurringDepositInterestPostingId > 0)
+            {
+                bankRecurringDepositInterestPostingModel.BankRecurringDepositInterestPostingId = bankRecurringDepositInterestPostingData.BankRecurringDepositInterestPostingId;
+            }
+            else
+            {
+                bankRecurringDepositInterestPostingModel.HasError = true;
+                bankRecurringDepositInterestPostingModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+            }
+            return bankRecurringDepositInterestPostingModel;
+        }
+
+        // Get BankRecurringDepositInterestPosting by bankRecurringDepositAccountId.
+        public virtual BankRecurringDepositInterestPostingModel GetBankRecurringDepositInterestPosting(int bankRecurringDepositAccountId)
+        {
+            if (bankRecurringDepositAccountId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BankRecurringDepositAccountId"));
+
+            // Step 1: Check if BankFixedDepositClosure already exists for this account
+            BankRecurringDepositInterestPosting existingBankRecurringDepositInterestPosting = _bankRecurringDepositInterestPostingRepository.Table.FirstOrDefault(x => x.BankRecurringDepositAccountId == bankRecurringDepositAccountId);
+
+            if (existingBankRecurringDepositInterestPosting != null)
+            {
+                return new BankRecurringDepositInterestPostingModel
+                {
+                    BankRecurringDepositInterestPostingId = existingBankRecurringDepositInterestPosting.BankRecurringDepositInterestPostingId,
+                    BankRecurringDepositAccountId = existingBankRecurringDepositInterestPosting.BankRecurringDepositAccountId,
+                    InterestAmount = existingBankRecurringDepositInterestPosting.InterestAmount,
+                    PostingDate = existingBankRecurringDepositInterestPosting.PostingDate,
+                    Remarks = existingBankRecurringDepositInterestPosting.Remarks,
+                };
+            }
+
+            // If no existingBankFixedDepositClosure , return a new model with default values
+            return new BankRecurringDepositInterestPostingModel
+            {
+                BankRecurringDepositAccountId = bankRecurringDepositAccountId,
+            };
+        }
+
+        //Update BankRecurringDepositInterestPosting.
+        public virtual bool UpdateBankRecurringDepositInterestPosting(BankRecurringDepositInterestPostingModel bankRecurringDepositInterestPostingModel)
+        {
+            if (IsNull(bankRecurringDepositInterestPostingModel))
+                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
+
+            if (bankRecurringDepositInterestPostingModel.BankRecurringDepositInterestPostingId < 1)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BankRecurringDepositInterestPostingId"));
+
+            BankRecurringDepositInterestPosting bankRecurringDepositInterestPosting = bankRecurringDepositInterestPostingModel.FromModelToEntity<BankRecurringDepositInterestPosting>();
+
+           
+            bool isBankRecurringDepositInterestPostingUpdated = _bankRecurringDepositInterestPostingRepository.Update(bankRecurringDepositInterestPosting);
+            if (!isBankRecurringDepositInterestPostingUpdated)
+            {
+                bankRecurringDepositInterestPostingModel.HasError = true;
+                bankRecurringDepositInterestPostingModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+            }
+            return isBankRecurringDepositInterestPostingUpdated;
+        }
+
+        #endregion
     }
 }

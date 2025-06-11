@@ -36,11 +36,14 @@ namespace Coditech.API.Mapper
             CreateMap<BankLoanForeClosures, BankLoanForeClosuresModel>().ReverseMap();
             CreateMap<BankFixedDepositAccount, BankFixedDepositClosureModel>().ReverseMap();
             CreateMap<BankFixedDepositClosure, BankFixedDepositClosureModel>().ReverseMap();
-            CreateMap<BankRecurringDepositAccountModel, BankRecurringDepositAccount>().ReverseMap();
+            CreateMap<BankRecurringDepositAccount, BankRecurringDepositAccountModel>().ReverseMap();
             CreateMap<BankFixedDepositAccount, BankFixedDepositInterestPostingsModel>().ReverseMap();
             CreateMap<BankFixedDepositInterestPostings, BankFixedDepositInterestPostingsModel>().ReverseMap();
             CreateMap<BankSavingsAccountTransactionsModel, BankSavingsAccountTransactions>().ReverseMap();
             CreateMap<BankLoanScheduleModel, BankLoanSchedule>().ReverseMap();
+            CreateMap<BankRecurringDepositInterestPosting, BankRecurringDepositAccountModel>().ReverseMap();
+            CreateMap<BankRecurringDepositInterestPosting, BankRecurringDepositInterestPostingModel>().ReverseMap();
+
             #endregion
 
         }

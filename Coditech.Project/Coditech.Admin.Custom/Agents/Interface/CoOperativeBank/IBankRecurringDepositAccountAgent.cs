@@ -41,6 +41,33 @@ namespace Coditech.Admin.Agents
         bool DeleteBankRecurringDepositAccount(string bankRecurringDepositAccountId, out string errorMessage);
         //BankRecurringDepositAccountResponse GetBankRecurringDepositAccountList();
 
-       // BankRecurringDepositAccountListResponse GetBankRecurringDepositAccountList();
+        // BankRecurringDepositAccountListResponse GetBankRecurringDepositAccountList();
+
+
+        #region BankRecurringDepositInterestPosting
+
+        /// <summary>
+        /// Create BankRecurringDepositInterestPosting.
+        /// </summary>
+        /// <param name="bankRecurringDepositInterestPostingViewModel">BankRecurringDepositInterestPostingViewModel.</param>
+        /// <returns>Returns created model.</returns>
+        BankRecurringDepositInterestPostingViewModel CreateBankRecurringDepositInterestPosting(BankRecurringDepositInterestPostingViewModel bankRecurringDepositInterestPostingViewModel);
+
+        /// <summary>
+        /// Get BankRecurringDepositInterestPosting by bankRecurringDepositAccountId.
+        /// </summary>
+        /// <param name="bankRecurringDepositAccountId">bankRecurringDepositAccountId</param>
+        /// <returns>Returns BankRecurringDepositInterestPostingViewModel.</returns>
+        BankRecurringDepositInterestPostingViewModel GetBankRecurringDepositInterestPosting(int bankRecurringDepositAccountId);
+
+        /// <summary>
+        /// Update BankRecurringDepositInterestPosting.
+        /// </summary>
+        /// <param name="bankRecurringDepositInterestPostingViewModel">bankRecurringDepositInterestPostingViewModel.</param>
+        /// <returns>Returns updated BankRecurringDepositInterestPostingViewModel</returns>
+        BankRecurringDepositInterestPostingViewModel UpdateBankRecurringDepositInterestPosting(BankRecurringDepositInterestPostingViewModel bankRecurringDepositInterestPostingViewModel);
+
+
+        #endregion
     }
 }

@@ -1,8 +1,8 @@
-﻿@* @model BankRecurringDepositClosureViewModel
+﻿@model BankRecurringDepositInterestPostingViewModel
 @{
-    ViewBag.Title = "Bank Loan Fore Closures";
+    ViewBag.Title = "Bank Recurring Deposit Interest Posting";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
-    string actionName = Model.BankRecurringDepositClosureId > 0 ? "UpdateBankRecurringDepositClosure" : "CreateBankRecurringDepositClosure";
+    string actionName = Model.BankRecurringDepositInterestPostingId > 0 ? "UpdateBankRecurringDepositInterestPosting" : "CreateBankRecurringDepositInterestPosting";
     string css = Model.BankRecurringDepositAccountId > 0 ? "col-lg-10" : "col-lg-12";
     Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
     keyValuePairs.Add("BankRecurringDepositAccountId", Model.BankRecurringDepositAccountId.ToString());
@@ -21,13 +21,13 @@
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
-                                @if (Model.BankRecurringDepositClosureId > 0)
+                                @if (Model.BankRecurringDepositInterestPostingId > 0)
                                 {
-                                    <h4 class="card-title">Update Recurring Deposit Closure</h4>
+                                    <h4 class="card-title">Update Recurring Deposit Interest Posting</h4>
                                 }
                                 else
                                 {
-                                    <h4 class="card-title">Create Recurring Deposit Closure</h4>
+                                    <h4 class="card-title">Create Recurring Deposit Interest Posting</h4>
                                 }
                             </div><!--end col-->
                         </div><!--end row-->
@@ -35,55 +35,29 @@
                     <div class="card-body">
                         @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
                         {
-                            @Html.HiddenFor(m => m.BankRecurringDepositClosureId)
+                            @Html.HiddenFor(m => m.BankRecurringDepositInterestPostingId)
                             @Html.HiddenFor(m => m.BankRecurringDepositAccountId)
                             <div class="row">
+                               
                                 <div class="col-lg-6">
                                     <div class="mb-6">
-                                        @Html.LabelFor(x => x.ClosureDate, new { @class = "form-label required" })
-                                        @Html.TextBoxFor(x => x.ClosureDate, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(x => x.ClosureDate)
+                                        @Html.LabelFor(x => x.InterestAmount, new { @class = "form-label required" })
+                                        @Html.TextBoxFor(x => x.InterestAmount, new { @class = "form-control", @onkeypress = "return CoditechCommon.AvoidSpacing()" })
+                                        @Html.ValidationMessageFor(x => x.InterestAmount)
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="mb-6">
-                                        @Html.LabelFor(x => x.AmountPaid, new { @class = "form-label required" })
-                                        @Html.TextBoxFor(x => x.AmountPaid, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
-                                        @Html.ValidationMessageFor(x => x.AmountPaid)
+                                        @Html.LabelFor(x => x.PostingDate, new { @class = "form-label required" })
+                                        @Html.TextBoxFor(x => x.PostingDate, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.PostingDate)
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="mb-6">
-                                        @Html.LabelFor(x => x.PenaltyAmount, new { @class = "form-label required" })
-                                        @Html.TextBoxFor(x => x.PenaltyAmount, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
-                                        @Html.ValidationMessageFor(x => x.PenaltyAmount)
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-6">
-                                        @Html.LabelFor(x => x.ApprovedBy, new { @class = "form-label required" })
-                                        @Html.TextBoxFor(x => x.ApprovedBy, new { @class = "form-control", @onkeypress = "return CoditechCommon.AllowOnlyAlphabetWithouSpacing()" })
-                                        @Html.ValidationMessageFor(x => x.ApprovedBy)
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="mb-3">
-                                        @Html.LabelFor(x => x.ClosureType, new { @class = "form-label required" })
-                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
-                               {
-                                   DropdownSelectedValue = Model.ClosureTypeEnumId.ToString(),
-                                   DropdownName = "ClosureTypeEnumId",
-                                   GroupCode = DropdownCustomTypeEnum.ClosureType.ToString(),
-                                   IsRequired = true,
-                               })
-                                        @Html.ValidationMessageFor(x => x.ClosureTypeEnumId)
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-6">
-                                        @Html.LabelFor(x => x.Reason, new { @class = "form-label required" })
-                                        @Html.TextBoxFor(x => x.Reason, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(x => x.Reason)
+                                        @Html.LabelFor(x => x.Remarks, new { @class = "form-label required" })
+                                        @Html.TextBoxFor(x => x.Remarks, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.Remarks)
                                     </div>
                                 </div>
                             </div>
@@ -97,6 +71,12 @@
         </div>
     </div>
 </div>
+<!-- jQuery already included -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- jQuery UI CSS -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
 <!-- jQuery UI JS -->
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 @section scripts {
@@ -135,9 +115,11 @@
                     }
                 }).addClass("datepicker");
             }
+
             // Initialize all datepickers
-            initSimpleDatepicker("#ClosureDate");
+            initSimpleDatepicker("#PostingDate");
         });
     </script>
-}
- *@
+    }
+
+
