@@ -150,7 +150,72 @@ namespace Coditech.Admin.Agents
                 return false;
             }
         }
+        #region BankRecurringDepositClosure
+
+        //Create BankRecurringDepositClosure
+        public virtual BankRecurringDepositClosureViewModel CreateBankRecurringDepositClosure(BankRecurringDepositClosureViewModel bankRecurringDepositClosureViewModel)
+        {
+            try
+            {
+                BankRecurringDepositClosureResponse response = _bankRecurringDepositAccountClient.CreateBankRecurringDepositClosure(bankRecurringDepositClosureViewModel.ToModel<BankRecurringDepositClosureModel>());
+                BankRecurringDepositClosureModel bankRecurringDepositClosureModel = response?.BankRecurringDepositClosureModel;
+                return IsNotNull(bankRecurringDepositClosureModel) ? bankRecurringDepositClosureModel.ToViewModel<BankRecurringDepositClosureViewModel>() : new BankRecurringDepositClosureViewModel();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankRecurringDepositClosure.ToString(), TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (BankRecurringDepositClosureViewModel)GetViewModelWithErrorMessage(bankRecurringDepositClosureViewModel, ex.ErrorMessage);
+                    default:
+                        return (BankRecurringDepositClosureViewModel)GetViewModelWithErrorMessage(bankRecurringDepositClosureViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankRecurringDepositClosure.ToString(), TraceLevel.Error);
+                return (BankRecurringDepositClosureViewModel)GetViewModelWithErrorMessage(bankRecurringDepositClosureViewModel, GeneralResources.ErrorFailedToCreate);
+            }
+        }
+
+        //Get BankRecurringDepositClosure by bankRecurringDepositAccountId.
+        public virtual BankRecurringDepositClosureViewModel GetBankRecurringDepositClosure(int bankRecurringDepositAccountId)
+        {
+            BankRecurringDepositClosureResponse response = _bankRecurringDepositAccountClient.GetBankRecurringDepositClosure(bankRecurringDepositAccountId);
+            return response?.BankRecurringDepositClosureModel.ToViewModel<BankRecurringDepositClosureViewModel>();
+        }
+
+        //Update BankRecurringDepositClosure.
+        public virtual BankRecurringDepositClosureViewModel UpdateBankRecurringDepositClosure(BankRecurringDepositClosureViewModel bankRecurringDepositClosureViewModel)
+        {
+            try
+            {
+                _coditechLogging.LogMessage("Agent method execution started.", "BankRecurringDepositClosure", TraceLevel.Info);
+                BankRecurringDepositClosureResponse response = _bankRecurringDepositAccountClient.UpdateBankRecurringDepositClosure(bankRecurringDepositClosureViewModel.ToModel<BankRecurringDepositClosureModel>());
+                BankRecurringDepositClosureModel bankRecurringDepositClosureModel = response?.BankRecurringDepositClosureModel;
+                _coditechLogging.LogMessage("Agent method execution done.", "BankRecurringDepositClosure", TraceLevel.Info);
+                return IsNotNull(bankRecurringDepositClosureModel) ? bankRecurringDepositClosureModel.ToViewModel<BankRecurringDepositClosureViewModel>() : (BankRecurringDepositClosureViewModel)GetViewModelWithErrorMessage(new BankRecurringDepositClosureViewModel(), GeneralResources.UpdateErrorMessage);
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, "BankRecurringDepositClosure", TraceLevel.Warning);
+                switch (ex.ErrorCode)
+                {
+                    case ErrorCodes.AlreadyExist:
+                        return (BankRecurringDepositClosureViewModel)GetViewModelWithErrorMessage(bankRecurringDepositClosureViewModel, ex.ErrorMessage);
+                    default:
+                        return (BankRecurringDepositClosureViewModel)GetViewModelWithErrorMessage(bankRecurringDepositClosureViewModel, GeneralResources.ErrorFailedToCreate);
+                }
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, "BankRecurringDepositClosure", TraceLevel.Error);
+                return (BankRecurringDepositClosureViewModel)GetViewModelWithErrorMessage(bankRecurringDepositClosureViewModel, GeneralResources.UpdateErrorMessage);
+            }
+        }
         #endregion
+      
 
         #region
         //Create BankRecurringDepositInterestPosting
@@ -217,7 +282,7 @@ namespace Coditech.Admin.Agents
         }
 
 
-
+        #endregion
         #endregion
         #region protected
         protected virtual List<DatatableColumns> BindColumns()

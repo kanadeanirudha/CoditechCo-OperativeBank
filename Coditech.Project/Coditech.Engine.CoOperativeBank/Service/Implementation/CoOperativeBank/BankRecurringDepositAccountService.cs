@@ -15,6 +15,7 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<BankRecurringDepositAccount> _bankRecurringDepositAccountRepository;
+        private readonly ICoditechRepository<BankRecurringDepositClosure> _bankRecurringDepositClosureRepository;
         private readonly ICoditechRepository<BankMember> _bankMemberRepository;
         private readonly ICoditechRepository<BankRecurringDepositInterestPosting> _bankRecurringDepositInterestPostingRepository;
 
@@ -24,14 +25,12 @@ namespace Coditech.API.Service
             _coditechLogging = coditechLogging;
             _bankRecurringDepositAccountRepository = new CoditechRepository<BankRecurringDepositAccount>(_serviceProvider.GetService<CoditechCustom_Entities>());
             _bankMemberRepository = new CoditechRepository<BankMember>(_serviceProvider.GetService<CoditechCustom_Entities>());
+            _bankRecurringDepositClosureRepository = new CoditechRepository<BankRecurringDepositClosure>(_serviceProvider.GetService<CoditechCustom_Entities>());
             _bankRecurringDepositInterestPostingRepository = new CoditechRepository<BankRecurringDepositInterestPosting>(_serviceProvider.GetService<CoditechCustom_Entities>());
 
         }
         public virtual BankRecurringDepositAccountListModel GetBankRecurringDepositAccountList(string centreCode, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
-            //string selectedCentreCode = filters?.Find(x => string.Equals(x.FilterName, FilterKeys.SelectedCentreCode, StringComparison.CurrentCultureIgnoreCase))?.FilterValue;
-            //filters.RemoveAll(x => x.FilterName == FilterKeys.SelectedCentreCode);
-
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<BankRecurringDepositAccountModel> objStoredProc = new CoditechViewRepository<BankRecurringDepositAccountModel>(_serviceProvider.GetService<CoditechCustom_Entities>());
@@ -80,7 +79,7 @@ namespace Coditech.API.Service
             BankRecurringDepositAccount bankRecurringDepositAccount = _bankRecurringDepositAccountRepository.Table.FirstOrDefault(x => x.BankRecurringDepositAccountId == bankRecurringDepositAccountId);
             BankRecurringDepositAccountModel bankRecurringDepositAccountModel = bankRecurringDepositAccount?.FromEntityToModel<BankRecurringDepositAccountModel>();
             string centreCode = _bankMemberRepository.Table.Where(x => x.BankMemberId == bankRecurringDepositAccount.BankMemberId).Select(x => x.CentreCode).FirstOrDefault();
-             bankRecurringDepositAccountModel.CentreCode = centreCode;
+            bankRecurringDepositAccountModel.CentreCode = centreCode;
             return bankRecurringDepositAccountModel;
         }
 
@@ -92,9 +91,6 @@ namespace Coditech.API.Service
 
             if (bankRecurringDepositAccountModel.BankRecurringDepositAccountId < 1)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BankRecurringDepositAccountId"));
-
-            //if (IsBankInsurancePoliciesTypeAlreadyExist(bankInsurancePoliciesTypeModel.InsurancePoliciesTypeCode, bankInsurancePoliciesTypeModel.BankInsurancePoliciesTypeId))
-            //    throw new CoditechException(ErrorCodes.AlreadyExist, string.Format(GeneralResources.ErrorCodeExists, "Insurance Policies Code"));
 
             BankRecurringDepositAccount bankRecurringDepositAccount = bankRecurringDepositAccountModel.FromModelToEntity<BankRecurringDepositAccount>();
 
@@ -122,12 +118,81 @@ namespace Coditech.API.Service
 
             return status == 1 ? true : false;
         }
+        #region BankRecurringDepositClosure
+        //Create BankRecurringDepositClosure.
+        public virtual BankRecurringDepositClosureModel CreateBankRecurringDepositClosure(BankRecurringDepositClosureModel bankRecurringDepositClosureModel)
+        {
+            if (IsNull(bankRecurringDepositClosureModel))
+                throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
 
-        //#region Protected Method
-        ////Check if Insurance Policies Type code is already present or not.
-        //protected virtual bool IsBankInsurancePoliciesTypeAlreadyExist(string insurancePoliciesTypeCode, short bankInsurancePoliciesTypeId = 0)
-        // => _bankInsurancePoliciesTypeRepository.Table.Any(x => x.InsurancePoliciesTypeCode == insurancePoliciesTypeCode && (x.BankInsurancePoliciesTypeId != bankInsurancePoliciesTypeId || bankInsurancePoliciesTypeId == 0));
-        //#endregion
+            BankRecurringDepositClosure bankRecurringDepositClosure = bankRecurringDepositClosureModel.FromModelToEntity<BankRecurringDepositClosure>();
+
+            //Create new BankRecurringDepositAccount and return it.
+            BankRecurringDepositClosure bankRecurringDepositClosureData = _bankRecurringDepositClosureRepository.Insert(bankRecurringDepositClosure);
+            if (bankRecurringDepositClosureData?.BankRecurringDepositClosureId > 0)
+            {
+                bankRecurringDepositClosureModel.BankRecurringDepositClosureId = bankRecurringDepositClosureData.BankRecurringDepositClosureId;
+            }
+            else
+            {
+                bankRecurringDepositClosureModel.HasError = true;
+                bankRecurringDepositClosureModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+            }
+            return bankRecurringDepositClosureModel;
+        }
+
+        //Get BankRecurringDepositClosure by bankRecurringDepositAccountId.
+        public virtual BankRecurringDepositClosureModel GetBankRecurringDepositClosure(int bankRecurringDepositAccountId)
+        {
+            if (bankRecurringDepositAccountId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BankRecurringDepositAccountId"));
+
+            // Step 1: Check if BankFixedDepositClosure already exists for this account
+            BankRecurringDepositClosure existingBankRecurringDepositClosure = _bankRecurringDepositClosureRepository.Table.FirstOrDefault(x => x.BankRecurringDepositAccountId == bankRecurringDepositAccountId);
+
+            if (existingBankRecurringDepositClosure != null)
+            {
+                return new BankRecurringDepositClosureModel
+                {
+                    BankRecurringDepositClosureId = existingBankRecurringDepositClosure.BankRecurringDepositClosureId,
+                    BankRecurringDepositAccountId = existingBankRecurringDepositClosure.BankRecurringDepositAccountId,
+                    ClosureDate = existingBankRecurringDepositClosure.ClosureDate,
+                    ClosureTypeEnumId = existingBankRecurringDepositClosure.ClosureTypeEnumId,
+                    AmountPaid = existingBankRecurringDepositClosure.AmountPaid,
+                    Reason = existingBankRecurringDepositClosure.Reason,
+                    ApprovedBy = existingBankRecurringDepositClosure.ApprovedBy,
+                    PenaltyAmount = existingBankRecurringDepositClosure.PenaltyAmount,
+                };
+            }
+
+            // If no BankRecurringDepositClosure , return a new model with default values
+            return new BankRecurringDepositClosureModel
+            {
+                BankRecurringDepositAccountId = bankRecurringDepositAccountId,
+            };
+        }
+
+        //Update BankRecurringDepositClosure.
+        public virtual bool UpdateBankRecurringDepositClosure(BankRecurringDepositClosureModel bankRecurringDepositClosureModel)
+        {
+            if (IsNull(bankRecurringDepositClosureModel))
+                throw new CoditechException(ErrorCodes.InvalidData, GeneralResources.ModelNotNull);
+
+            if (bankRecurringDepositClosureModel.BankRecurringDepositClosureId < 1)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BankRecurringDepositClosureId"));
+
+            BankRecurringDepositClosure bankRecurringDepositClosure = bankRecurringDepositClosureModel.FromModelToEntity<BankRecurringDepositClosure>();
+
+            //Update BankRecurringDepositClosure
+            bool isBankRecurringDepositClosureUpdated = _bankRecurringDepositClosureRepository.Update(bankRecurringDepositClosure);
+            if (!isBankRecurringDepositClosureUpdated)
+            {
+                bankRecurringDepositClosureModel.HasError = true;
+                bankRecurringDepositClosureModel.ErrorMessage = GeneralResources.UpdateErrorMessage;
+            }
+            return isBankRecurringDepositClosureUpdated;
+        }
+        #endregion
 
         #region BankRecurringDepositInterestPosting
 
