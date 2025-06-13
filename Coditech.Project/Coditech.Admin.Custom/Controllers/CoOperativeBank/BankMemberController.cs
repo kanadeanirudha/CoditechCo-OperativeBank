@@ -1,7 +1,6 @@
 ﻿using Coditech.Admin.Agents;
 using Coditech.Admin.Utilities;
 using Coditech.Admin.ViewModel;
-using Coditech.Common.Helper.Utilities;
 using Coditech.Resources;
 using Microsoft.AspNetCore.Mvc;
 namespace Coditech.Admin.Controllers
@@ -10,18 +9,22 @@ namespace Coditech.Admin.Controllers
     {
         private readonly IBankMemberAgent _bankMemberAgent;
         private readonly IBankMemberNomineeAgent _bankMemberNomineeAgent;
+        private readonly IBankMemberShareCapitalAgent _bankMemberShareCapitalAgent;
         private const string createEdit = "~/Views/CoOperativeBank/BankMember/CreateEdit.cshtml";
         private const string createEditMember = "~/Views/CoOperativeBank/BankMember/CreateEditMember.cshtml";
         private const string createEditNominee = "~/Views/CoOperativeBank/BankMemberNominee/CreateEdit.cshtml";
+        private const string createEditBankMemberShareCapital = "~/Views/CoOperativeBank/BankMemberShareCapital/CreateEdit.cshtml";
 
-        public BankMemberController(IBankMemberAgent bankMemberAgent, IBankMemberNomineeAgent bankMemberNomineeAgent)
+        public BankMemberController(IBankMemberAgent bankMemberAgent, IBankMemberNomineeAgent bankMemberNomineeAgent, IBankMemberShareCapitalAgent bankMemberShareCapitalAgent)
         {
             _bankMemberAgent = bankMemberAgent;
             _bankMemberNomineeAgent = bankMemberNomineeAgent;
+            _bankMemberShareCapitalAgent = bankMemberShareCapitalAgent;
         }
         public virtual ActionResult List(DataTableViewModel dataTableViewModel)
         {
             BankMemberListViewModel list = new BankMemberListViewModel();
+            GetListOnlyIfSingleCentre(dataTableViewModel);
             if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode))
             {
                 list = _bankMemberAgent.GetBankMemberList(dataTableViewModel);
@@ -120,7 +123,6 @@ namespace Coditech.Admin.Controllers
             return RedirectToAction("List", dataTableViewModel);
         }
         #endregion
-
         #region Bank Member Nominee
 
         [HttpPost]
@@ -159,51 +161,43 @@ namespace Coditech.Admin.Controllers
             return View(createEditNominee, bankMemberNomineeViewModel);
         }
         #endregion
+        #region BankMemberShareCapital
+
+        [HttpPost]
+        public virtual ActionResult CreateBankMemberShareCapital(BankMemberShareCapitalViewModel bankMemberShareCapitalViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                bankMemberShareCapitalViewModel = _bankMemberShareCapitalAgent.CreateMemberShareCapital(bankMemberShareCapitalViewModel);
+                if (!bankMemberShareCapitalViewModel.HasError)
+                {
+                    SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
+                    return RedirectToAction("UpdateBankMemberShareCapital", new { bankMemberId = bankMemberShareCapitalViewModel.BankMemberId });
+                }
+            }
+            SetNotificationMessage(GetErrorNotificationMessage(bankMemberShareCapitalViewModel.ErrorMessage));
+            return View(createEditBankMemberShareCapital, bankMemberShareCapitalViewModel);
+        }
+
+        [HttpGet]
+        public virtual ActionResult UpdateBankMemberShareCapital(int bankMemberId)
+        {
+            BankMemberShareCapitalViewModel bankMemberShareCapitalViewModel = _bankMemberShareCapitalAgent.GetMemberShareCapital(bankMemberId);
+            return ActionView(createEditBankMemberShareCapital, bankMemberShareCapitalViewModel);
+        }
+
+        [HttpPost]
+        public virtual ActionResult UpdateBankMemberShareCapital(BankMemberShareCapitalViewModel bankMemberShareCapitalViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                SetNotificationMessage(_bankMemberShareCapitalAgent.UpdateMemberShareCapital(bankMemberShareCapitalViewModel).HasError
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("UpdateBankMemberShareCapital", new { bankMemberId = bankMemberShareCapitalViewModel.BankMemberId });
+            }
+            return View(createEditBankMemberShareCapital, bankMemberShareCapitalViewModel);
+        }
+        #endregion
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//[HttpGet]
-//public virtual ActionResult Create()
-//{
-//    BankMemberViewModel model = new BankMemberViewModel();
-//    //{
-//    //    BankMemberList = new List<BankMemberViewModel>
-//    //    {
-//    //        new BankMemberViewModel { AddressTypeEnum = AddressTypeEnum.PermanentAddress.ToString() },
-//    //        new BankMemberViewModel { AddressTypeEnum = AddressTypeEnum.CorrespondanceAddress.ToString() },
-//    //        new BankMemberViewModel { AddressTypeEnum = AddressTypeEnum.BusinessAddress.ToString() }
-//    //    },
-//    //    FirstName = "",
-//    //    LastName = "",
-//    //    GeneralPersonAddressId = 0
-//    //};
-//    return ActionView("~/Views/CoOperativeBank/BankMember/CreateEdit.cshtml", model);
-//}

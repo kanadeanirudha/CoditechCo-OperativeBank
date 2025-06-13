@@ -7,7 +7,7 @@ namespace Coditech.API.Service
     {
         BankSavingAccountIntrestPostingsListModel GetBankSavingAccountIntrestPostingsList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
         BankSavingAccountIntrestPostingsModel CreateBankSavingAccountIntrestPostings(BankSavingAccountIntrestPostingsModel model);
-        BankSavingAccountIntrestPostingsModel GetBankSavingAccountIntrestPostings(int bankSavingAccountIntrestPostingsId);
+        BankSavingAccountIntrestPostingsModel GetBankSavingAccountIntrestPostings(int bankSavingsAccountId);
         bool UpdateBankSavingAccountIntrestPostings(BankSavingAccountIntrestPostingsModel model);
         bool DeleteBankSavingAccountIntrestPostings(ParameterModel parameterModel);
     }

@@ -251,5 +251,319 @@ namespace Coditech.API.Client
                     response.Dispose();
             }
         }
+
+        #region BankRecurringDepositClosure
+        public virtual BankRecurringDepositClosureResponse CreateBankRecurringDepositClosure(BankRecurringDepositClosureModel body)
+        {
+            return Task.Run(async () => await CreateBankRecurringDepositClosureAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+        }
+        public virtual async Task<BankRecurringDepositClosureResponse> CreateBankRecurringDepositClosureAsync(BankRecurringDepositClosureModel body, CancellationToken cancellationToken)
+        {
+            string endpoint = bankRecurringDepositAccountEndpoint.CreateBankRecurringDepositClosureAsync();
+            HttpResponseMessage response = null;
+            bool disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+                response = await PostResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                Dictionary<string, IEnumerable<string>> dictionary = BindHeaders(response);
+
+                switch (response.StatusCode)
+                {
+                    case HttpStatusCode.OK:
+                        {
+                            ObjectResponseResult<BankRecurringDepositClosureResponse> objectResponseResult2 = await ReadObjectResponseAsync<BankRecurringDepositClosureResponse>(response, BindHeaders(response), cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                            if (objectResponseResult2.Object == null)
+                            {
+                                throw new CoditechException(objectResponseResult2.Object.ErrorCode, objectResponseResult2.Object.ErrorMessage);
+                            }
+
+                            return objectResponseResult2.Object;
+                        }
+                    case HttpStatusCode.Created:
+                        {
+                            ObjectResponseResult<BankRecurringDepositClosureResponse> objectResponseResult = await ReadObjectResponseAsync<BankRecurringDepositClosureResponse>(response, dictionary, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                            if (objectResponseResult.Object == null)
+                            {
+                                throw new CoditechException(objectResponseResult.Object.ErrorCode, objectResponseResult.Object.ErrorMessage);
+                            }
+
+                            return objectResponseResult.Object;
+                        }
+                    default:
+                        {
+                            string value = ((response.Content != null) ? (await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false)) : null);
+                            BankRecurringDepositClosureResponse result = JsonConvert.DeserializeObject<BankRecurringDepositClosureResponse>(value);
+                            UpdateApiStatus(result, status, response);
+                            throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                        }
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                {
+                    response.Dispose();
+                }
+            }
+        }
+        public virtual BankRecurringDepositClosureResponse GetBankRecurringDepositClosure(int bankRecurringDepositAccountId)
+        {
+            return Task.Run(async () => await GetBankRecurringDepositClosureAsync(bankRecurringDepositAccountId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+        public virtual async Task<BankRecurringDepositClosureResponse> GetBankRecurringDepositClosureAsync(int bankRecurringDepositAccountId, System.Threading.CancellationToken cancellationToken)
+        {
+            if (bankRecurringDepositAccountId <= 0)
+                throw new System.ArgumentNullException("bankRecurringDepositAccountId");
+
+            string endpoint = bankRecurringDepositAccountEndpoint.GetBankRecurringDepositClosureAsync(bankRecurringDepositAccountId);
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<BankRecurringDepositClosureResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 204)
+                {
+                    return new BankRecurringDepositClosureResponse();
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    BankRecurringDepositClosureResponse typedBody = JsonConvert.DeserializeObject<BankRecurringDepositClosureResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+        public virtual BankRecurringDepositClosureResponse UpdateBankRecurringDepositClosure(BankRecurringDepositClosureModel body)
+        {
+            return Task.Run(async () => await UpdateBankRecurringDepositClosureAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+        public virtual async Task<BankRecurringDepositClosureResponse> UpdateBankRecurringDepositClosureAsync(BankRecurringDepositClosureModel body, System.Threading.CancellationToken cancellationToken)
+        {
+            string endpoint = bankRecurringDepositAccountEndpoint.UpdateBankRecurringDepositClosureAsync();
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await PutResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(false);
+
+                var headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<BankRecurringDepositClosureResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 201)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<BankRecurringDepositClosureResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    BankRecurringDepositClosureResponse typedBody = JsonConvert.DeserializeObject<BankRecurringDepositClosureResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+        #endregion
+
+        #region  BankRecurringDepositInterestPosting
+
+        public virtual BankRecurringDepositInterestPostingResponse CreateBankRecurringDepositInterestPosting(BankRecurringDepositInterestPostingModel body)
+        {
+            return Task.Run(async () => await CreateBankRecurringDepositInterestPostingAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+        }
+        public virtual async Task<BankRecurringDepositInterestPostingResponse> CreateBankRecurringDepositInterestPostingAsync(BankRecurringDepositInterestPostingModel body, CancellationToken cancellationToken)
+        {
+            string endpoint = bankRecurringDepositAccountEndpoint.CreateBankRecurringDepositInterestPostingAsync();
+            HttpResponseMessage response = null;
+            bool disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+                response = await PostResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                Dictionary<string, IEnumerable<string>> dictionary = BindHeaders(response);
+
+                switch (response.StatusCode)
+                {
+                    case HttpStatusCode.OK:
+                        {
+                            ObjectResponseResult<BankRecurringDepositInterestPostingResponse> objectResponseResult2 = await ReadObjectResponseAsync<BankRecurringDepositInterestPostingResponse>(response, BindHeaders(response), cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                            if (objectResponseResult2.Object == null)
+                            {
+                                throw new CoditechException(objectResponseResult2.Object.ErrorCode, objectResponseResult2.Object.ErrorMessage);
+                            }
+
+                            return objectResponseResult2.Object;
+                        }
+                    case HttpStatusCode.Created:
+                        {
+                            ObjectResponseResult<BankRecurringDepositInterestPostingResponse> objectResponseResult = await ReadObjectResponseAsync<BankRecurringDepositInterestPostingResponse>(response, dictionary, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                            if (objectResponseResult.Object == null)
+                            {
+                                throw new CoditechException(objectResponseResult.Object.ErrorCode, objectResponseResult.Object.ErrorMessage);
+                            }
+
+                            return objectResponseResult.Object;
+                        }
+                    default:
+                        {
+                            string value = ((response.Content != null) ? (await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false)) : null);
+                            BankRecurringDepositInterestPostingResponse result = JsonConvert.DeserializeObject<BankRecurringDepositInterestPostingResponse>(value);
+                            UpdateApiStatus(result, status, response);
+                            throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                        }
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                {
+                    response.Dispose();
+                }
+            }
+        }
+        public virtual BankRecurringDepositInterestPostingResponse GetBankRecurringDepositInterestPosting(int bankRecurringDepositAccountId)
+        {
+            return Task.Run(async () => await GetBankRecurringDepositInterestPostingAsync(bankRecurringDepositAccountId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+        public virtual async Task<BankRecurringDepositInterestPostingResponse> GetBankRecurringDepositInterestPostingAsync(int bankRecurringDepositAccountId, System.Threading.CancellationToken cancellationToken)
+        {
+            if (bankRecurringDepositAccountId <= 0)
+                throw new System.ArgumentNullException("bankRecurringDepositAccountId");
+
+            string endpoint = bankRecurringDepositAccountEndpoint.GetBankRecurringDepositInterestPostingAsync(bankRecurringDepositAccountId);
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await GetResourceFromEndpointAsync(endpoint, status, cancellationToken).ConfigureAwait(false);
+                Dictionary<string, IEnumerable<string>> headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<BankRecurringDepositInterestPostingResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 204)
+                {
+                    return new BankRecurringDepositInterestPostingResponse();
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    BankRecurringDepositInterestPostingResponse typedBody = JsonConvert.DeserializeObject<BankRecurringDepositInterestPostingResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+        public virtual BankRecurringDepositInterestPostingResponse UpdateBankRecurringDepositInterestPosting(BankRecurringDepositInterestPostingModel body)
+        {
+            return Task.Run(async () => await UpdateBankRecurringDepositInterestPostingAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+        }
+        public virtual async Task<BankRecurringDepositInterestPostingResponse> UpdateBankRecurringDepositInterestPostingAsync(BankRecurringDepositInterestPostingModel body, System.Threading.CancellationToken cancellationToken)
+        {
+            string endpoint = bankRecurringDepositAccountEndpoint.UpdateBankRecurringDepositInterestPostingAsync();
+            HttpResponseMessage response = null;
+            var disposeResponse = true;
+            try
+            {
+                ApiStatus status = new ApiStatus();
+
+                response = await PutResourceToEndpointAsync(endpoint, JsonConvert.SerializeObject(body), status, cancellationToken).ConfigureAwait(false);
+
+                var headers_ = BindHeaders(response);
+                var status_ = (int)response.StatusCode;
+                if (status_ == 200)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<BankRecurringDepositInterestPostingResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                if (status_ == 201)
+                {
+                    var objectResponse = await ReadObjectResponseAsync<BankRecurringDepositInterestPostingResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    if (objectResponse.Object == null)
+                    {
+                        throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
+                    }
+                    return objectResponse.Object;
+                }
+                else
+                {
+                    string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    BankRecurringDepositInterestPostingResponse typedBody = JsonConvert.DeserializeObject<BankRecurringDepositInterestPostingResponse>(responseData);
+                    UpdateApiStatus(typedBody, status, response);
+                    throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
+                }
+
+            }
+            finally
+            {
+                if (disposeResponse)
+                    response.Dispose();
+            }
+        }
+
+
+
+        #endregion
     }
 }

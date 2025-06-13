@@ -15,11 +15,13 @@ namespace Coditech.API.Service
         protected readonly IServiceProvider _serviceProvider;
         protected readonly ICoditechLogging _coditechLogging;
         private readonly ICoditechRepository<BankSavingAccountIntrestPostings> _bankSavingAccountIntrestPostingsRepository;
+        private readonly ICoditechRepository<BankSavingsAccount> _bankSavingsAccountRepository;
         public BankSavingAccountIntrestPostingsService(ICoditechLogging coditechLogging, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             _coditechLogging = coditechLogging;
             _bankSavingAccountIntrestPostingsRepository = new CoditechRepository<BankSavingAccountIntrestPostings>(_serviceProvider.GetService<CoditechCustom_Entities>());
+            _bankSavingsAccountRepository = new CoditechRepository<BankSavingsAccount>(_serviceProvider.GetService<CoditechCustom_Entities>());
         }
         public virtual BankSavingAccountIntrestPostingsListModel GetBankSavingAccountIntrestPostingsList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
@@ -64,15 +66,32 @@ namespace Coditech.API.Service
         }
 
         //Get BankSavingAccountIntrestPostings by bankSavingAccountIntrestPostingsId.
-        public virtual BankSavingAccountIntrestPostingsModel GetBankSavingAccountIntrestPostings(int bankSavingAccountIntrestPostingsId)
+        public virtual BankSavingAccountIntrestPostingsModel GetBankSavingAccountIntrestPostings(int bankSavingsAccountId)
         {
-            if (bankSavingAccountIntrestPostingsId <= 0)
-                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BankSavingAccountIntrestPostingsID"));
+            if (bankSavingsAccountId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BankSavingsAccountId"));
 
-            //Get the Country Details based on id.
-            BankSavingAccountIntrestPostings bankSavingAccountIntrestPostings = _bankSavingAccountIntrestPostingsRepository.Table.FirstOrDefault(x => x.BankSavingAccountIntrestPostingsId == bankSavingAccountIntrestPostingsId);
-            BankSavingAccountIntrestPostingsModel bankSavingAccountIntrestPostingsModel = bankSavingAccountIntrestPostings?.FromEntityToModel<BankSavingAccountIntrestPostingsModel>();
-            return bankSavingAccountIntrestPostingsModel;
+            // Step 1: Check if BankFixedDepositClosure already exists for this account
+            BankSavingAccountIntrestPostings existingBankSavingAccountIntrestPostings = _bankSavingAccountIntrestPostingsRepository.Table.FirstOrDefault(x => x.BankSavingsAccountId == bankSavingsAccountId);
+
+            if (existingBankSavingAccountIntrestPostings != null)
+            {
+                return new BankSavingAccountIntrestPostingsModel
+                {
+                    BankSavingAccountIntrestPostingsId = existingBankSavingAccountIntrestPostings.BankSavingAccountIntrestPostingsId,
+                    BankSavingsAccountId = existingBankSavingAccountIntrestPostings.BankSavingsAccountId,
+                    PeriodStartDate = existingBankSavingAccountIntrestPostings.PeriodStartDate,
+                    PeriodEndDate = existingBankSavingAccountIntrestPostings.PeriodEndDate,
+                    InterestAmount = existingBankSavingAccountIntrestPostings.InterestAmount,
+                    PostedOn = existingBankSavingAccountIntrestPostings.PostedOn,
+                };
+            }
+
+            // If no existingBankFixedDepositClosure , return a new model with default values
+            return new BankSavingAccountIntrestPostingsModel
+            {
+                BankSavingsAccountId = bankSavingsAccountId,
+            };
         }
 
         //Update BankSavingAccountIntrestPostings.

@@ -112,16 +112,16 @@ namespace Coditech.API.Client
                 }
             }
         }
-        public virtual BankSavingAccountIntrestPostingsResponse GetBankSavingAccountIntrestPostings(int bankSavingAccountIntrestPostingsId)
+        public virtual BankSavingAccountIntrestPostingsResponse GetBankSavingAccountIntrestPostings(int bankSavingsAccountId)
         {
-            return Task.Run(async () => await GetBankSavingAccountIntrestPostingsAsync(bankSavingAccountIntrestPostingsId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetBankSavingAccountIntrestPostingsAsync(bankSavingsAccountId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
-        public virtual async Task<BankSavingAccountIntrestPostingsResponse> GetBankSavingAccountIntrestPostingsAsync(int bankSavingAccountIntrestPostingsId, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<BankSavingAccountIntrestPostingsResponse> GetBankSavingAccountIntrestPostingsAsync(int bankSavingsAccountId, System.Threading.CancellationToken cancellationToken)
         {
-            if (bankSavingAccountIntrestPostingsId <= 0)
-                throw new System.ArgumentNullException("bankSavingAccountIntrestPostingsId");
+            if (bankSavingsAccountId <= 0)
+                throw new System.ArgumentNullException("bankSavingsAccountId");
 
-            string endpoint = bankSavingAccountIntrestPostingsEndpoint.GetBankSavingAccountIntrestPostingsAsync(bankSavingAccountIntrestPostingsId);
+            string endpoint = bankSavingAccountIntrestPostingsEndpoint.GetBankSavingAccountIntrestPostingsAsync(bankSavingsAccountId);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try

@@ -87,9 +87,9 @@ namespace Coditech.Admin.Agents
         }
 
         //Get BankMemberShareCapital by Bank Member Share Capital id.
-        public virtual BankMemberShareCapitalViewModel GetMemberShareCapital(int bankMemberShareCapitalId)
+        public virtual BankMemberShareCapitalViewModel GetMemberShareCapital(int bankMemberId)
         {
-            BankMemberShareCapitalResponse response = _bankMemberShareCapitalClient.GetMemberShareCapital(bankMemberShareCapitalId);
+            BankMemberShareCapitalResponse response = _bankMemberShareCapitalClient.GetMemberShareCapital(bankMemberId);
             return response?.BankMemberShareCapitalModel.ToViewModel<BankMemberShareCapitalViewModel>();
         }
 

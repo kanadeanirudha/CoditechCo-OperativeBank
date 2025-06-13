@@ -1,0 +1,194 @@
+﻿@model BankSavingsAccountTransactionsViewModel
+@{
+    ViewBag.Title = Model.BankSavingsTransactionsId > 0 ? "Update Bank Savings Account Transactions" : "Add Bank Savings Account Transactions";
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    string actionName = Model.BankSavingsTransactionsId > 0 ? "UpdateBankSavingsAccountTransactions" : "CreateBankSavingsAccountTransactions";
+    string css = Model.BankSavingsAccountId > 0 ? "col-lg-10" : "col-lg-12";
+    Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+    keyValuePairs.Add("BankSavingsAccountId", Model.BankSavingsAccountId.ToString());
+}
+<div class="page-content mt-5">
+    <div class="container-fluid">
+        <div class="row">
+            @if (Model.BankSavingsAccountId > 0)
+            {
+                <div class="col-lg-2">
+                    @Html.Partial("~/Views/CoOperativeBank/BankSavingsAccount/_BankSavingAccountSidePannel.cshtml", keyValuePairs)
+                </div>
+            }
+            <div class="@css">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">
+                            @(Model.BankSavingsTransactionsId > 0 ? "Update" : "Create") Saving Account Transactions
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
+                        {
+                            @Html.HiddenFor(m => m.BankSavingsTransactionsId)
+                            @Html.HiddenFor(m => m.BankSavingsAccountId)
+                            <div class="row">
+                                <div class="col-lg-4 mb-3">
+                                    @Html.LabelFor(x => x.TranscationDate, new { @class = "form-label required" })
+                                    @Html.TextBoxFor(x => x.TranscationDate, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control", @id = "TranscationDate" })
+                                    @Html.ValidationMessageFor(x => x.TranscationDate)
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.BankSavingsTranscationType, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                               {
+                                   DropdownSelectedValue = Model.BankSavingsTranscationTypeEnumId.ToString(),
+                                   DropdownName = "BankSavingsTranscationTypeEnumId",
+                                   GroupCode = DropdownCustomTypeEnum.BankSavingsTranscationType.ToString(),
+                                   IsRequired = true,
+                               })
+                                        @Html.ValidationMessageFor(x => x.BankSavingsTranscationTypeEnumId)
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4 mb-3">
+                                    @Html.LabelFor(x => x.Amount, new { @class = "form-label required" })
+                                    @Html.TextBoxFor(x => x.Amount, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.Amount)
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.PaymentMode, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                               {
+                                   DropdownSelectedValue = Model.PaymentModeEnumId.ToString(),
+                                   DropdownName = "PaymentModeEnumId",
+                                   GroupCode = DropdownCustomTypeEnum.PaymentMode.ToString(),
+                                   IsRequired = true,
+                               })
+                                        @Html.ValidationMessageFor(x => x.PaymentModeEnumId)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 mb-3">
+                                    @Html.LabelFor(x => x.BalanceAfter, new { @class = "form-label required" })
+                                    @Html.TextBoxFor(x => x.BalanceAfter, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
+                                    @Html.ValidationMessageFor(x => x.BalanceAfter)
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.CheckingApproval, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                               {
+                                   DropdownSelectedValue = Model.CheckingApprovalEnumId.ToString(),
+                                   DropdownName = "CheckingApprovalEnumId",
+                                   GroupCode = DropdownCustomTypeEnum.CheckingApproval.ToString(),
+                                   IsRequired = true,
+                               })
+                                        @Html.ValidationMessageFor(x => x.CheckingApprovalEnumId)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        @Html.LabelFor(x => x.TransactionStatus, new { @class = "form-label required" })
+                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                               {
+                                   DropdownSelectedValue = Model.TransactionStatusEnumId.ToString(),
+                                   DropdownName = "TransactionStatusEnumId",
+                                   GroupCode = DropdownCustomTypeEnum.TransactionStatus.ToString(),
+                                   IsRequired = true,
+                               })
+                                        @Html.ValidationMessageFor(x => x.TransactionStatusEnumId)
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 mb-3">
+                                    @Html.LabelFor(x => x.TransactionalRemark, new { @class = "form-label required" })
+                                    @Html.TextBoxFor(x => x.TransactionalRemark, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.TransactionalRemark)
+                                </div>
+                                <div class="col-lg-4 mb-3">
+                                    @Html.LabelFor(x => x.IsEndOfDate, new { @class = "form-label required" })
+                                    @Html.TextBoxFor(x => x.IsEndOfDate, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control", @id = "IsEndOfDate" })
+                                    @Html.ValidationMessageFor(x => x.IsEndOfDate)
+                                </div>
+                                <div class="col-lg-4 mb-3">
+                                    @Html.LabelFor(x => x.EODDate, new { @class = "form-label required" })
+                                    @Html.TextBoxFor(x => x.EODDate, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control", @id = "EODDate" })
+                                    @Html.ValidationMessageFor(x => x.EODDate)
+                                </div>
+                                <div class="col-lg-4 mb-3">
+                                    @Html.LabelFor(x => x.EODTimeStamp, new { @class = "form-label required" })
+                                    @Html.TextBoxFor(x => x.EODTimeStamp, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control", @id = "EODTimeStamp" })
+                                    @Html.ValidationMessageFor(x => x.EODTimeStamp)
+                                </div>
+                                <div class="col-lg-4 mb-3">
+                                    @Html.LabelFor(x => x.TranscationPositing, new { @class = "form-label required" })
+                                    @Html.TextBoxFor(x => x.TranscationPositing, new { @class = "form-control", @onkeypress = "return CoditechCommon.AvoidSpacing()" })
+                                    @Html.ValidationMessageFor(x => x.TranscationPositing)
+                                </div>
+                                <div class="col-lg-4 mb-3">
+                                    @Html.LabelFor(x => x.VoucherNumber, new { @class = "form-label required" })
+                                    @Html.TextBoxFor(x => x.VoucherNumber, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
+                                    @Html.ValidationMessageFor(x => x.VoucherNumber)
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
+                            <a href="../@controllerName/List" class="btn btn-secondary">@AdminResources.LabelCancel</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- jQuery already included -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- jQuery UI CSS -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+<!-- jQuery UI JS -->
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+@section scripts {
+    <script src="~/js/coditech/CoOperativeBank/BankSavingsAccount.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            function initSimpleDatepicker(selector) {
+                const today = new Date();
+                const minDate = new Date(today.getFullYear() - 2, 0, 1); // Jan 1, two years ago
+                const maxDate = new Date(today.getFullYear() + 2, 11, 31); // Dec 31, two years ahead
+
+                $(selector).datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    dateFormat: "@AdminGeneralHelper.DateFormatForCalendar()",
+                    showButtonPanel: true,
+                    autoSize: true,
+                    closeText: "Clear",
+                    currentText: "Today",
+                    yearRange: "-2:+2",
+                    minDate: minDate,
+                    maxDate: maxDate,
+                    beforeShow: function (input, inst) {
+                        setTimeout(function () {
+                            var buttonPane = $(inst.dpDiv).find(".ui-datepicker-buttonpane");
+                            buttonPane.find(".ui-datepicker-current").off("click").on("click", function () {
+                                var today = new Date();
+                                $(selector).datepicker("setDate", today);
+                                $(selector).change(); // Optional: trigger change event
+                            });
+                        }, 1);
+                    },
+                    onClose: function () {
+                        if ($(window.event?.srcElement).hasClass("ui-datepicker-close")) {
+                            $(this).val(""); // Clear the input
+                        }
+                    }
+                }).addClass("datepicker");
+            }
+
+            // Initialize all datepickers
+            initSimpleDatepicker("#TranscationDate");
+            initSimpleDatepicker("#IsEndOfDate");
+            initSimpleDatepicker("#EODDate");
+            initSimpleDatepicker("#EODTimeStamp");
+        });
+    </script>
+    }

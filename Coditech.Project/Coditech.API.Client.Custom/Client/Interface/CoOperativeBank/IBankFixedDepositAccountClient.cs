@@ -63,5 +63,29 @@ namespace Coditech.API.Client
         /// <returns>Returns updated BankFixedDepositClosureResponse</returns>
         BankFixedDepositClosureResponse UpdateBankFixedDepositClosure(BankFixedDepositClosureModel body);
         #endregion
+
+        #region BankFixedDepositInterestPostings
+        /// <summary>
+        /// Create BankFixedDepositInterestPostings.
+        /// </summary>
+        /// <param name="BankFixedDepositInterestPostingsModel">BankFixedDepositInterestPostingsModel.</param>
+        /// <returns>Returns BankFixedDepositInterestPostingsResponse.</returns>
+        BankFixedDepositInterestPostingsResponse CreateBankFixedDepositInterestPostings(BankFixedDepositInterestPostingsModel body);
+
+        /// <summary>
+        /// Get BankFixedDepositInterestPostings by bankFixedDepositAccountId.
+        /// </summary>
+        /// <param name="bankFixedDepositAccountId">bankFixedDepositAccountId</param>
+        /// <returns>Returns BankFixedDepositInterestPostingsResponse.</returns>
+        BankFixedDepositInterestPostingsResponse GetBankFixedDepositInterestPostings(short bankFixedDepositAccountId);
+
+        /// <summary>
+        /// Update BankFixedDepositInterestPostings
+        /// </summary>
+        /// <param name="BankFixedDepositInterestPostingsModel">BankFixedDepositInterestPostingsModel.</param>
+        /// <returns>Returns updated BankFixedDepositInterestPostingsResponse</returns>
+        BankFixedDepositInterestPostingsResponse UpdateBankFixedDepositInterestPostings(BankFixedDepositInterestPostingsModel body);
+
+        #endregion
     }
 }

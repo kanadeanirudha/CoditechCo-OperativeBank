@@ -1,5 +1,4 @@
-﻿using Coditech.API.Data;
-using Coditech.API.Service;
+﻿using Coditech.API.Service;
 using Coditech.Common.API;
 using Coditech.Common.API.Model;
 using Coditech.Common.API.Model.Response;
@@ -197,7 +196,74 @@ namespace Coditech.Engine.DBTM.Controllers
                 return CreateInternalServerErrorResponse(new BankFixedDepositClosureResponse { HasError = true, ErrorMessage = ex.Message });
             }
         }
+        #endregion
 
+        #region BankFixedDepositInterestPostings
+
+        [Route("/BankFixedDepositAccount/CreateBankFixedDepositInterestPostings")]
+        [HttpPost, ValidateModel]
+        [Produces(typeof(BankFixedDepositInterestPostingsResponse))]
+        public virtual IActionResult CreateBankFixedDepositInterestPostings([FromBody] BankFixedDepositInterestPostingsModel model)
+        {
+            try
+            {
+                BankFixedDepositInterestPostingsModel bankFixedDepositInterestPostings = _bankFixedDepositAccountService.CreateBankFixedDepositInterestPostings(model);
+                return IsNotNull(bankFixedDepositInterestPostings) ? CreateCreatedResponse(new BankFixedDepositInterestPostingsResponse { BankFixedDepositInterestPostingsModel = bankFixedDepositInterestPostings }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankFixedDepositInterestPostings.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new BankFixedDepositInterestPostingsResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankFixedDepositInterestPostings.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new BankFixedDepositInterestPostingsResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+
+        [Route("/BankFixedDepositAccount/GetBankFixedDepositInterestPostings")]
+        [HttpGet]
+        [Produces(typeof(BankFixedDepositInterestPostingsResponse))]
+        public virtual IActionResult GetBankFixedDepositInterestPostings(short bankFixedDepositAccountId)
+        {
+            try
+            {
+                BankFixedDepositInterestPostingsModel bankFixedDepositInterestPostingsModel = _bankFixedDepositAccountService.GetBankFixedDepositInterestPostings(bankFixedDepositAccountId);
+                return IsNotNull(bankFixedDepositInterestPostingsModel) ? CreateOKResponse(new BankFixedDepositInterestPostingsResponse { BankFixedDepositInterestPostingsModel = bankFixedDepositInterestPostingsModel }) : CreateNoContentResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankFixedDepositInterestPostings.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new BankFixedDepositInterestPostingsResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankFixedDepositInterestPostings.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new BankFixedDepositInterestPostingsResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
+        [Route("/BankFixedDepositAccount/UpdateBankFixedDepositInterestPostings")]
+        [HttpPut, ValidateModel]
+        [Produces(typeof(BankFixedDepositInterestPostingsResponse))]
+        public virtual IActionResult UpdateBankFixedDepositInterestPostings([FromBody] BankFixedDepositInterestPostingsModel model)
+        {
+            try
+            {
+                bool isUpdated = _bankFixedDepositAccountService.UpdateBankFixedDepositInterestPostings(model);
+                return isUpdated ? CreateOKResponse(new BankFixedDepositInterestPostingsResponse { BankFixedDepositInterestPostingsModel = model }) : CreateInternalServerErrorResponse();
+            }
+            catch (CoditechException ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankFixedDepositInterestPostings.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new BankFixedDepositInterestPostingsResponse { HasError = true, ErrorMessage = ex.Message, ErrorCode = ex.ErrorCode });
+            }
+            catch (Exception ex)
+            {
+                _coditechLogging.LogMessage(ex, LogComponentCustomEnum.BankFixedDepositInterestPostings.ToString(), TraceLevel.Warning);
+                return CreateInternalServerErrorResponse(new BankFixedDepositInterestPostingsResponse { HasError = true, ErrorMessage = ex.Message });
+            }
+        }
         #endregion
     }
 }

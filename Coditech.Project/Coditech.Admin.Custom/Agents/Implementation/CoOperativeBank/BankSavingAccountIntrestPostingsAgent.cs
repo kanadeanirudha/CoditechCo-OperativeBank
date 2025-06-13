@@ -81,9 +81,9 @@ namespace Coditech.Admin.Agents
         }
 
         //Get BankSavingAccountIntrestPostings by bankSavingAccountIntrestPostingsId.
-        public virtual BankSavingAccountIntrestPostingsViewModel GetBankSavingAccountIntrestPostings(int bankSavingAccountIntrestPostingsId)
+        public virtual BankSavingAccountIntrestPostingsViewModel GetBankSavingAccountIntrestPostings(int bankSavingsAccountId)
         {
-            BankSavingAccountIntrestPostingsResponse response = _bankSavingAccountIntrestPostingsClient.GetBankSavingAccountIntrestPostings(bankSavingAccountIntrestPostingsId);
+            BankSavingAccountIntrestPostingsResponse response = _bankSavingAccountIntrestPostingsClient.GetBankSavingAccountIntrestPostings(bankSavingsAccountId);
             return response?.BankSavingAccountIntrestPostingsModel.ToViewModel<BankSavingAccountIntrestPostingsViewModel>();
         }
 

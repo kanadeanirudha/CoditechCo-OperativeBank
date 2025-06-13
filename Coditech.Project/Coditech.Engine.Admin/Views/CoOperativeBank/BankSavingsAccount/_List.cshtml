@@ -21,7 +21,7 @@
                             <td>@item.SavingAccountNumber</td>
                             <td>@item.AccountStatus</td>
                             <td>@item.BalanceAmount</td>
-                            <td>@item.OpeningDate</td>
+                            <td>@item.OpeningDate.ToCoditechDateFormat()</td>
                             <td>
                                 @Html.Partial("~/Views/Shared/Datatable/_DatatableTrueFalse.cshtml", item.KYCStatus)
                             </td>

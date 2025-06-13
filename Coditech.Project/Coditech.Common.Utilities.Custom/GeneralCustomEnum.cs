@@ -30,6 +30,9 @@
         LoanScheduleStatus,
         ClosureType,
         BankProducts,
+        BankSavingsTranscationType,
+        CheckingApproval,
+        TransactionStatus,
     }
     public enum DashboardFormCustomEnum
     {
@@ -62,6 +65,11 @@
         BankFixedDepositClosure,
         BankMemberNominee,
         BankRecurringDepositAccount,
+        BankFixedDepositInterestPostings,
+        BankSavingsAccountTransactions,
+        BankLoanSchedule,
+        BankRecurringDepositClosure,
+        BankRecurringDepositInterestPosting,
     }
     public enum UserTypeCustomEnum
     {

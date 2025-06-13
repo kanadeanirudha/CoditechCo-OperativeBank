@@ -12,6 +12,7 @@
         public string TranscationReference { get; set; }
         public string Remarks { get; set; }
         public bool IsActive { get; set; }
-
+        public short Status { get; set; }
+        public long PersonId { get; set; }
     }
 }

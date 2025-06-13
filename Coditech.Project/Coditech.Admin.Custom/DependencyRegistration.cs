@@ -1,4 +1,5 @@
 ﻿using Coditech.Admin.Agents;
+using Coditech.Admin.Custom.Agents.Interface.CoOperativeBank;
 using Coditech.API.Client;
 using Coditech.Common.Helper.Utilities;
 using Microsoft.AspNetCore.Builder;
@@ -30,6 +31,8 @@ namespace Coditech.Admin.Custom
             builder.Services.AddScoped<IBankProductAgent, BankProductAgent>();
             builder.Services.AddScoped<IBankPostingLoanAccountAgent, BankPostingLoanAccountAgent>();
             builder.Services.AddScoped<IBankRecurringDepositAccountAgent, BankRecurringDepositAccountAgent>();
+            builder.Services.AddScoped<IBankSavingsAccountTransactionsAgent, BankSavingsAccountTransactionsAgent>();
+            builder.Services.AddScoped<IBankLoanScheduleAgent, BankLoanScheduleAgent>();
 
             #endregion
             #endregion Agent
@@ -57,6 +60,8 @@ namespace Coditech.Admin.Custom
             builder.Services.AddScoped<IBankProductClient, BankProductClient>();
             builder.Services.AddScoped<IBankPostingLoanAccountClient, BankPostingLoanAccountClient>();
             builder.Services.AddScoped<IBankRecurringDepositAccountClient, BankRecurringDepositAccountClient>();
+            builder.Services.AddScoped<IBankSavingsAccountTransactionsClient, BankSavingsAccountTransactionsClient>();
+            builder.Services.AddScoped<IBankLoanScheduleClient, BankLoanScheduleClient>();
 
             #endregion
 

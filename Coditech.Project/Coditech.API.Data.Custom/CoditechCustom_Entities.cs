@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-
 namespace Coditech.API.Data
 {
     public partial class CoditechCustom_Entities : CoditechDbContext
@@ -32,6 +31,11 @@ namespace Coditech.API.Data
         public DbSet<BankFixedDepositClosure> BankFixedDepositClosure { get; set; }
         public DbSet<BankRecurringDepositAccount> BankRecurringDepositAccount {  get; set; }
         public DbSet<BankLoanRepayment> BankLoanRepayment { get; set; }
+        public DbSet<BankFixedDepositInterestPostings> BankFixedDepositInterestPostings {  get; set; }
+        public DbSet<BankSavingsAccountTransactions> BankSavingsAccountTransactions {  get; set; }
+        public DbSet<BankLoanSchedule> BankLoanSchedule {  get; set; }
+        public DbSet<BankRecurringDepositClosure> BankRecurringDepositClosure {  get; set; }
+        public DbSet<BankRecurringDepositInterestPosting> BankRecurringDepositInterestPosting { get; set; }
         #endregion
     }
 }

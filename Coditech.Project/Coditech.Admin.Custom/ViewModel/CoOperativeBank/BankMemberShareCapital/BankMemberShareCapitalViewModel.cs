@@ -1,6 +1,5 @@
 ﻿using Coditech.Common.Helper;
 using System.ComponentModel.DataAnnotations;
-using System.Data.SqlTypes;
 namespace Coditech.Admin.ViewModel
 {
     public partial class BankMemberShareCapitalViewModel : BaseViewModel
@@ -8,7 +7,6 @@ namespace Coditech.Admin.ViewModel
         public int BankMemberShareCapitalId { get; set; }
 
         [Display(Name = "Bank Member ")]
-        [Required]
         public int BankMemberId { get; set; }
         [Display(Name = "Number Of Shares ")]
         [Required]
@@ -18,34 +16,19 @@ namespace Coditech.Admin.ViewModel
         public decimal AmountInvested { get; set; }
         [Display(Name = "Purchased Date")]
         [Required]
-
         public DateTime PurchaseDate {  get; set; }
         [Display(Name = "Share Price")]
         [Required]
-
         public decimal SharePrice { get; set; }
-
         [Display(Name = "Payment Mode ")]
         public int PaymentModeEnumId { get; set; }
-      
-        //[Required]
-        //public string PaymentMode { get; set; }
         [Display(Name = "Transcation Reference ")]
-        
-
         public string TranscationReference {  get; set; }
         [Display(Name = "Remarks ")]
-        
-
         public string Remarks { get; set; }
         [Display(Name = "Is Active ")]
         [Required]
-
         public bool IsActive { get; set; }
-
-
-
-
-
+        public long PersonId { get; set; }
     }
 }

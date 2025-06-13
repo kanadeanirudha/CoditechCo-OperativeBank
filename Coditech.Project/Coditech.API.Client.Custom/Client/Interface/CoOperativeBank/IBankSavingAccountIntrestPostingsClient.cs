@@ -24,7 +24,7 @@ namespace Coditech.API.Client
         /// </summary>
         /// <param name="bankSavingAccountIntrestPostingsId">bankSavingAccountIntrestPostingsId</param>
         /// <returns>Returns BankSavingAccountIntrestPostingsResponse.</returns>
-        BankSavingAccountIntrestPostingsResponse GetBankSavingAccountIntrestPostings(int bankSavingAccountIntrestPostingsId);
+        BankSavingAccountIntrestPostingsResponse GetBankSavingAccountIntrestPostings(int bankSavingsAccountId);
 
         /// <summary>
         /// Update BankSavingAccountIntrestPostings

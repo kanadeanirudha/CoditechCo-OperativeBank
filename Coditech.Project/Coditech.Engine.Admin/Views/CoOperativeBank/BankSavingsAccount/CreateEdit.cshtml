@@ -9,7 +9,7 @@
     keyValuePairs.Add("BankSavingsAccountId", Model.BankSavingsAccountId.ToString());
     DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "CentreCode", DropdownSelectedValue = Model.CentreCode, ChangeEvent = "BankSavingsAccount.GetBankMemberByCentreCode(); BankSavingsAccount.GetBankProductByCentreCode();" };
     DropdownViewModel bankMemberDropdown = new DropdownViewModel() { DropdownType = DropdownCustomTypeEnum.BankMembers.ToString(), DropdownName = "BankMemberId", DropdownSelectedValue = Model.BankMemberId.ToString(), Parameter = Model.CentreCode, IsCustomDropdown = true };
-    DropdownViewModel bankProductDropdown = new DropdownViewModel() { DropdownType = DropdownCustomTypeEnum.BankProduct.ToString(), DropdownName = "BankProductId", DropdownSelectedValue = Model.BankProductId.ToString(), Parameter = Model.CentreCode, IsCustomDropdown = true };
+    DropdownViewModel bankProductDropdown = new DropdownViewModel() { DropdownType = DropdownCustomTypeEnum.BankProducts.ToString(), DropdownName = "BankProductId", DropdownSelectedValue = Model.BankProductId.ToString(), Parameter = Model.CentreCode, IsCustomDropdown = true };
 }
 <!-- Page Content-->
 <div class="page-content mt-5">

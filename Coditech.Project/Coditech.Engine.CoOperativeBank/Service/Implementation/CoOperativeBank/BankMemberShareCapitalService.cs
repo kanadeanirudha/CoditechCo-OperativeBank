@@ -5,7 +5,6 @@ using Coditech.Common.Helper;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Common.Logger;
 using Coditech.Resources;
-using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Specialized;
 using System.Data;
 using static Coditech.Common.Helper.HelperUtility;
@@ -42,7 +41,6 @@ namespace Coditech.API.Service
 
         //Create BankMemberShareCapital.
         public virtual BankMemberShareCapitalModel CreateMemberShareCapital(BankMemberShareCapitalModel bankMemberShareCapitalModel)
-        
         {
             if (IsNull(bankMemberShareCapitalModel))
                 throw new CoditechException(ErrorCodes.NullModel, GeneralResources.ModelNotNull);
@@ -50,26 +48,55 @@ namespace Coditech.API.Service
             BankMemberShareCapital BankMemberShareCapital = bankMemberShareCapitalModel.FromModelToEntity<BankMemberShareCapital>();
             //Create new BankMemberShareCapital and return it.
             BankMemberShareCapital BankMemberShareCapitalData = _bankMemberShareCapitalRepository.Insert(BankMemberShareCapital);
-             if (BankMemberShareCapital?.BankMemberShareCapitalId > 0)
-             {
+            if (BankMemberShareCapital?.BankMemberShareCapitalId > 0)
+            {
                 bankMemberShareCapitalModel.BankMemberShareCapitalId = BankMemberShareCapitalData.BankMemberShareCapitalId;
-             }
-             else
-             {
+            }
+            if (bankMemberShareCapitalModel.BankMemberShareCapitalId > 0)
+            {
+                CoditechViewRepository<BankMemberShareCapitalModel> objStoredProc = new CoditechViewRepository<BankMemberShareCapitalModel>(_serviceProvider.GetService<Coditech_Entities>());
+                objStoredProc.SetParameter("@BankMemberShareCapitalTransactionsId", 0, ParameterDirection.Input, DbType.Int64);
+                objStoredProc.SetParameter("@BankMemberId", bankMemberShareCapitalModel.BankMemberId, ParameterDirection.Input, DbType.Int32);
+                objStoredProc.SetParameter("@NumberOfShares", bankMemberShareCapitalModel.NumberOfShares, ParameterDirection.Input, DbType.Int32);
+                objStoredProc.SetParameter("@AmountInvested", bankMemberShareCapitalModel.AmountInvested, ParameterDirection.Input, DbType.Decimal);
+                objStoredProc.SetParameter("@PurchaseDate", bankMemberShareCapitalModel.PurchaseDate, ParameterDirection.Input, DbType.DateTime);
+                objStoredProc.SetParameter("@SharePrice", bankMemberShareCapitalModel.SharePrice, ParameterDirection.Input, DbType.Decimal);
+                objStoredProc.SetParameter("@PaymentModeEnumId", bankMemberShareCapitalModel.PaymentModeEnumId, ParameterDirection.Input, DbType.Int32);
+                objStoredProc.SetParameter("@TranscationReference", bankMemberShareCapitalModel.TranscationReference, ParameterDirection.Input, DbType.String);
+                objStoredProc.SetParameter("@Remarks", bankMemberShareCapitalModel.Remarks, ParameterDirection.Input, DbType.String);
+                objStoredProc.SetParameter("@IsActive", bankMemberShareCapitalModel.IsActive, ParameterDirection.Input, DbType.Boolean);
+                objStoredProc.SetParameter("@Status", bankMemberShareCapitalModel.Status, ParameterDirection.Output, DbType.Int32);
+                int statusOutput = 0;
+                // Execute the stored procedure
+                objStoredProc.ExecuteStoredProcedureList(
+                    "Coditech_BankMemberShareCapitalInsert @BankMemberShareCapitalTransactionsId,@BankMemberId,@NumberOfShares,@AmountInvested,@PurchaseDate,@SharePrice,@PaymentModeEnumId,@TranscationReference,@Remarks,@IsActive,@Status OUT",
+                    10,
+                    out statusOutput // Use the local variable to capture the output value
+                );
+                if (statusOutput == 0)
+                {
+                    bankMemberShareCapitalModel.HasError = true;
+                    bankMemberShareCapitalModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
+                    return bankMemberShareCapitalModel;
+                }
+                return bankMemberShareCapitalModel;
+            }
+            else
+            {
                 bankMemberShareCapitalModel.HasError = true;
                 bankMemberShareCapitalModel.ErrorMessage = GeneralResources.ErrorFailedToCreate;
-             }
-             return bankMemberShareCapitalModel;
+            }
+            return bankMemberShareCapitalModel;
         }
 
         //Get BankMemberShareCapital by BankMemberShareCapital id.
-        public virtual BankMemberShareCapitalModel GetMemberShareCapital(int bankMemberShareCapitalId)
+        public virtual BankMemberShareCapitalModel GetMemberShareCapital(int bankMemberId)
         {
-            if (bankMemberShareCapitalId <= 0)
-                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BankMemberShareCapital"));
+            if (bankMemberId <= 0)
+                throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BankMemberId"));
 
             //Get the BankMemberShareCapital Details based on id.
-            BankMemberShareCapital bankMemberShareCapital = _bankMemberShareCapitalRepository.Table.FirstOrDefault(x => x.BankMemberShareCapitalId == bankMemberShareCapitalId);
+            BankMemberShareCapital bankMemberShareCapital = _bankMemberShareCapitalRepository.Table.FirstOrDefault(x => x.BankMemberShareCapitalId == bankMemberId);
             BankMemberShareCapitalModel bankMemberShareCapitalModel = bankMemberShareCapital?.FromEntityToModel<BankMemberShareCapitalModel>();
             return bankMemberShareCapitalModel;
         }

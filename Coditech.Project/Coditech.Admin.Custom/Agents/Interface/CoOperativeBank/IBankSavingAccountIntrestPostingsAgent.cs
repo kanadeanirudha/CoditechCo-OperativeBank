@@ -23,7 +23,7 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="bankSavingAccountIntrestPostingsId">bankSavingAccountIntrestPostingsId</param>
         /// <returns>Returns BankSavingAccountIntrestPostingsViewModel.</returns>
-        BankSavingAccountIntrestPostingsViewModel GetBankSavingAccountIntrestPostings(int bankSavingAccountIntrestPostingsId);
+        BankSavingAccountIntrestPostingsViewModel GetBankSavingAccountIntrestPostings(int bankSavingsAccountId);
 
         /// <summary>
         /// Update BankSavingAccountIntrestPostings.
