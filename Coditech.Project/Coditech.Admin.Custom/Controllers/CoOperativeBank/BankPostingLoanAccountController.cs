@@ -75,7 +75,7 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(_bankPostingLoanAccountAgent.UpdatePostingLoanAccount(bankPostingLoanAccountViewModel).HasError
                 ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("UpdatePostingLoanAccount", new { bankPostingLoanAccountId = bankPostingLoanAccountViewModel.BankPostingLoanAccountId});
+                return RedirectToAction("UpdatePostingLoanAccount", new { bankPostingLoanAccountId = bankPostingLoanAccountViewModel.BankPostingLoanAccountId });
             }
             return View(createEdit, bankPostingLoanAccountViewModel);
         }
@@ -115,7 +115,7 @@ namespace Coditech.Admin.Controllers
         {
             DropdownViewModel productDropdown = new DropdownViewModel()
             {
-                DropdownType = DropdownCustomTypeEnum.BankProduct.ToString(),
+                DropdownType = DropdownCustomTypeEnum.BankProducts.ToString(),
                 DropdownName = "BankProductId",
                 Parameter = selectedCentreCode,
                 IsCustomDropdown = true
@@ -160,7 +160,7 @@ namespace Coditech.Admin.Controllers
             return View(BankLoanForeClosures, bankLoanForeClosuresViewModel);
         }
         #endregion
-   
+
         #region Loan Repayment
         [HttpGet]
         public virtual ActionResult UpdateLoanRepayment(int bankPostingLoanAccountId)
@@ -182,7 +182,7 @@ namespace Coditech.Admin.Controllers
             return View(createEditRepayment, bankLoanRepaymentViewModel);
         }
         #endregion
-    }
+
         #region BankLoanSchedule
 
         [HttpPost]
