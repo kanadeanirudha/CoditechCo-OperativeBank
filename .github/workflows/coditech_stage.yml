@@ -38,14 +38,14 @@ on:
 
 jobs:
   coditech_build:
-    runs-on: [self-hosted, Windows, x64, cooperativebank_Stage]
+    runs-on: [self-hosted, Windows, x64, cooperativebank_stage]
     if: github.event.inputs.coditech_build == 'true'
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
-          ref: Stage
+          ref: main
 
       - name: Restore Packages
         run: | 
