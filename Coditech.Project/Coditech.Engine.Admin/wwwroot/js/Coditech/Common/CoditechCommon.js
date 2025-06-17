@@ -342,11 +342,15 @@
 
     AllowOnlyAlphabet: function () {
         const charCode = event.which || event.keyCode;
-        if ((charCode >= 65 && charCode <= 90) || // A-Z
+        if (
+            (charCode >= 65 && charCode <= 90) ||  // A-Z
             (charCode >= 97 && charCode <= 122) || // a-z
-            charCode === 8) { // Backspace
+            charCode === 8 ||                      // Backspace
+            charCode === 32                        // Space
+        ) {
             return true;
         }
         return false;
     },
+
 }
