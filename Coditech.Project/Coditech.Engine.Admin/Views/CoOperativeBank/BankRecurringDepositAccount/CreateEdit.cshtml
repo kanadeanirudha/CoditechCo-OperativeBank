@@ -6,7 +6,7 @@
     string css = Model.BankRecurringDepositAccountId > 0 ? "col-lg-10" : "col-lg-12";
     Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
     keyValuePairs.Add("BankRecurringDepositAccountId", Model.BankRecurringDepositAccountId.ToString());
-     DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "CentreCode", DropdownSelectedValue = Model.CentreCode, ChangeEvent = "BankRecurringDepositAccount.GetBankMemberByCentreCode();BankRecurringDepositAccount.GetBankProductByCentreCode();" };
+    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "CentreCode", DropdownSelectedValue = Model.CentreCode, ChangeEvent = "BankRecurringDepositAccount.GetBankMemberByCentreCode();BankRecurringDepositAccount.GetBankProductByCentreCode();", IsDisabled = Model.BankRecurringDepositAccountId > 0 };
     DropdownViewModel bankMemberByCentreCodeDropdown = new DropdownViewModel() { DropdownType = DropdownCustomTypeEnum.BankMembers.ToString(), DropdownName = "BankMemberId", DropdownSelectedValue = Model.BankMemberId.ToString(), Parameter = Model.CentreCode, IsCustomDropdown = true };
     DropdownViewModel bankProductByCentreCodeDropdown = new DropdownViewModel() { DropdownType = DropdownCustomTypeEnum.BankProduct.ToString(), DropdownName = "BankProductId", DropdownSelectedValue = Model.BankProductId.ToString(), Parameter = Model.CentreCode, IsCustomDropdown = true };
     DropdownViewModel bankMemberNomineeDropdown = new DropdownViewModel() { DropdownType = DropdownCustomTypeEnum.BankMemberNominee.ToString(), DropdownName = "BankMemberNomineeId", DropdownSelectedValue = Model.BankMemberNomineeId.ToString(), Parameter = Model.BankMemberNomineeId.ToString(), IsCustomDropdown = true };
@@ -43,7 +43,7 @@
                             @Html.HiddenFor(m => m.BankRecurringDepositAccountId)
                             @if (Model.BankRecurringDepositAccountId > 0)
                             {
-                                @Html.HiddenFor(m => m.CentreCode) 
+                                @Html.HiddenFor(m => m.CentreCode)
                                 @Html.HiddenFor(m => m.BankMemberId)
                                 @Html.HiddenFor(m => m.BankProductId)
                                 @Html.HiddenFor(m => m.BankMemberNomineeId)
@@ -132,56 +132,56 @@
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.InterestType, new { @class = "form-label required" })
                                         @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
-                               {
-                                   DropdownSelectedValue = Model.InterestTypeEnumId.ToString(),
-                                   DropdownName = "InterestTypeEnumId",
-                                   GroupCode = DropdownCustomTypeEnum.InterestType.ToString(),
-                                   IsDisabled = Model.InterestTypeEnumId > 0,
-                                   IsRequired = true,
-                               })
-                                        @Html.ValidationMessageFor(x => x.InterestTypeEnumId)
-                                    </div>
+                                        {
+                                            DropdownSelectedValue = Model.InterestTypeEnumId.ToString(),
+                                                                        DropdownName = "InterestTypeEnumId",
+                                                                        GroupCode = DropdownCustomTypeEnum.InterestType.ToString(),
+                                                                        IsDisabled = Model.InterestTypeEnumId > 0,
+                                                                        IsRequired = true,
+                                                                        })
+                                    @Html.ValidationMessageFor(x => x.InterestTypeEnumId)
                                 </div>
-                                <div class="col-lg-4">
-                                    <div class="mb-3">
-                                        @Html.LabelFor(x => x.AccountStatus, new { @class = "form-label required" })
-                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
-                               {
-                                   DropdownSelectedValue = Model.AccountStatusEnumId.ToString(),
-                                   DropdownName = "AccountStatusEnumId",
-                                   GroupCode = DropdownCustomTypeEnum.AccountStatus.ToString(),
-                                   IsDisabled = Model.AccountStatusEnumId > 0,
-                                   IsRequired = true,
-                               })
-                                        @Html.ValidationMessageFor(x => x.AccountStatusEnumId)
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="mb-3">
-                                        @Html.LabelFor(x => x.ClosureDate, new { @class = "form-label" })
-                                        @Html.TextBoxFor(x => x.ClosureDate, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control datepicker", @readonly = "true" })
-                                        @Html.ValidationMessageFor(x => x.ClosureDate)
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="mb-3">
-                                        @Html.LabelFor(x => x.PrematurePenalty, new { @class = "form-label" })
-                                    @Html.TextAreaFor(x => x.PrematurePenalty, new { @class = "form-control"})
-                                        @Html.ValidationMessageFor(x => x.PrematurePenalty)
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="mb-3">
-                                        @Html.LabelFor(x => x.Remarks, new { @class = "form-label" })
-                                        @Html.TextAreaFor(x => x.Remarks, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(x => x.Remarks)
-                                    </div>
-                                </div>
-
                             </div>
-                            <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
-                            <a href="../@controllerName/List" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
-                        }
+                            <div class="col-lg-4">
+                                <div class="mb-3">
+                                    @Html.LabelFor(x => x.AccountStatus, new { @class = "form-label required" })
+                                    @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                                                                        {
+                                            DropdownSelectedValue = Model.AccountStatusEnumId.ToString(),
+                                                                        DropdownName = "AccountStatusEnumId",
+                                                                        GroupCode = DropdownCustomTypeEnum.AccountStatus.ToString(),
+                                                                        IsDisabled = Model.AccountStatusEnumId > 0,
+                                                                        IsRequired = true,
+                                                                        })
+                                    @Html.ValidationMessageFor(x => x.AccountStatusEnumId)
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="mb-3">
+                                    @Html.LabelFor(x => x.ClosureDate, new { @class = "form-label" })
+                                    @Html.TextBoxFor(x => x.ClosureDate, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control datepicker", @readonly = "true" })
+                                    @Html.ValidationMessageFor(x => x.ClosureDate)
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="mb-3">
+                                    @Html.LabelFor(x => x.PrematurePenalty, new { @class = "form-label" })
+                                    @Html.TextAreaFor(x => x.PrematurePenalty, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.PrematurePenalty)
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="mb-3">
+                                    @Html.LabelFor(x => x.Remarks, new { @class = "form-label" })
+                                    @Html.TextAreaFor(x => x.Remarks, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.Remarks)
+                                </div>
+                            </div>
+
+                        </div>
+                        <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
+                        <a href="../@controllerName/List" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
+                                                }
                     </div>
                 </div>
             </div>
@@ -189,7 +189,6 @@
     </div>
 </div>
 @section Scripts {
-    <script src="~/js/coditech/CoOperativeBank/BankRecurringDepositAccount.js"></script>
     <script src="~/js/coditech/CoOperativeBank/BankRecurringDepositAccount.js"></script>
     <script type="text/javascript">
         $(function () {

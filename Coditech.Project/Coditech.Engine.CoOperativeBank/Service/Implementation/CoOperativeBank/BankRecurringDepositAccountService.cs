@@ -77,8 +77,8 @@ namespace Coditech.API.Service
             //Get the Country Details based on id.
             BankRecurringDepositAccount bankRecurringDepositAccount = _bankRecurringDepositAccountRepository.Table.FirstOrDefault(x => x.BankRecurringDepositAccountId == bankRecurringDepositAccountId);
             BankRecurringDepositAccountModel bankRecurringDepositAccountModel = bankRecurringDepositAccount?.FromEntityToModel<BankRecurringDepositAccountModel>();
-            //string centreCode = _bankMemberRepository.Table.Where(x => x.BankMemberId == bankRecurringDepositAccount.BankMemberId).Select(x => x.CentreCode).FirstOrDefault();
-            //bankRecurringDepositAccountModel.CentreCode = centreCode;
+            string centreCode = _bankMemberRepository.Table.Where(x => x.BankMemberId == bankRecurringDepositAccount.BankMemberId).Select(x => x.CentreCode).FirstOrDefault();
+            bankRecurringDepositAccountModel.CentreCode = centreCode;
             return bankRecurringDepositAccountModel;
         }
 
