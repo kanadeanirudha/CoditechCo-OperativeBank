@@ -339,4 +339,14 @@
         window.location.href = url;
         CoditechCommon.HideLodder();
     },
+
+    AllowOnlyAlphabet: function () {
+        const charCode = event.which || event.keyCode;
+        if ((charCode >= 65 && charCode <= 90) || // A-Z
+            (charCode >= 97 && charCode <= 122) || // a-z
+            charCode === 8) { // Backspace
+            return true;
+        }
+        return false;
+    },
 }

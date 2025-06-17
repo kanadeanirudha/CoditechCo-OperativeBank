@@ -8,7 +8,7 @@ namespace Coditech.API.Data
         public int BankMemberId { get; set; }
         public short BankProductId { get; set; }
         public int BankMemberNomineeId { get; set; }
-        public int FixedDepositAccountNumber { get; set; }
+        public string FixedDepositAccountNumber { get; set; }
         public decimal DepositAmount { get; set; }
         public decimal InterestRate { get; set; }
         public DateTime StartDate { get; set; }

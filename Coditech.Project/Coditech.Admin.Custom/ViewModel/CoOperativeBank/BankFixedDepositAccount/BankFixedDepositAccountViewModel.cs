@@ -11,10 +11,9 @@ namespace Coditech.Admin.ViewModel
         public short BankProductId { get; set; }
         [Display(Name = "Bank Member Nominee")]
         public int BankMemberNomineeId { get; set; }
-       
         [MaxLength(20)]
         [Display(Name = "Account Number")]
-        public int? FixedDepositAccountNumber { get; set; }
+        public string FixedDepositAccountNumber { get; set; }
         [Required]
         [Display(Name = "Deposit Amount")]
         public decimal? DepositAmount { get; set; }
