@@ -5,7 +5,7 @@ namespace Coditech.API.Service
 {
     public interface IBankRecurringDepositAccountService
     {
-        BankRecurringDepositAccountListModel GetBankRecurringDepositAccountList(string centreCode,FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
+        BankRecurringDepositAccountListModel GetBankRecurringDepositAccountList(FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength);
         BankRecurringDepositAccountModel CreateBankRecurringDepositAccount(BankRecurringDepositAccountModel model);
         BankRecurringDepositAccountModel GetBankRecurringDepositAccount(int bankRecurringDepositAccountId);
         bool UpdateBankRecurringDepositAccount(BankRecurringDepositAccountModel model);

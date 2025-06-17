@@ -10,7 +10,7 @@ namespace Coditech.API.Client
         /// Get list of BankRecurringDepositAccount.
         /// </summary>
         /// <returns>BankRecurringDepositAccountListResponse</returns>
-        BankRecurringDepositAccountListResponse List(string centreCode,IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
+        BankRecurringDepositAccountListResponse List(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
 
         /// <summary>
         /// Create BankRecurringDepositAccount.

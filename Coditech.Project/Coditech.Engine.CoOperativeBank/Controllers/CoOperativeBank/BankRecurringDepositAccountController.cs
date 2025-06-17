@@ -25,11 +25,11 @@ namespace Coditech.Engine.DBTM.Controllers
         [Route("/BankRecurringDepositAccount/GetBankRecurringDepositAccountList")]
         [Produces(typeof(BankRecurringDepositAccountListResponse))]
         [TypeFilter(typeof(BindQueryFilter))]
-        public virtual IActionResult GetBankRecurringDepositAccountList(string centreCode, FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
+        public virtual IActionResult GetBankRecurringDepositAccountList( FilterCollection filter, ExpandCollection expand, SortCollection sort, int pageIndex, int pageSize)
         {
             try
             {
-                BankRecurringDepositAccountListModel list = _bankRecurringDepositAccountService.GetBankRecurringDepositAccountList(centreCode, filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
+                BankRecurringDepositAccountListModel list = _bankRecurringDepositAccountService.GetBankRecurringDepositAccountList( filter, sort.ToNameValueCollectionSort(), expand.ToNameValueCollectionExpands(), pageIndex, pageSize);
                 string data = ApiHelper.ToJson(list);
                 return !string.IsNullOrEmpty(data) ? CreateOKResponse<BankRecurringDepositAccountListResponse>(data) : CreateNoContentResponse();
             }

@@ -15,13 +15,13 @@ namespace Coditech.API.Client
         {
             bankRecurringDepositAccountEndpoint = new BankRecurringDepositAccountEndpoint();
         }
-        public virtual BankRecurringDepositAccountListResponse List(string centreCode,IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public virtual BankRecurringDepositAccountListResponse List(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            return Task.Run(async () => await ListAsync(centreCode,expand, filter, sort, pageIndex, pageSize, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await ListAsync(expand, filter, sort, pageIndex, pageSize, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
-        public virtual async Task<BankRecurringDepositAccountListResponse> ListAsync(string centreCode,IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
+        public virtual async Task<BankRecurringDepositAccountListResponse> ListAsync(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
         {
-            string endpoint = bankRecurringDepositAccountEndpoint.ListAsync(centreCode,expand, filter, sort, pageIndex, pageSize);
+            string endpoint = bankRecurringDepositAccountEndpoint.ListAsync(expand, filter, sort, pageIndex, pageSize);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try

@@ -8,6 +8,5 @@ namespace Coditech.Admin.ViewModel
         {
             BankRecurringDepositAccountList = new List<BankRecurringDepositAccountViewModel>();
         }
-        public string SelectedCentreCode { get; set; }
     }
 }

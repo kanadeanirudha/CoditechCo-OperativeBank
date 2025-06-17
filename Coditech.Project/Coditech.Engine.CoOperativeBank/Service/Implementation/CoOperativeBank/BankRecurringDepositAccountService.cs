@@ -29,18 +29,17 @@ namespace Coditech.API.Service
             _bankRecurringDepositInterestPostingRepository = new CoditechRepository<BankRecurringDepositInterestPosting>(_serviceProvider.GetService<CoditechCustom_Entities>());
 
         }
-        public virtual BankRecurringDepositAccountListModel GetBankRecurringDepositAccountList(string centreCode, FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
+        public virtual BankRecurringDepositAccountListModel GetBankRecurringDepositAccountList( FilterCollection filters, NameValueCollection sorts, NameValueCollection expands, int pagingStart, int pagingLength)
         {
             //Bind the Filter, sorts & Paging details.
             PageListModel pageListModel = new PageListModel(filters, sorts, pagingStart, pagingLength);
             CoditechViewRepository<BankRecurringDepositAccountModel> objStoredProc = new CoditechViewRepository<BankRecurringDepositAccountModel>(_serviceProvider.GetService<CoditechCustom_Entities>());
-            objStoredProc.SetParameter("@CentreCode", centreCode, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@WhereClause", pageListModel?.SPWhereClause, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@PageNo", pageListModel.PagingStart, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Rows", pageListModel.PagingLength, ParameterDirection.Input, DbType.Int32);
             objStoredProc.SetParameter("@Order_BY", pageListModel.OrderBy, ParameterDirection.Input, DbType.String);
             objStoredProc.SetParameter("@RowsCount", pageListModel.TotalRowCount, ParameterDirection.Output, DbType.Int32);
-            List<BankRecurringDepositAccountModel> bankRecurringDepositAccountList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetBankRecurringDepositAccountList @CentreCode,@WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 5, out pageListModel.TotalRowCount)?.ToList();
+            List<BankRecurringDepositAccountModel> bankRecurringDepositAccountList = objStoredProc.ExecuteStoredProcedureList("Coditech_GetBankRecurringDepositAccountList @WhereClause,@Rows,@PageNo,@Order_BY,@RowsCount OUT", 4, out pageListModel.TotalRowCount)?.ToList();
             BankRecurringDepositAccountListModel listModel = new BankRecurringDepositAccountListModel();
 
             listModel.BankRecurringDepositAccountList = bankRecurringDepositAccountList?.Count > 0 ? bankRecurringDepositAccountList : new List<BankRecurringDepositAccountModel>();
@@ -78,8 +77,8 @@ namespace Coditech.API.Service
             //Get the Country Details based on id.
             BankRecurringDepositAccount bankRecurringDepositAccount = _bankRecurringDepositAccountRepository.Table.FirstOrDefault(x => x.BankRecurringDepositAccountId == bankRecurringDepositAccountId);
             BankRecurringDepositAccountModel bankRecurringDepositAccountModel = bankRecurringDepositAccount?.FromEntityToModel<BankRecurringDepositAccountModel>();
-            string centreCode = _bankMemberRepository.Table.Where(x => x.BankMemberId == bankRecurringDepositAccount.BankMemberId).Select(x => x.CentreCode).FirstOrDefault();
-            bankRecurringDepositAccountModel.CentreCode = centreCode;
+            //string centreCode = _bankMemberRepository.Table.Where(x => x.BankMemberId == bankRecurringDepositAccount.BankMemberId).Select(x => x.CentreCode).FirstOrDefault();
+            //bankRecurringDepositAccountModel.CentreCode = centreCode;
             return bankRecurringDepositAccountModel;
         }
 

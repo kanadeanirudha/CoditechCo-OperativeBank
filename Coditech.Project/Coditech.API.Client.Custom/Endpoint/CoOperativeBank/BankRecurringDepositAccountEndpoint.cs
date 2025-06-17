@@ -5,9 +5,9 @@ namespace Coditech.API.Endpoint
 {
     public class BankRecurringDepositAccountEndpoint : BaseEndpoint
     {
-        public string ListAsync(string centreCode, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public string ListAsync( IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
-            string endpoint = $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankRecurringDepositAccount/GetBankRecurringDepositAccountList?centreCode={centreCode}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";
+            string endpoint = $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankRecurringDepositAccount/GetBankRecurringDepositAccountList?{BuildEndpointQueryString(expand, filter, sort, pageIndex, pageSize)}";
             return endpoint;
         }
         public string CreateBankRecurringDepositAccountAsync() =>

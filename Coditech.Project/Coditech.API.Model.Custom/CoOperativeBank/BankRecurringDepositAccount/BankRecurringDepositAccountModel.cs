@@ -20,7 +20,6 @@
         public string Remarks { get; set; }
         public string InterestType { get; set; }
         public string AccountStatus { get; set; }
-        public string CentreCode { get; set; }
 
     }
 }

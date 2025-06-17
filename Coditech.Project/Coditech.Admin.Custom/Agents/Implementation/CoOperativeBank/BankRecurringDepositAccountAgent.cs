@@ -46,7 +46,7 @@ namespace Coditech.Admin.Agents
 
             SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
 
-            BankRecurringDepositAccountListResponse response = _bankRecurringDepositAccountClient.List(centreCode,null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            BankRecurringDepositAccountListResponse response = _bankRecurringDepositAccountClient.List(null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
             BankRecurringDepositAccountListModel BankRecurringDepositAccountList = new BankRecurringDepositAccountListModel { BankRecurringDepositAccountList = response?.BankRecurringDepositAccountList };
             BankRecurringDepositAccountListViewModel listViewModel = new BankRecurringDepositAccountListViewModel();
             listViewModel.BankRecurringDepositAccountList = BankRecurringDepositAccountList?.BankRecurringDepositAccountList?.ToViewModel<BankRecurringDepositAccountViewModel>().ToList();
