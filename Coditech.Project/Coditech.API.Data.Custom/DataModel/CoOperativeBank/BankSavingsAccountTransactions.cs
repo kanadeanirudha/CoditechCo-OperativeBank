@@ -17,7 +17,7 @@ namespace Coditech.API.Data
         public DateTime IsEndOfDate { get; set; }
         public DateTime EODDate { get; set; }
         public DateTime EODTimeStamp { get; set; }
-        public string TranscationPositing { get; set; }
+        public string TranscationPosting { get; set; }
         public string VoucherNumber { get; set; }
         public Nullable<long> CreatedBy { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }

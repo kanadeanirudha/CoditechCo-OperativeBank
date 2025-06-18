@@ -62,7 +62,7 @@ namespace Coditech.Admin.Helpers
             {
                 GetTenureYearsDropdown(dropdownViewModel, dropdownList);
             }
-            else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.BankProduct.ToString()))
+            else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.BankProducts.ToString()))
             {
                 GetBankproductList(dropdownViewModel, dropdownList);
             }

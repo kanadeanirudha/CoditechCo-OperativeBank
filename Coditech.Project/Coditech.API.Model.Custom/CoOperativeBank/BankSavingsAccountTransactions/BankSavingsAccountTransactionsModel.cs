@@ -15,7 +15,7 @@
         public DateTime IsEndOfDate { get; set; }
         public DateTime EODDate { get; set; }
         public DateTime EODTimeStamp { get; set; }
-        public string TranscationPositing { get; set; }
+        public string TranscationPosting { get; set; }
         public string VoucherNumber { get; set; }
         public string BankSavingsTranscationType { get; set; }
         public string PaymentMode { get; set; }

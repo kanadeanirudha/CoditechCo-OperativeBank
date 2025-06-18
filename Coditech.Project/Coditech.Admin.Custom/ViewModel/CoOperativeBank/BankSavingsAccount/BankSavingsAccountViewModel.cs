@@ -19,12 +19,12 @@ namespace Coditech.Admin.ViewModel
         public string SavingAccountNumber { get; set; }
         [Required]
         [Display(Name = "Opening Date")]
-        public DateTime OpeningDate { get; set; } = DateTime.Now;
+        public DateTime OpeningDate { get; set; }
         [Required]
         [Display(Name = "KYC Status")]
         public bool KYCStatus { get; set; }
         [Display(Name = "Last Balance Update")]
-        public DateTime LastBalanceUpdate { get; set; } = DateTime.Now;
+        public DateTime LastBalanceUpdate { get; set; }
         [Display(Name = "Remark")]
         public string Remark { get; set; }
         [Display(Name = "Centre")]

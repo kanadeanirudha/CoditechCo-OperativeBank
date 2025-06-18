@@ -38,100 +38,100 @@
                                     <div class="mb-3">
                                         @Html.LabelFor(x => x.BankSavingsTranscationType, new { @class = "form-label required" })
                                         @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
-                               {
-                                   DropdownSelectedValue = Model.BankSavingsTranscationTypeEnumId.ToString(),
-                                   DropdownName = "BankSavingsTranscationTypeEnumId",
-                                   GroupCode = DropdownCustomTypeEnum.BankSavingsTranscationType.ToString(),
-                                   IsRequired = true,
-                               })
-                                        @Html.ValidationMessageFor(x => x.BankSavingsTranscationTypeEnumId)
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-4 mb-3">
-                                    @Html.LabelFor(x => x.Amount, new { @class = "form-label required" })
-                                @Html.TextBoxFor(x => x.Amount, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
-                                    @Html.ValidationMessageFor(x => x.Amount)
-                                </div>
-
-                                <div class="col-lg-4">
-                                    <div class="mb-3">
-                                        @Html.LabelFor(x => x.PaymentMode, new { @class = "form-label required" })
-                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
-                               {
-                                   DropdownSelectedValue = Model.PaymentModeEnumId.ToString(),
-                                   DropdownName = "PaymentModeEnumId",
-                                   GroupCode = DropdownCustomTypeEnum.PaymentMode.ToString(),
-                                   IsRequired = true,
-                               })
-                                        @Html.ValidationMessageFor(x => x.PaymentModeEnumId)
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 mb-3">
-                                    @Html.LabelFor(x => x.BalanceAfter, new { @class = "form-label required" })
-                                    @Html.TextBoxFor(x => x.BalanceAfter, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
-                                    @Html.ValidationMessageFor(x => x.BalanceAfter)
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="mb-3">
-                                        @Html.LabelFor(x => x.CheckingApproval, new { @class = "form-label required" })
-                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
-                               {
-                                   DropdownSelectedValue = Model.CheckingApprovalEnumId.ToString(),
-                                   DropdownName = "CheckingApprovalEnumId",
-                                   GroupCode = DropdownCustomTypeEnum.CheckingApproval.ToString(),
-                                   IsRequired = true,
-                               })
-                                        @Html.ValidationMessageFor(x => x.CheckingApprovalEnumId)
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="mb-3">
-                                        @Html.LabelFor(x => x.TransactionStatus, new { @class = "form-label required" })
-                                        @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
-                               {
-                                   DropdownSelectedValue = Model.TransactionStatusEnumId.ToString(),
-                                   DropdownName = "TransactionStatusEnumId",
-                                   GroupCode = DropdownCustomTypeEnum.TransactionStatus.ToString(),
-                                   IsRequired = true,
-                               })
-                                        @Html.ValidationMessageFor(x => x.TransactionStatusEnumId)
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 mb-3">
-                                    @Html.LabelFor(x => x.TransactionalRemark, new { @class = "form-label required" })
-                                    @Html.TextBoxFor(x => x.TransactionalRemark, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(x => x.TransactionalRemark)
-                                </div>
-                                <div class="col-lg-4 mb-3">
-                                    @Html.LabelFor(x => x.IsEndOfDate, new { @class = "form-label required" })
-                                    @Html.TextBoxFor(x => x.IsEndOfDate, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control", @id = "IsEndOfDate" })
-                                    @Html.ValidationMessageFor(x => x.IsEndOfDate)
-                                </div>
-                                <div class="col-lg-4 mb-3">
-                                    @Html.LabelFor(x => x.EODDate, new { @class = "form-label required" })
-                                    @Html.TextBoxFor(x => x.EODDate, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control", @id = "EODDate" })
-                                    @Html.ValidationMessageFor(x => x.EODDate)
-                                </div>
-                                <div class="col-lg-4 mb-3">
-                                    @Html.LabelFor(x => x.EODTimeStamp, new { @class = "form-label required" })
-                                    @Html.TextBoxFor(x => x.EODTimeStamp, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control", @id = "EODTimeStamp" })
-                                    @Html.ValidationMessageFor(x => x.EODTimeStamp)
-                                </div>
-                                <div class="col-lg-4 mb-3">
-                                    @Html.LabelFor(x => x.TranscationPositing, new { @class = "form-label required" })
-                                    @Html.TextBoxFor(x => x.TranscationPositing, new { @class = "form-control", @onkeypress = "return CoditechCommon.AvoidSpacing()" })
-                                    @Html.ValidationMessageFor(x => x.TranscationPositing)
-                                </div>
-                                <div class="col-lg-4 mb-3">
-                                    @Html.LabelFor(x => x.VoucherNumber, new { @class = "form-label required" })
-                                @Html.TextBoxFor(x => x.VoucherNumber, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
-                                    @Html.ValidationMessageFor(x => x.VoucherNumber)
+                                        {
+                                            DropdownSelectedValue = Model.BankSavingsTranscationTypeEnumId.ToString(),
+                                                                        DropdownName = "BankSavingsTranscationTypeEnumId",
+                                                                        GroupCode = DropdownCustomTypeEnum.BankSavingsTranscationType.ToString(),
+                                                                        IsRequired = true,
+                                                                        })
+                                    @Html.ValidationMessageFor(x => x.BankSavingsTranscationTypeEnumId)
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
-                            <a href="../@controllerName/List" class="btn btn-secondary">@AdminResources.LabelCancel</a>
-                        }
+
+                            <div class="col-lg-4 mb-3">
+                                @Html.LabelFor(x => x.Amount, new { @class = "form-label required" })
+                                @Html.TextBoxFor(x => x.Amount, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
+                                @Html.ValidationMessageFor(x => x.Amount)
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="mb-3">
+                                    @Html.LabelFor(x => x.PaymentMode, new { @class = "form-label required" })
+                                    @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                                                                        {
+                                            DropdownSelectedValue = Model.PaymentModeEnumId.ToString(),
+                                                                        DropdownName = "PaymentModeEnumId",
+                                                                        GroupCode = DropdownCustomTypeEnum.PaymentMode.ToString(),
+                                                                        IsRequired = true,
+                                                                        })
+                                    @Html.ValidationMessageFor(x => x.PaymentModeEnumId)
+                                </div>
+                            </div>
+                            <div class="col-lg-4 mb-3">
+                                @Html.LabelFor(x => x.BalanceAfter, new { @class = "form-label required" })
+                                @Html.TextBoxFor(x => x.BalanceAfter, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
+                                @Html.ValidationMessageFor(x => x.BalanceAfter)
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="mb-3">
+                                    @Html.LabelFor(x => x.CheckingApproval, new { @class = "form-label required" })
+                                    @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                                                                        {
+                                            DropdownSelectedValue = Model.CheckingApprovalEnumId.ToString(),
+                                                                        DropdownName = "CheckingApprovalEnumId",
+                                                                        GroupCode = DropdownCustomTypeEnum.CheckingApproval.ToString(),
+                                                                        IsRequired = true,
+                                                                        })
+                                    @Html.ValidationMessageFor(x => x.CheckingApprovalEnumId)
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="mb-3">
+                                    @Html.LabelFor(x => x.TransactionStatus, new { @class = "form-label required" })
+                                    @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", new DropdownViewModel()
+                                                                        {
+                                            DropdownSelectedValue = Model.TransactionStatusEnumId.ToString(),
+                                                                        DropdownName = "TransactionStatusEnumId",
+                                                                        GroupCode = DropdownCustomTypeEnum.TransactionStatus.ToString(),
+                                                                        IsRequired = true,
+                                                                        })
+                                    @Html.ValidationMessageFor(x => x.TransactionStatusEnumId)
+                                </div>
+                            </div>
+                            <div class="col-lg-4 mb-3">
+                                @Html.LabelFor(x => x.TransactionalRemark, new { @class = "form-label required" })
+                                @Html.TextBoxFor(x => x.TransactionalRemark, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.TransactionalRemark)
+                            </div>
+                            <div class="col-lg-4 mb-3">
+                                @Html.LabelFor(x => x.IsEndOfDate, new { @class = "form-label required" })
+                                @Html.TextBoxFor(x => x.IsEndOfDate, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control", @id = "IsEndOfDate" })
+                                @Html.ValidationMessageFor(x => x.IsEndOfDate)
+                            </div>
+                            <div class="col-lg-4 mb-3">
+                                @Html.LabelFor(x => x.EODDate, new { @class = "form-label required" })
+                                @Html.TextBoxFor(x => x.EODDate, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control", @id = "EODDate" })
+                                @Html.ValidationMessageFor(x => x.EODDate)
+                            </div>
+                            <div class="col-lg-4 mb-3">
+                                @Html.LabelFor(x => x.EODTimeStamp, new { @class = "form-label required" })
+                                @Html.TextBoxFor(x => x.EODTimeStamp, AdminGeneralHelper.DateFormatForTextBox(), new { @class = "form-control", @id = "EODTimeStamp" })
+                                @Html.ValidationMessageFor(x => x.EODTimeStamp)
+                            </div>
+                            <div class="col-lg-4 mb-3">
+                                @Html.LabelFor(x => x.TranscationPosting, new { @class = "form-label required" })
+                                @Html.TextBoxFor(x => x.TranscationPosting, new { @class = "form-control", @onkeypress = "return CoditechCommon.AvoidSpacing()" })
+                                @Html.ValidationMessageFor(x => x.TranscationPosting)
+                            </div>
+                            <div class="col-lg-4 mb-3">
+                                @Html.LabelFor(x => x.VoucherNumber, new { @class = "form-label required" })
+                                @Html.TextBoxFor(x => x.VoucherNumber, new { @class = "form-control", @onkeypress = "return CoditechCommon.ValidNumeric()" })
+                                @Html.ValidationMessageFor(x => x.VoucherNumber)
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success">@AdminResources.LabelSave</button>
+                        <a href="../@controllerName/List" class="btn btn-secondary">@AdminResources.LabelCancel</a>
+                                                }
                     </div>
                 </div>
             </div>
@@ -191,4 +191,4 @@
             initSimpleDatepicker("#EODTimeStamp");
         });
     </script>
-    }
+}

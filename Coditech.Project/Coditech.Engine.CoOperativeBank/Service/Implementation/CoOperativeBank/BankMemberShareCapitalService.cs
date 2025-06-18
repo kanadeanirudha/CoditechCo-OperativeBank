@@ -95,10 +95,30 @@ namespace Coditech.API.Service
             if (bankMemberId <= 0)
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BankMemberId"));
 
-            //Get the BankMemberShareCapital Details based on id.
-            BankMemberShareCapital bankMemberShareCapital = _bankMemberShareCapitalRepository.Table.FirstOrDefault(x => x.BankMemberId == bankMemberId);
-            BankMemberShareCapitalModel bankMemberShareCapitalModel = bankMemberShareCapital?.FromEntityToModel<BankMemberShareCapitalModel>();
-            return bankMemberShareCapitalModel;
+            // Step 1: Check if BankMemberShareCapital already exists for this account
+            BankMemberShareCapital existingBankMemberShareCapital = _bankMemberShareCapitalRepository.Table.FirstOrDefault(x => x.BankMemberId == bankMemberId);
+
+            if (existingBankMemberShareCapital != null)
+            {
+                return new BankMemberShareCapitalModel
+                {
+                    BankMemberShareCapitalId = existingBankMemberShareCapital.BankMemberShareCapitalId,
+                    BankMemberId = existingBankMemberShareCapital.BankMemberId,
+                    NumberOfShares = existingBankMemberShareCapital.NumberOfShares,
+                    AmountInvested = existingBankMemberShareCapital.AmountInvested,
+                    PurchaseDate = existingBankMemberShareCapital.PurchaseDate,
+                    SharePrice = existingBankMemberShareCapital.SharePrice,
+                    PaymentModeEnumId = existingBankMemberShareCapital.PaymentModeEnumId,
+                    Remarks = existingBankMemberShareCapital.Remarks,
+                    TranscationReference = existingBankMemberShareCapital.TranscationReference,
+                    IsActive = existingBankMemberShareCapital.IsActive,
+                };
+            }
+            // If no existingBankFixedDepositClosure , return a new model with default values
+            return new BankMemberShareCapitalModel
+            {
+                BankMemberId = bankMemberId,
+            };
         }
 
         //Update BankMemberShareCapital.

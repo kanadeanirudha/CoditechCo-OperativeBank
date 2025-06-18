@@ -32,8 +32,8 @@ namespace Coditech.Admin.ViewModel
         [Display(Name = "EOD Time Stamp")]
         public DateTime EODTimeStamp { get; set; }
         [Required]
-        [Display(Name = "Transcation Positing")]
-        public string TranscationPositing { get; set; }
+        [Display(Name = "Transcation Posting")]
+        public string TranscationPosting { get; set; }
         [Required]
         [Display(Name = "Voucher Number")]
         public string VoucherNumber { get; set; }

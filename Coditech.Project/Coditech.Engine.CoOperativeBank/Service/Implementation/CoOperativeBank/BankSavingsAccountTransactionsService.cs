@@ -69,7 +69,7 @@ namespace Coditech.API.Service
                     IsEndOfDate = existingBankSavingsAccountTransactions.IsEndOfDate,
                     EODDate = existingBankSavingsAccountTransactions.EODDate,
                     EODTimeStamp = existingBankSavingsAccountTransactions.EODTimeStamp,
-                    TranscationPositing = existingBankSavingsAccountTransactions.TranscationPositing,
+                    TranscationPosting = existingBankSavingsAccountTransactions.TranscationPosting,
                     VoucherNumber = existingBankSavingsAccountTransactions.VoucherNumber,
                 };
             }
