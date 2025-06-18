@@ -91,7 +91,7 @@ namespace Coditech.Admin.Controllers
         {
             DropdownViewModel bankProductByCentreCodeDropdown = new DropdownViewModel()
             {
-                DropdownType = DropdownCustomTypeEnum.BankProduct.ToString(),
+                DropdownType = DropdownCustomTypeEnum.BankProducts.ToString(),
                 DropdownName = "BankProductId",
                 Parameter = selectedCentreCode,
                 IsCustomDropdown = true,
