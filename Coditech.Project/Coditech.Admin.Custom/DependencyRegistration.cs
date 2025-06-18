@@ -13,6 +13,7 @@ namespace Coditech.Admin.Custom
             builder.Services.AddScoped<CoditechTranslator>();
             #region Agent
             builder.Services.AddScoped<ICustomDashboardAgent, CustomDashboardAgent>();
+            builder.Services.AddScoped<ICoOperativeUIAgent, CoOperativeUIAgent>();
 
             #region CoOperativeBank
             builder.Services.AddScoped<IBankSetupMortagePropertyTypeAgent, BankSetupMortagePropertyTypeAgent>();
@@ -42,6 +43,7 @@ namespace Coditech.Admin.Custom
 
             #region Client
             builder.Services.AddScoped<ICustomDashboardClient, CustomDashboardClient>();
+            builder.Services.AddScoped<ICoOperativeUIClient, CoOperativeUIClient>();
 
             #region CoOperativeBank
             builder.Services.AddScoped<IBankSetupMortagePropertyTypeClient, BankSetupMortagePropertyTypeClient>();

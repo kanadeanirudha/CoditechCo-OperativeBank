@@ -1,0 +1,80 @@
+﻿ @* @model MemberCreateEditViewModel
+@{
+    ViewBag.Title = "CoOperative UI";
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    string actionName = ViewContext.RouteData.Values["action"].ToString();
+}
+
+@using (Html.BeginForm(actionName, controllerName, FormMethod.Post, new { id = "frmHospitalDoctorOPDSchedule" }))
+{
+    <div class="row">
+        @Html.HiddenFor(m => m.BankMemberId)
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Bank Member Details</span>
+                    <button type="button" id="btnLoadMemberForm" class="btn btn-sm btn-info float-end">Show</button>
+                </div>
+                <div class="card-body">
+                    <div id="memberDetailsPartial">
+                        <!-- Member form will load here dynamically -->
+                        @Html.Partial("~/Views/CoOperativeBank/BankMember/CreateEditMember.cshtml", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success" onclick="HospitalDoctorOPDSchedule.ValidateHospitalDoctorOPDScheduleTime(); return false;">
+        @AdminResources.LabelSave
+    </button>
+    <a href="../@controllerName/Cancel?SelectedCentreCode=&SelectedDepartmentId=" class="btn btn-secondary">
+        <i class="ft-x"></i>@AdminResources.LabelCancel
+    </a>
+}
+ *@
+
+
+@* @model CoOperativeUIViewModel
+@{
+    ViewBag.Title = "CoOperative UI";
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    string actionName = ViewContext.RouteData.Values["action"].ToString();
+}
+@using (Html.BeginForm(actionName, controllerName, FormMethod.Post, new { id = "frmHospitalDoctorOPDSchedule" }))
+{
+    <div class="row">
+        @Html.HiddenFor(m => m.BankMemberId)
+        @Html.HiddenFor(m => m.BankProductId)
+        @Html.HiddenFor(m => m.CentreCode)
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title"></span>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                       @*  @Html.Partial("~/Views/CoOperativeBank/BankMember/CreateEditMember.cshtml", Model)
+                    </div>
+                </div>
+            </div>
+        </div> *@
+
+        @* <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Evening</span>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-4">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </div>
+    <button type="submit" class="btn btn-success" onclick="HospitalDoctorOPDSchedule.ValidateHospitalDoctorOPDScheduleTime(); return false;">@AdminResources.LabelSave</button>
+    <a href="../@controllerName/Cancel?SelectedCentreCode=&SelectedDepartmentId=" class="btn btn-secondary"><i class="ft-x"></i>@AdminResources.LabelCancel</a>
+} *@

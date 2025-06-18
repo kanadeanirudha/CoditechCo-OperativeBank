@@ -54,14 +54,6 @@ namespace Coditech.Admin.Helpers
             {
                 GetBankProductList(dropdownViewModel, dropdownList);
             }
-            else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.BankProducts.ToString()))
-            {
-                GetBankproductList(dropdownViewModel, dropdownList);
-            }
-            else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.BankProduct.ToString()))
-            {
-                GetBankproductList(dropdownViewModel, dropdownList);
-            }
             else if (Equals(dropdownViewModel.DropdownType, DropdownCustomTypeEnum.TenureMonths.ToString()))
             {
                 GetTenureMonthsDropdown(dropdownViewModel, dropdownList);
@@ -312,7 +304,7 @@ namespace Coditech.Admin.Helpers
                 }
             }
         }
-            private static void GetAccessibleCentreList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
+        private static void GetAccessibleCentreList(DropdownViewModel dropdownViewModel, List<SelectListItem> dropdownList)
         {
             List<UserAccessibleCentreModel> accessibleCentreList = AccessibleCentreList();
             if (accessibleCentreList?.Count == 1)
@@ -330,6 +322,6 @@ namespace Coditech.Admin.Helpers
                 });
             }
         }
-    }
+    }  
     
 }

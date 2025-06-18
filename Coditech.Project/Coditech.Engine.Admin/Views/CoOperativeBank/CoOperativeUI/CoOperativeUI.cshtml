@@ -1,0 +1,105 @@
+﻿@model CoOperativeUIViewModel
+@{
+    ViewBag.Title = "CoOperative UI";
+    string controllerName = ViewContext.RouteData.Values["controller"].ToString();
+    string actionName = ViewContext.RouteData.Values["action"].ToString();
+    Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+    keyValuePairs.Add("BankMemberId", Model.BankMemberId.ToString());
+    keyValuePairs.Add("PersonId", Model.PersonId.ToString());
+    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "CentreCode", DropdownSelectedValue = Model.CentreCode, ChangeEvent = "AccSetupGL.GetAccSetupBalanceSheetByCentreCodeAndTypeId(); CoOperativeUI.GetBankMemberByCentreCode();" };
+    DropdownViewModel accSetupGLBalanceSheetDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccSetupBalanceSheet.ToString(), DropdownName = "AccSetupBalanceSheetId", DropdownSelectedValue = Model.AccSetupBalanceSheetId.ToString(), Parameter = !string.IsNullOrEmpty(Model.CentreCode) ? $"{Model.CentreCode}~{Model.BankMemberId}" : "", ChangeEvent = "" };
+    DropdownViewModel memberDropdown = new DropdownViewModel() { DropdownType = DropdownCustomTypeEnum.BankMembers.ToString(), DropdownName = "BankMemberId", DropdownSelectedValue = Convert.ToString(Model.BankMemberId), Parameter = Model.CentreCode, IsCustomDropdown = true };
+}
+<div class="page-content mt-5">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center w-100">
+                            <div class="col-md-4">
+                                <h5 class="card-title mb-0">CoOperative UI</h5>
+                            </div>
+
+                            <div class="col-md-4 d-flex">
+                                <label class="card-title me-2 fw-bold mb-0">Balance Sheet:</label>
+                                <span class="mb-0">@Model.AccSetupBalanceSheetId</span>
+                                <span class="mb-0">@Model.AccSetupBalanceSheetId</span>
+                            </div>
+
+                            <div class="col-md-4 d-flex">
+                                <label class="card-title me-2 fw-bold mb-0">Financial Year:</label>
+                                <span class="mb-0">
+                                    @if (Model.GeneralFinancialYearModel != null)
+                                    {
+                                        <label>
+                                            @Model.GeneralFinancialYearModel.FromDate.ToCoditechDateFormat()
+                                            To
+                                            @Model.GeneralFinancialYearModel.ToDate.ToCoditechDateFormat()
+                                        </label>
+                                    }
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  DropDownSelector -->
+                    <div class="card-header">
+                        <div class="row">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-1">
+                                <label>@AdminResources.LabelCentre</label>
+                            </div>
+                            <div class="col-md-2">
+                                @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", centreDropdown)
+                            </div>
+                            <div class="col-md-1">
+                                <label>Bank Member</label>
+                            </div>
+                            <div class="col-md-3">
+                                @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", memberDropdown)
+                            </div>
+                            <div class="col-md-1">
+                                <input type="button" class="btn btn-success" value="Show" id="btnLoadCooperativeUI" onclick="CoOperativeUI.LoadCoOperativeUIPartial()" />
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            @Html.HiddenFor(m => m.BankMemberId)
+                            @Html.HiddenFor(m => m.PersonId)
+                            <div class="row mt-3">
+                                <div class="col-md-4">
+                                    <a class="btn btn-@(Model.NavbarEnumId == 1 ? "success w-100" : "secondary w-100")"
+                                       href="/BankProduct/Index?bankMemberId=@Model.BankMemberId&centreCode=@Model.CentreCode&navbarEnumId=1">
+                                        Bank Product
+                                    </a>
+                                </div>
+                                <div class="col-md-4">
+                                    <a class="btn btn-@(Model.NavbarEnumId == 2 ? "success w-100" : "secondary w-100")"
+                                      @*  href="/CoOperativeUI/LoadCoOperativeUIPartial?centreCode=@Model.CentreCode&bankMemberId=@Model.BankMemberId" *@
+                                       onclick="CoOperativeUI.LoadCoOperativeUIPartial()">
+                                        Bank Member
+                                    </a>
+                                </div>
+                                <div class="col-md-4">
+                                    <a class="btn btn-@(Model.NavbarEnumId == 3 ? "success w-100" : "secondary w-100")"
+                                       href="/Transaction/List?bankMemberId=@Model.BankMemberId&navbarEnumId=3">
+                                        Transaction
+                                    </a>
+                                </div>
+                            </div>
+                            <div id="cooperativeUIPartialContainer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end page content -->
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="~/js/coditech/CoOperativeBank/CoOperativeUI.js"></script>
+    <script src="~/js/coditech/Accounts/AccSetupGL.js"></script>
+}
