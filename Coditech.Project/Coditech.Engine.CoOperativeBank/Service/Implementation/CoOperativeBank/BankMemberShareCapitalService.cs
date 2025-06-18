@@ -96,7 +96,7 @@ namespace Coditech.API.Service
                 throw new CoditechException(ErrorCodes.IdLessThanOne, string.Format(GeneralResources.ErrorIdLessThanOne, "BankMemberId"));
 
             //Get the BankMemberShareCapital Details based on id.
-            BankMemberShareCapital bankMemberShareCapital = _bankMemberShareCapitalRepository.Table.FirstOrDefault(x => x.BankMemberShareCapitalId == bankMemberId);
+            BankMemberShareCapital bankMemberShareCapital = _bankMemberShareCapitalRepository.Table.FirstOrDefault(x => x.BankMemberId == bankMemberId);
             BankMemberShareCapitalModel bankMemberShareCapitalModel = bankMemberShareCapital?.FromEntityToModel<BankMemberShareCapitalModel>();
             return bankMemberShareCapitalModel;
         }
