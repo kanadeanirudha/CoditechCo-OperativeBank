@@ -8,20 +8,20 @@ using Newtonsoft.Json;
 using System.Net;
 namespace Coditech.API.Client
 {
-    public class BankSavingAccountIntrestPostingsClient : BaseClient, IBankSavingAccountIntrestPostingsClient
+    public class BankSavingAccountInterestPostingsClient : BaseClient, IBankSavingAccountInterestPostingsClient
     {
-        BankSavingAccountIntrestPostingsEndpoint bankSavingAccountIntrestPostingsEndpoint = null;
-        public BankSavingAccountIntrestPostingsClient()
+        BankSavingAccountInterestPostingsEndpoint bankSavingAccountInterestPostingsEndpoint = null;
+        public BankSavingAccountInterestPostingsClient()
         {
-            bankSavingAccountIntrestPostingsEndpoint = new BankSavingAccountIntrestPostingsEndpoint();
+            bankSavingAccountInterestPostingsEndpoint = new BankSavingAccountInterestPostingsEndpoint();
         }
-        public virtual BankSavingAccountIntrestPostingsListResponse List(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public virtual BankSavingAccountInterestPostingsListResponse List(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
         {
             return Task.Run(async () => await ListAsync(expand, filter, sort, pageIndex, pageSize, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
-        public virtual async Task<BankSavingAccountIntrestPostingsListResponse> ListAsync(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
+        public virtual async Task<BankSavingAccountInterestPostingsListResponse> ListAsync(IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
         {
-            string endpoint = bankSavingAccountIntrestPostingsEndpoint.ListAsync(expand, filter, sort, pageIndex, pageSize);
+            string endpoint = bankSavingAccountInterestPostingsEndpoint.ListAsync(expand, filter, sort, pageIndex, pageSize);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -33,7 +33,7 @@ namespace Coditech.API.Client
                 var status_ = (int)response.StatusCode;
                 if (status_ == 200)
                 {
-                    var objectResponse = await ReadObjectResponseAsync<BankSavingAccountIntrestPostingsListResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse = await ReadObjectResponseAsync<BankSavingAccountInterestPostingsListResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse.Object == null)
                     {
                         throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
@@ -42,12 +42,12 @@ namespace Coditech.API.Client
                 }
                 else if (status_ == 204)
                 {
-                    return new BankSavingAccountIntrestPostingsListResponse();
+                    return new BankSavingAccountInterestPostingsListResponse();
                 }
                 else
                 {
                     string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    BankSavingAccountIntrestPostingsListResponse typedBody = JsonConvert.DeserializeObject<BankSavingAccountIntrestPostingsListResponse>(responseData);
+                    BankSavingAccountInterestPostingsListResponse typedBody = JsonConvert.DeserializeObject<BankSavingAccountInterestPostingsListResponse>(responseData);
                     UpdateApiStatus(typedBody, status, response);
                     throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                 }
@@ -58,13 +58,13 @@ namespace Coditech.API.Client
                     response.Dispose();
             }
         }
-        public virtual BankSavingAccountIntrestPostingsResponse CreateBankSavingAccountIntrestPostings(BankSavingAccountIntrestPostingsModel body)
+        public virtual BankSavingAccountInterestPostingsResponse CreateBankSavingAccountInterestPostings(BankSavingAccountInterestPostingsModel body)
         {
-            return Task.Run(async () => await CreateBankSavingAccountIntrestPostingsAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await CreateBankSavingAccountInterestPostingsAsync(body, CancellationToken.None)).GetAwaiter().GetResult();
         }
-        public virtual async Task<BankSavingAccountIntrestPostingsResponse> CreateBankSavingAccountIntrestPostingsAsync(BankSavingAccountIntrestPostingsModel body, CancellationToken cancellationToken)
+        public virtual async Task<BankSavingAccountInterestPostingsResponse> CreateBankSavingAccountInterestPostingsAsync(BankSavingAccountInterestPostingsModel body, CancellationToken cancellationToken)
         {
-            string endpoint = bankSavingAccountIntrestPostingsEndpoint.CreateBankSavingAccountIntrestPostingsAsync();
+            string endpoint = bankSavingAccountInterestPostingsEndpoint.CreateBankSavingAccountInterestPostingsAsync();
             HttpResponseMessage response = null;
             bool disposeResponse = true;
             try
@@ -77,7 +77,7 @@ namespace Coditech.API.Client
                 {
                     case HttpStatusCode.OK:
                         {
-                            ObjectResponseResult<BankSavingAccountIntrestPostingsResponse> objectResponseResult2 = await ReadObjectResponseAsync<BankSavingAccountIntrestPostingsResponse>(response, BindHeaders(response), cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                            ObjectResponseResult<BankSavingAccountInterestPostingsResponse> objectResponseResult2 = await ReadObjectResponseAsync<BankSavingAccountInterestPostingsResponse>(response, BindHeaders(response), cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
                             if (objectResponseResult2.Object == null)
                             {
                                 throw new CoditechException(objectResponseResult2.Object.ErrorCode, objectResponseResult2.Object.ErrorMessage);
@@ -87,7 +87,7 @@ namespace Coditech.API.Client
                         }
                     case HttpStatusCode.Created:
                         {
-                            ObjectResponseResult<BankSavingAccountIntrestPostingsResponse> objectResponseResult = await ReadObjectResponseAsync<BankSavingAccountIntrestPostingsResponse>(response, dictionary, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
+                            ObjectResponseResult<BankSavingAccountInterestPostingsResponse> objectResponseResult = await ReadObjectResponseAsync<BankSavingAccountInterestPostingsResponse>(response, dictionary, cancellationToken).ConfigureAwait(continueOnCapturedContext: false);
                             if (objectResponseResult.Object == null)
                             {
                                 throw new CoditechException(objectResponseResult.Object.ErrorCode, objectResponseResult.Object.ErrorMessage);
@@ -98,7 +98,7 @@ namespace Coditech.API.Client
                     default:
                         {
                             string value = ((response.Content != null) ? (await response.Content.ReadAsStringAsync().ConfigureAwait(continueOnCapturedContext: false)) : null);
-                            BankSavingAccountIntrestPostingsResponse result = JsonConvert.DeserializeObject<BankSavingAccountIntrestPostingsResponse>(value);
+                            BankSavingAccountInterestPostingsResponse result = JsonConvert.DeserializeObject<BankSavingAccountInterestPostingsResponse>(value);
                             UpdateApiStatus(result, status, response);
                             throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                         }
@@ -112,16 +112,16 @@ namespace Coditech.API.Client
                 }
             }
         }
-        public virtual BankSavingAccountIntrestPostingsResponse GetBankSavingAccountIntrestPostings(int bankSavingsAccountId)
+        public virtual BankSavingAccountInterestPostingsResponse GetBankSavingAccountInterestPostings(int bankSavingsAccountId)
         {
-            return Task.Run(async () => await GetBankSavingAccountIntrestPostingsAsync(bankSavingsAccountId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await GetBankSavingAccountInterestPostingsAsync(bankSavingsAccountId, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
-        public virtual async Task<BankSavingAccountIntrestPostingsResponse> GetBankSavingAccountIntrestPostingsAsync(int bankSavingsAccountId, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<BankSavingAccountInterestPostingsResponse> GetBankSavingAccountInterestPostingsAsync(int bankSavingsAccountId, System.Threading.CancellationToken cancellationToken)
         {
             if (bankSavingsAccountId <= 0)
                 throw new System.ArgumentNullException("bankSavingsAccountId");
 
-            string endpoint = bankSavingAccountIntrestPostingsEndpoint.GetBankSavingAccountIntrestPostingsAsync(bankSavingsAccountId);
+            string endpoint = bankSavingAccountInterestPostingsEndpoint.GetBankSavingAccountInterestPostingsAsync(bankSavingsAccountId);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -133,7 +133,7 @@ namespace Coditech.API.Client
                 var status_ = (int)response.StatusCode;
                 if (status_ == 200)
                 {
-                    var objectResponse = await ReadObjectResponseAsync<BankSavingAccountIntrestPostingsResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse = await ReadObjectResponseAsync<BankSavingAccountInterestPostingsResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse.Object == null)
                     {
                         throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
@@ -143,12 +143,12 @@ namespace Coditech.API.Client
                 else
                 if (status_ == 204)
                 {
-                    return new BankSavingAccountIntrestPostingsResponse();
+                    return new BankSavingAccountInterestPostingsResponse();
                 }
                 else
                 {
                     string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    BankSavingAccountIntrestPostingsResponse typedBody = JsonConvert.DeserializeObject<BankSavingAccountIntrestPostingsResponse>(responseData);
+                    BankSavingAccountInterestPostingsResponse typedBody = JsonConvert.DeserializeObject<BankSavingAccountInterestPostingsResponse>(responseData);
                     UpdateApiStatus(typedBody, status, response);
                     throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                 }
@@ -159,13 +159,13 @@ namespace Coditech.API.Client
                     response.Dispose();
             }
         }
-        public virtual BankSavingAccountIntrestPostingsResponse UpdateBankSavingAccountIntrestPostings(BankSavingAccountIntrestPostingsModel body)
+        public virtual BankSavingAccountInterestPostingsResponse UpdateBankSavingAccountInterestPostings(BankSavingAccountInterestPostingsModel body)
         {
-            return Task.Run(async () => await UpdateBankSavingAccountIntrestPostingsAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await UpdateBankSavingAccountInterestPostingsAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
-        public virtual async Task<BankSavingAccountIntrestPostingsResponse> UpdateBankSavingAccountIntrestPostingsAsync(BankSavingAccountIntrestPostingsModel body, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<BankSavingAccountInterestPostingsResponse> UpdateBankSavingAccountInterestPostingsAsync(BankSavingAccountInterestPostingsModel body, System.Threading.CancellationToken cancellationToken)
         {
-            string endpoint = bankSavingAccountIntrestPostingsEndpoint.UpdateBankSavingAccountIntrestPostingsAsync();
+            string endpoint = bankSavingAccountInterestPostingsEndpoint.UpdateBankSavingAccountInterestPostingsAsync();
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try
@@ -178,7 +178,7 @@ namespace Coditech.API.Client
                 var status_ = (int)response.StatusCode;
                 if (status_ == 200)
                 {
-                    var objectResponse = await ReadObjectResponseAsync<BankSavingAccountIntrestPostingsResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse = await ReadObjectResponseAsync<BankSavingAccountInterestPostingsResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse.Object == null)
                     {
                         throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
@@ -188,7 +188,7 @@ namespace Coditech.API.Client
                 else
                 if (status_ == 201)
                 {
-                    var objectResponse = await ReadObjectResponseAsync<BankSavingAccountIntrestPostingsResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
+                    var objectResponse = await ReadObjectResponseAsync<BankSavingAccountInterestPostingsResponse>(response, headers_, cancellationToken).ConfigureAwait(false);
                     if (objectResponse.Object == null)
                     {
                         throw new CoditechException(objectResponse.Object.ErrorCode, objectResponse.Object.ErrorMessage);
@@ -198,7 +198,7 @@ namespace Coditech.API.Client
                 else
                 {
                     string responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    BankSavingAccountIntrestPostingsResponse typedBody = JsonConvert.DeserializeObject<BankSavingAccountIntrestPostingsResponse>(responseData);
+                    BankSavingAccountInterestPostingsResponse typedBody = JsonConvert.DeserializeObject<BankSavingAccountInterestPostingsResponse>(responseData);
                     UpdateApiStatus(typedBody, status, response);
                     throw new CoditechException(status.ErrorCode, status.ErrorMessage, status.StatusCode);
                 }
@@ -210,13 +210,13 @@ namespace Coditech.API.Client
                     response.Dispose();
             }
         }
-        public virtual TrueFalseResponse DeleteBankSavingAccountIntrestPostings(ParameterModel body)
+        public virtual TrueFalseResponse DeleteBankSavingAccountInterestPostings(ParameterModel body)
         {
-            return Task.Run(async () => await DeleteBankSavingAccountIntrestPostingsAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await DeleteBankSavingAccountInterestPostingsAsync(body, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
-        public virtual async Task<TrueFalseResponse> DeleteBankSavingAccountIntrestPostingsAsync(ParameterModel body, System.Threading.CancellationToken cancellationToken)
+        public virtual async Task<TrueFalseResponse> DeleteBankSavingAccountInterestPostingsAsync(ParameterModel body, System.Threading.CancellationToken cancellationToken)
         {
-            string endpoint = bankSavingAccountIntrestPostingsEndpoint.DeleteBankSavingAccountIntrestPostingsAsync();
+            string endpoint = bankSavingAccountInterestPostingsEndpoint.DeleteBankSavingAccountInterestPostingsAsync();
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try

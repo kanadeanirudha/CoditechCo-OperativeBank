@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 namespace Coditech.API.Data
 {
-    public partial class BankSavingAccountIntrestPostings
+    public partial class BankSavingAccountInterestPostings
     {
         [Key]
-        public int BankSavingAccountIntrestPostingsId { get; set; }
+        public int BankSavingAccountInterestPostingsId { get; set; }
         public long BankSavingsAccountId { get; set; }
         public DateTime PeriodStartDate { get; set; }
         public DateTime PeriodEndDate { get; set; }

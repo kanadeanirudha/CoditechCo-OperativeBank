@@ -1,8 +1,8 @@
-﻿@model BankSavingAccountIntrestPostingsViewModel
+﻿@model BankSavingAccountInterestPostingsViewModel
 @{
-    ViewBag.Title = Model.BankSavingAccountIntrestPostingsId > 0 ? "Update Bank Saving Account Intrest Postings" : "Add Bank Saving Account Intrest Postings";
+    ViewBag.Title = Model.BankSavingAccountInterestPostingsId > 0 ? "Update Bank Saving Account Intrest Postings" : "Add Bank Saving Account Intrest Postings";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
-    string actionName = Model.BankSavingAccountIntrestPostingsId > 0 ? "UpdateBankSavingAccountIntrestPostings" : "CreateBankSavingAccountIntrestPostings";
+    string actionName = Model.BankSavingAccountInterestPostingsId > 0 ? "UpdateBankSavingAccountInterestPostings" : "CreateBankSavingAccountInterestPostings";
     string css = Model.BankSavingsAccountId > 0 ? "col-lg-10" : "col-lg-12";
     Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
     keyValuePairs.Add("BankSavingsAccountId", Model.BankSavingsAccountId.ToString());
@@ -20,13 +20,13 @@
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">
-                            @(Model.BankSavingAccountIntrestPostingsId > 0 ? "Update" : "Create") Bank Saving Account Interest Postings
+                            @(Model.BankSavingAccountInterestPostingsId > 0 ? "Update" : "Create") Bank Saving Account Interest Postings
                         </h4>
                     </div>
                     <div class="card-body">
                         @using (Html.BeginForm(actionName, controllerName, FormMethod.Post))
                         {
-                            @Html.HiddenFor(m => m.BankSavingAccountIntrestPostingsId)
+                            @Html.HiddenFor(m => m.BankSavingAccountInterestPostingsId)
                             @Html.HiddenFor(m => m.BankSavingsAccountId)
                             <div class="row">
                                 <div class="col-lg-4 mb-3">

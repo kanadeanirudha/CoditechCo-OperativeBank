@@ -10,16 +10,16 @@ namespace Coditech.Admin.Controllers
     public class BankSavingsAccountController : BaseController
     {
         private readonly IBankSavingsAccountAgent _bankSavingsAccountAgent;
-        private readonly IBankSavingAccountIntrestPostingsAgent _bankSavingAccountIntrestPostingsAgent;
+        private readonly IBankSavingAccountInterestPostingsAgent _bankSavingAccountInterestPostingsAgent;
         private readonly IBankSavingsAccountTransactionsAgent _bankSavingsAccountTransactionsAgent;
         private const string createEdit = "~/Views/CoOperativeBank/BankSavingsAccount/CreateEdit.cshtml";
         private const string BankSavingsAccountClosures = "~/Views/CoOperativeBank/BankSavingsAccount/BankSavingsAccountClosures.cshtml";
-        private const string createEditBankSavingAccountIntrestPostings = "~/Views/CoOperativeBank/BankSavingAccountIntrestPostings/CreateEdit.cshtml";
+        private const string createEditBankSavingAccountInterestPostings = "~/Views/CoOperativeBank/BankSavingAccountInterestPostings/CreateEdit.cshtml";
         private const string createEditBankSavingsAccountTransactions = "~/Views/CoOperativeBank/BankSavingsAccountTransactions/CreateEdit.cshtml";
-        public BankSavingsAccountController(IBankSavingsAccountAgent bankSavingsAccountAgent, IBankSavingAccountIntrestPostingsAgent bankSavingAccountIntrestPostingsAgent, IBankSavingsAccountTransactionsAgent bankSavingsAccountTransactionsAgent)
+        public BankSavingsAccountController(IBankSavingsAccountAgent bankSavingsAccountAgent, IBankSavingAccountInterestPostingsAgent bankSavingAccountInterestPostingsAgent, IBankSavingsAccountTransactionsAgent bankSavingsAccountTransactionsAgent)
         {
             _bankSavingsAccountAgent = bankSavingsAccountAgent;
-            _bankSavingAccountIntrestPostingsAgent = bankSavingAccountIntrestPostingsAgent;
+            _bankSavingAccountInterestPostingsAgent = bankSavingAccountInterestPostingsAgent;
             _bankSavingsAccountTransactionsAgent = bankSavingsAccountTransactionsAgent;
         }
         #region BankSavingAccount
@@ -156,42 +156,42 @@ namespace Coditech.Admin.Controllers
         }
         #endregion
 
-        #region BankSavingAccountIntrestPostings
+        #region BankSavingAccountInterestPostings
         [HttpPost]
-        public virtual ActionResult CreateBankSavingAccountIntrestPostings(BankSavingAccountIntrestPostingsViewModel bankSavingAccountIntrestPostingsViewModel)
+        public virtual ActionResult CreateBankSavingAccountInterestPostings(BankSavingAccountInterestPostingsViewModel bankSavingAccountInterestPostingsViewModel)
         {
             if (ModelState.IsValid)
             {
-                bankSavingAccountIntrestPostingsViewModel = _bankSavingAccountIntrestPostingsAgent.CreateBankSavingAccountIntrestPostings(bankSavingAccountIntrestPostingsViewModel);
-                if (!bankSavingAccountIntrestPostingsViewModel.HasError)
+                bankSavingAccountInterestPostingsViewModel = _bankSavingAccountInterestPostingsAgent.CreateBankSavingAccountInterestPostings(bankSavingAccountInterestPostingsViewModel);
+                if (!bankSavingAccountInterestPostingsViewModel.HasError)
                 {
                     SetNotificationMessage(GetSuccessNotificationMessage(GeneralResources.RecordAddedSuccessMessage));
-                    return RedirectToAction("UpdateBankSavingAccountIntrestPostings", new { bankSavingsAccountId = bankSavingAccountIntrestPostingsViewModel.BankSavingsAccountId });
+                    return RedirectToAction("UpdateBankSavingAccountInterestPostings", new { bankSavingsAccountId = bankSavingAccountInterestPostingsViewModel.BankSavingsAccountId });
                 }
             }
-            SetNotificationMessage(GetErrorNotificationMessage(bankSavingAccountIntrestPostingsViewModel.ErrorMessage));
-            return View(createEditBankSavingAccountIntrestPostings, bankSavingAccountIntrestPostingsViewModel);
+            SetNotificationMessage(GetErrorNotificationMessage(bankSavingAccountInterestPostingsViewModel.ErrorMessage));
+            return View(createEditBankSavingAccountInterestPostings, bankSavingAccountInterestPostingsViewModel);
         }
 
         [HttpGet]
-        public virtual ActionResult UpdateBankSavingAccountIntrestPostings(int bankSavingsAccountId)
+        public virtual ActionResult UpdateBankSavingAccountInterestPostings(int bankSavingsAccountId)
         {
-            BankSavingAccountIntrestPostingsViewModel bankSavingAccountIntrestPostingsViewModel = _bankSavingAccountIntrestPostingsAgent.GetBankSavingAccountIntrestPostings(bankSavingsAccountId);
-            return ActionView(createEditBankSavingAccountIntrestPostings, bankSavingAccountIntrestPostingsViewModel);
+            BankSavingAccountInterestPostingsViewModel bankSavingAccountInterestPostingsViewModel = _bankSavingAccountInterestPostingsAgent.GetBankSavingAccountInterestPostings(bankSavingsAccountId);
+            return ActionView(createEditBankSavingAccountInterestPostings, bankSavingAccountInterestPostingsViewModel);
         }
 
         [HttpPost]
-        public virtual ActionResult UpdateBankSavingAccountIntrestPostings(BankSavingAccountIntrestPostingsViewModel bankSavingAccountIntrestPostingsViewModel)
+        public virtual ActionResult UpdateBankSavingAccountInterestPostings(BankSavingAccountInterestPostingsViewModel bankSavingAccountInterestPostingsViewModel)
         {
             if (ModelState.IsValid)
             {
-                bankSavingAccountIntrestPostingsViewModel = _bankSavingAccountIntrestPostingsAgent.UpdateBankSavingAccountIntrestPostings(bankSavingAccountIntrestPostingsViewModel);
-                SetNotificationMessage(bankSavingAccountIntrestPostingsViewModel.HasError
-                ? GetErrorNotificationMessage(bankSavingAccountIntrestPostingsViewModel.ErrorMessage)
+                bankSavingAccountInterestPostingsViewModel = _bankSavingAccountInterestPostingsAgent.UpdateBankSavingAccountInterestPostings(bankSavingAccountInterestPostingsViewModel);
+                SetNotificationMessage(bankSavingAccountInterestPostingsViewModel.HasError
+                ? GetErrorNotificationMessage(bankSavingAccountInterestPostingsViewModel.ErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
-                return RedirectToAction("UpdateBankSavingAccountIntrestPostings", new { bankSavingsAccountId = bankSavingAccountIntrestPostingsViewModel.BankSavingsAccountId });
+                return RedirectToAction("UpdateBankSavingAccountInterestPostings", new { bankSavingsAccountId = bankSavingAccountInterestPostingsViewModel.BankSavingsAccountId });
             }
-            return View(createEditBankSavingAccountIntrestPostings, bankSavingAccountIntrestPostingsViewModel);
+            return View(createEditBankSavingAccountInterestPostings, bankSavingAccountInterestPostingsViewModel);
         }
         #endregion
 

@@ -2,9 +2,9 @@
 using System.ComponentModel.DataAnnotations;
 namespace Coditech.Admin.ViewModel
 {
-    public class BankSavingAccountIntrestPostingsViewModel : BaseViewModel
+    public class BankSavingAccountInterestPostingsViewModel : BaseViewModel
     {
-        public int BankSavingAccountIntrestPostingsId { get; set; }
+        public int BankSavingAccountInterestPostingsId { get; set; }
         [Display(Name = "Savings Account")]
         public long BankSavingsAccountId { get; set; }
         [Required]

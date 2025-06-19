@@ -57,7 +57,7 @@
         BankSetupDivision,
         BankSetupOffices,
         BankSavingsAccount,
-        BankSavingAccountIntrestPostings,
+        BankSavingAccountInterestPostings,
         BankFixedDepositAccount,
         BankProduct,
         AccSetupGL,

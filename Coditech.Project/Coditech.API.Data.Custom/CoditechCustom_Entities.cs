@@ -22,7 +22,7 @@ namespace Coditech.API.Data
         public DbSet<BankMember> BankMember { get; set; }
         public DbSet<BankMemberNominee> BankMemberNominee { get; set; }
         public DbSet<BankSavingsAccount> BankSavingsAccount { get; set; }
-        public DbSet<BankSavingAccountIntrestPostings> BankSavingAccountIntrestPostings { get; set; }
+        public DbSet<BankSavingAccountInterestPostings> BankSavingAccountInterestPostings { get; set; }
         public DbSet<BankFixedDepositAccount> BankFixedDepositAccount { get; set; }
         public DbSet<BankProduct> BankProduct { get; set; }
         public DbSet<BankPostingLoanAccount> BankPostingLoanAccount { get; set; }
