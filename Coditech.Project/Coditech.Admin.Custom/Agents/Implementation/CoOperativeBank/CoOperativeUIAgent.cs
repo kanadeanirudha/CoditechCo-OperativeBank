@@ -49,18 +49,19 @@ namespace Coditech.Admin.Agents
             GeneralFinancialYearResponse financialyearresponse = _generalFinancialYearClient.GetCurrentFinancialYear(accSetupBalanceSheetId);
             return financialyearresponse?.GeneralFinancialYearModel.ToViewModel<GeneralFinancialYearModel>();
         }
-
-        //GetCoOperativeUI by centre Code and bankMemberId.
         public virtual MemberCreateEditViewModel GetCoOperativeUI(string centreCode, int bankMemberId)
-        {            
+        {
+            // Get Bank Member Details
             BankMemberResponse bankMemberResponse = _bankMemberClient.GetMemberOtherDetail(bankMemberId);
-            MemberCreateEditViewModel coOperativeUIViewModel = bankMemberResponse?.BankMemberModel.ToViewModel<MemberCreateEditViewModel>();
+            MemberCreateEditViewModel coOperativeUIViewModel = new MemberCreateEditViewModel();
             if (IsNotNull(bankMemberResponse))
             {
+                coOperativeUIViewModel.PersonId = bankMemberResponse.BankMemberModel.PersonId;
+                GeneralPersonResponse response = _userClient.GetPersonInformation(coOperativeUIViewModel.PersonId);
+                coOperativeUIViewModel = response?.GeneralPersonModel.ToViewModel<MemberCreateEditViewModel>();
                 coOperativeUIViewModel.SelectedCentreCode = bankMemberResponse.BankMemberModel.CentreCode;
                 coOperativeUIViewModel.BankMemberId = bankMemberId;
-                coOperativeUIViewModel.PersonId = bankMemberResponse.BankMemberModel.PersonId;
-            }
+            }          
             return coOperativeUIViewModel;
         }
         #endregion

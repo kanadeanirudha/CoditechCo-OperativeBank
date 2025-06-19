@@ -6,6 +6,7 @@ using Coditech.Common.API.Model.Responses;
 using Coditech.Common.Helper.Utilities;
 using Coditech.Admin.Utilities;
 using Microsoft.AspNetCore.Mvc;
+using Coditech.Resources;
 namespace Coditech.Admin.Controllers
 {
     public class CoOperativeUIController : BaseController
@@ -59,11 +60,46 @@ namespace Coditech.Admin.Controllers
             return PartialView("~/Views/Shared/Control/_DropdownList.cshtml", bankMemberByCentreCodeDropdown);
         }
 
+        #region Member Personal Detail
         [HttpGet]
         public virtual ActionResult LoadCoOperativeUIPartial(string centreCode, int bankMemberId)
         {
             MemberCreateEditViewModel model = _coOperativeUIAgent.GetCoOperativeUI(centreCode, bankMemberId);
             return ActionView("~/Views/CoOperativeBank/BankMember/CreateEditMember.cshtml", model);
         }
+        [HttpPost]
+        public virtual ActionResult LoadCoOperativeUIPartial(MemberCreateEditViewModel memberCreateEditViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                SetNotificationMessage(_bankMemberAgent.UpdateMemberPersonalDetails(memberCreateEditViewModel).HasError
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("LoadCoOperativeUIPartial", new { centreCode = memberCreateEditViewModel.SelectedCentreCode, bankMemberId = memberCreateEditViewModel.BankMemberId });
+            }
+            return View("~/Views/CoOperativeBank/BankMember/CreateEditMember.cshtml", memberCreateEditViewModel);
+        }
+        #endregion
+        #region Member Other Detail
+        [HttpGet]
+        public virtual ActionResult UpdatMemberOtherDetail(int bankMemberId)
+        {
+            BankMemberViewModel bankMemberViewModel = _bankMemberAgent.GetMemberOtherDetail(bankMemberId);
+            return ActionView("~/Views/CoOperativeBank/BankMember/CreateEdit.cshtml", bankMemberViewModel);
+        }
+
+        [HttpPost]
+        public virtual ActionResult UpdatMemberOtherDetail(BankMemberViewModel bankMemberViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                SetNotificationMessage(_bankMemberAgent.UpdateMemberOtherDetail(bankMemberViewModel).HasError
+                ? GetErrorNotificationMessage(GeneralResources.UpdateErrorMessage)
+                : GetSuccessNotificationMessage(GeneralResources.UpdateMessage));
+                return RedirectToAction("UpdatMemberOtherDetail", new { bankMemberId = bankMemberViewModel.BankMemberId });
+            }
+            return View("~/Views/CoOperativeBank/BankMember/CreateEdit.cshtml", bankMemberViewModel);
+        }
+        #endregion
     }
 }
