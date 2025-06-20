@@ -15,14 +15,14 @@ namespace Coditech.API.Client
         {
             bankPostingLoanAccountEndpoint = new BankPostingLoanAccountEndpoint();
         }
-        public virtual BankPostingLoanAccountListResponse List(string centreCode, int bankMemberId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public virtual BankPostingLoanAccountListResponse List(string centreCode, int bankMemberId)
         {
-            return Task.Run(async () => await ListAsync(centreCode,bankMemberId, expand, filter, sort, pageIndex, pageSize, CancellationToken.None)).GetAwaiter().GetResult();
+            return Task.Run(async () => await ListAsync(centreCode,bankMemberId, CancellationToken.None)).GetAwaiter().GetResult();
         }
 
-        public virtual async Task<BankPostingLoanAccountListResponse> ListAsync(string centreCode, int bankMemberId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize, CancellationToken cancellationToken)
+        public virtual async Task<BankPostingLoanAccountListResponse> ListAsync(string centreCode, int bankMemberId, CancellationToken cancellationToken)
         {
-            string endpoint = bankPostingLoanAccountEndpoint.ListAsync(centreCode, bankMemberId, expand, filter, sort, pageIndex, pageSize);
+            string endpoint = bankPostingLoanAccountEndpoint.ListAsync(centreCode, bankMemberId);
             HttpResponseMessage response = null;
             var disposeResponse = true;
             try

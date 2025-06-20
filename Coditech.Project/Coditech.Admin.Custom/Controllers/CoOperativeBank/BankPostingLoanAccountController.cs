@@ -19,17 +19,14 @@ namespace Coditech.Admin.Controllers
         {
             _bankPostingLoanAccountAgent = bankPostingLoanAccountAgent;
             _bankLoanScheduleAgent = bankLoanScheduleAgent;
-        }
-        public virtual ActionResult List(DataTableViewModel dataTableViewModel)
+        }      
+        public virtual ActionResult List(string centreCode, int bankMemberId)
         {
             BankPostingLoanAccountListViewModel list = new BankPostingLoanAccountListViewModel();
-            GetListOnlyIfSingleCentre(dataTableViewModel);
-            if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode) && !string.IsNullOrEmpty(dataTableViewModel.SelectedParameter1))
+            if (!string.IsNullOrEmpty(centreCode) && bankMemberId > 0)
             {
-                list = _bankPostingLoanAccountAgent.GetBankPostingLoanAccountList(Convert.ToInt32(dataTableViewModel.SelectedParameter1), dataTableViewModel);
-            }
-            list.CentreCode = dataTableViewModel.SelectedCentreCode;
-            list.SelectedParameter1 = dataTableViewModel.SelectedParameter1;
+                list = _bankPostingLoanAccountAgent.GetBankPostingLoanAccountList(centreCode, bankMemberId);
+            }           
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/CoOperativeBank/BankPostingLoanAccount/_List.cshtml", list);
@@ -90,10 +87,10 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(!status
                 ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
-                return RedirectToAction<BankPostingLoanAccountController>(x => x.List(null));
+                return RedirectToAction("List");
             }
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
-            return RedirectToAction<BankPostingLoanAccountController>(x => x.List(null));
+            return RedirectToAction("List");
         }
 
         //Get BankMember By CentreCode

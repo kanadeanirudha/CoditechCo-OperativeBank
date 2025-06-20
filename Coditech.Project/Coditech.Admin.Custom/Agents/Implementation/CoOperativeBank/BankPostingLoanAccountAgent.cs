@@ -33,22 +33,15 @@ namespace Coditech.Admin.Agents
         #endregion
 
         #region Public Methods
-        public virtual BankPostingLoanAccountListViewModel GetBankPostingLoanAccountList(int bankMemberId,DataTableViewModel dataTableModel)
+        public virtual BankPostingLoanAccountListViewModel GetBankPostingLoanAccountList(string centreCode,int bankMemberId)
         {
-            string centreCode = SessionHelper.GetDataFromSession<UserModel>(AdminConstants.UserDataSession)?.SelectedCentreCode;
-            FilterCollection filters = new FilterCollection();
-            dataTableModel = dataTableModel ?? new DataTableViewModel();
-            if (!string.IsNullOrEmpty(dataTableModel.SearchBy))
-            {
-                filters.Add("LoanAccountNumber", ProcedureFilterOperators.Like, dataTableModel.SearchBy);
-            }
-            SortCollection sortlist = SortingData(dataTableModel.SortByColumn = string.IsNullOrEmpty(dataTableModel.SortByColumn) ? "" : dataTableModel.SortByColumn, dataTableModel.SortBy);
-            BankPostingLoanAccountListResponse response = _bankPostingLoanAccountClient.List(centreCode, bankMemberId, null, filters, sortlist, dataTableModel.PageIndex, dataTableModel.PageSize);
+            DataTableViewModel dataTableViewModel = new DataTableViewModel();           
+            BankPostingLoanAccountListResponse response = _bankPostingLoanAccountClient.List(centreCode, bankMemberId);
             BankPostingLoanAccountListModel bankPostingLoanAccountList = new BankPostingLoanAccountListModel { BankPostingLoanAccountList = response?.BankPostingLoanAccountList };
             BankPostingLoanAccountListViewModel listViewModel = new BankPostingLoanAccountListViewModel();
             listViewModel.BankPostingLoanAccountList = bankPostingLoanAccountList?.BankPostingLoanAccountList?.ToViewModel<BankPostingLoanAccountViewModel>().ToList();
 
-            SetListPagingData(listViewModel.PageListViewModel, response, dataTableModel, listViewModel.BankPostingLoanAccountList.Count, BindColumns());
+            SetListPagingData(listViewModel.PageListViewModel, response, dataTableViewModel, listViewModel.BankPostingLoanAccountList.Count, BindColumns());
             return listViewModel;
         }
 

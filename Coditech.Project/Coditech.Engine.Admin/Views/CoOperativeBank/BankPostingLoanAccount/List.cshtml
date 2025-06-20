@@ -3,8 +3,10 @@
     ViewBag.Title = "Bank Posting Loan Account List";
     string controllerName = ViewContext.RouteData.Values["controller"].ToString();
     string actionName = ViewContext.RouteData.Values["action"].ToString();
-    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "CentreCode", DropdownSelectedValue = Model.CentreCode, ChangeEvent = "BankPostingLoanAccount.GetBankMemberByCentreCode()" };
-    DropdownViewModel memberDropdown = new DropdownViewModel() { DropdownType = DropdownCustomTypeEnum.BankMembers.ToString(), DropdownName = "BankMemberId", DropdownSelectedValue = Model.BankMemberId.ToString(), ChangeEvent = "BankPostingLoanAccount.LoadBankMemberListByCentreCode('" + @controllerName + "','" + @actionName + "')", IsCustomDropdown = true };
+    DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "CentreCode", DropdownSelectedValue = Model.CentreCode, ChangeEvent = "CoOperativeUI.GetBankMemberByCentreCode();" };
+    DropdownViewModel memberDropdown = new DropdownViewModel() { DropdownType = DropdownCustomTypeEnum.BankMembers.ToString(), DropdownName = "BankMemberId", DropdownSelectedValue = Convert.ToString(Model.BankMemberId), Parameter = Model.CentreCode, ChangeEvent = "BankPostingLoanAccount.LoadBankMemberListByCentreCode('" + @controllerName + "','" + @actionName + "')", IsCustomDropdown = true };
+    // DropdownViewModel centreDropdown = new DropdownViewModel() { DropdownType = DropdownTypeEnum.AccessibleCentre.ToString(), DropdownName = "CentreCode", DropdownSelectedValue = Model.CentreCode, ChangeEvent = "BankPostingLoanAccount.GetBankMemberByCentreCode()" };
+    //DropdownViewModel memberDropdown = new DropdownViewModel() { DropdownType = DropdownCustomTypeEnum.BankMembers.ToString(), DropdownName = "BankMemberId", DropdownSelectedValue = Convert.ToString(Model.BankMemberId), ChangeEvent = "BankPostingLoanAccount.LoadBankMemberListByCentreCode('" + @controllerName + "','" + @actionName + "')", IsCustomDropdown = true };
 }
 <!-- Page Content-->
 <div class="page-content mt-5">
@@ -19,9 +21,15 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-md-1">
+                                <label>@AdminResources.LabelCentre</label>
+                            </div>
+                            <div class="col-md-2">
+                                @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", centreDropdown)
+                            </div>
+                            <div class="col-md-1">
                                 <label>Bank Member</label>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 @Html.Partial("~/Views/Shared/Control/_DropdownList.cshtml", memberDropdown)
                             </div>
                             <div class="col-md-1">
@@ -39,7 +47,9 @@
         </div>
     </div>
 </div>
-<script src="~/js/coditech/CoOperativeBank/BankPostingLoanAccount.js"></script>
 <!-- end page content -->
-<!-- end page content -->
-<script src="~/js/coditech/CoOperativeBank/BankPostingLoanAccount.js"></script>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="~/js/coditech/CoOperativeBank/CoOperativeUI.js"></script>
+    <script src="~/js/coditech/CoOperativeBank/BankPostingLoanAccount.js"></script>
+}

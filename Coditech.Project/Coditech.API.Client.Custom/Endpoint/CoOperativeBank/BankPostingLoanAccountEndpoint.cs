@@ -5,9 +5,9 @@ namespace Coditech.API.Endpoint
 {
     public class BankPostingLoanAccountEndpoint : BaseEndpoint
     {
-        public string ListAsync(string centreCode, int bankMemberId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize)
+        public string ListAsync(string centreCode, int bankMemberId)
         {
-            string endpoint = $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankPostingLoanAccount/GetBankPostingLoanAccountList?centreCode={centreCode}&bankMemberId={bankMemberId}{BuildEndpointQueryString(true, expand, filter, sort, pageIndex, pageSize)}";
+            string endpoint = $"{CoditechCustomAdminSettings.CoditechCoOperativeBankApiRootUri}/BankPostingLoanAccount/GetBankPostingLoanAccountList?centreCode={centreCode}&bankMemberId={bankMemberId}";
             return endpoint;
         }
         public string CreatePostingLoanAccountAsync() =>

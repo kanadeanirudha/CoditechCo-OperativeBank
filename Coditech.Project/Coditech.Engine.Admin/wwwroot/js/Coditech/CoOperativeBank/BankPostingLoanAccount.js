@@ -31,15 +31,34 @@
             $("#BankMemberId").html("");
         }
     },
-
     LoadBankMemberListByCentreCode: function (controllerName, methodName) {
         $('#DataTables_SearchById').val("")
-        if ($("#SelectedParameter1").val() == "") {
-            CoditechNotification.DisplayNotificationMessage("Please select Member.", "error");
+        if ($("#CentreCode").val() == "") {
+            CoditechNotification.DisplayNotificationMessage("Please select centre.", "error");
         }
+        else if ($("#BankMemberId").val() == "") {
+            CoditechNotification.DisplayNotificationMessage("Please select trainer.", "error");
+        }        
         else {
-            CoditechDataTable.LoadList(controllerName, methodName);
+            CoditechDataTable.LoadList("BankPostingLoanAccount", "List");
         }
+
+        //var centreCode = $("#CentreCode").val();
+        //if (centreCode === "") {
+        //    CoditechNotification.DisplayNotificationMessage("Please select centre.", "error");
+        //} else {
+        //    $.ajax({
+        //        type: "GET",
+        //        url: "/" + controllerName + "/" + methodName,
+        //        data: { centreCode: centreCode },
+        //        success: function (result) {
+        //            $("#DataTablesDivId").html(result);
+        //        },
+        //        error: function () {
+        //            CoditechNotification.DisplayNotificationMessage("Failed to load list.", "error");
+        //        }
+        //    });
+        //}
     },
     GetBankProductByCentreCode: function () {
         var selectedCentreCode = $("#CentreCode").val();
