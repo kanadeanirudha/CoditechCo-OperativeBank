@@ -10,7 +10,7 @@ namespace Coditech.API.Client
         /// Get list of BankPostingLoanAccount.
         /// </summary>
         /// <returns>BankPostingLoanAccountListResponse</returns>
-        BankPostingLoanAccountListResponse List(string centreCode, int bankMemberId);
+        BankPostingLoanAccountListResponse List(string centreCode, int bankMemberId, IEnumerable<string> expand, IEnumerable<FilterTuple> filter, IDictionary<string, string> sort, int? pageIndex, int? pageSize);
 
         /// <summary>
         /// Create GeneralBatch.

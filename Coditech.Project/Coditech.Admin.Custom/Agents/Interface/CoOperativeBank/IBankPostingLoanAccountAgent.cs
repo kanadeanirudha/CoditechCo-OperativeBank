@@ -8,7 +8,7 @@ namespace Coditech.Admin.Agents
         /// </summary>
         /// <param name="dataTableModel">DataTable ViewModel.</param>
         /// <returns>BankPostingLoanAccountListViewModel</returns>
-        BankPostingLoanAccountListViewModel GetBankPostingLoanAccountList(string centreCode,int bankMemberId);
+        BankPostingLoanAccountListViewModel GetBankPostingLoanAccountList(int bankMemberId,DataTableViewModel dataTableModel);
 
         /// <summary>
         /// Create BankPostingLoanAccount.

@@ -19,14 +19,17 @@ namespace Coditech.Admin.Controllers
         {
             _bankPostingLoanAccountAgent = bankPostingLoanAccountAgent;
             _bankLoanScheduleAgent = bankLoanScheduleAgent;
-        }      
-        public virtual ActionResult List(string centreCode, int bankMemberId)
+        }
+        public virtual ActionResult List(DataTableViewModel dataTableViewModel)
         {
             BankPostingLoanAccountListViewModel list = new BankPostingLoanAccountListViewModel();
-            if (!string.IsNullOrEmpty(centreCode) && bankMemberId > 0)
+            GetListOnlyIfSingleCentre(dataTableViewModel);
+            if (!string.IsNullOrEmpty(dataTableViewModel.SelectedCentreCode) && !string.IsNullOrEmpty(dataTableViewModel.SelectedParameter1))
             {
-                list = _bankPostingLoanAccountAgent.GetBankPostingLoanAccountList(centreCode, bankMemberId);
-            }           
+                list = _bankPostingLoanAccountAgent.GetBankPostingLoanAccountList(Convert.ToInt32(dataTableViewModel.SelectedParameter1), dataTableViewModel);
+            }
+            list.CentreCode = dataTableViewModel.SelectedCentreCode;
+            list.SelectedParameter1 = dataTableViewModel.SelectedParameter1;
             if (AjaxHelper.IsAjaxRequest)
             {
                 return PartialView("~/Views/CoOperativeBank/BankPostingLoanAccount/_List.cshtml", list);
@@ -87,10 +90,10 @@ namespace Coditech.Admin.Controllers
                 SetNotificationMessage(!status
                 ? GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage)
                 : GetSuccessNotificationMessage(GeneralResources.DeleteMessage));
-                return RedirectToAction("List");
+                return RedirectToAction<BankPostingLoanAccountController>(x => x.List(null));
             }
             SetNotificationMessage(GetErrorNotificationMessage(GeneralResources.DeleteErrorMessage));
-            return RedirectToAction("List");
+            return RedirectToAction<BankPostingLoanAccountController>(x => x.List(null));
         }
 
         //Get BankMember By CentreCode
